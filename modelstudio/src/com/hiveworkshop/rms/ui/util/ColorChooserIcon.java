@@ -15,7 +15,7 @@ public final class ColorChooserIcon extends JLabel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(final MouseEvent e) {
-				final Color chosenColor = JColorChooser.showDialog(ColorChooserIcon.this, "选择背景色",
+				final Color chosenColor = JColorChooser.showDialog(ColorChooserIcon.this, "Choose Background Color",
 						currentColor);
 				if (chosenColor != null) {
 					setCurrentColor(chosenColor);
