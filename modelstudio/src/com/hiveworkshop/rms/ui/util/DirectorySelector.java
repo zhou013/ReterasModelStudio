@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class DirectorySelector extends JPanel implements ActionListener {
 	final static long serialVersionUID = 5L;
-	JLabel text = new JLabel("Please select a valid Warcraft III game directory:");
+	JLabel text = new JLabel("请选择一个有效的魔兽争霸III游戏目录：");
 	JTextField pathField;
-	JButton browseButton = new JButton("Browse");
+	JButton browseButton = new JButton("浏览");
 	public DirectorySelector(final String defaultDir, final String specialText)
 	{
 		text.setText(text.getText());
@@ -83,7 +83,9 @@ public class DirectorySelector extends JPanel implements ActionListener {
 				}
 				if( !good )
 				{
-					JOptionPane.showMessageDialog(null, "You do not have permissions to access the chosen folder.\nYou should \"Run as Administrator\" on this program, or otherwise gain file permissions to the target folder, for the texture loader to work on that folder.","WARNING: Texture-Loader Won't Work", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "您没有权限去访问您选择的这个文件夹。" +
+							"\n您应该用“以管理员身份运行”运行这个程序，或以其他方式获得目标文件夹的文件权限，以使纹理加载器能在该文件夹上工作。"
+							,"警告：纹理加载器无法正常工作！", JOptionPane.WARNING_MESSAGE);
 				}
 
 				pathField.setText(jfc.getSelectedFile().getAbsolutePath());
