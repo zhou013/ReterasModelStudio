@@ -63,7 +63,7 @@ public class Main {
 				startRealRMS(null, true);
 //                main(new String[] {"-forcedataprompt"});
 			} else {
-				SwingUtilities.invokeLater(() -> startupFailDialog());
+				SwingUtilities.invokeLater(Main::startupFailDialog);
 			}
 		}
 	}
@@ -108,7 +108,7 @@ public class Main {
 		final DataSourceChooserPanel dataSourceChooserPanel = new DataSourceChooserPanel(dataSources);
 
 		int opt = JOptionPane.showConfirmDialog(null, dataSourceChooserPanel,
-				"Retera Model Studio " + MainFrame.getVersion() + ": Setup", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				"Retera Model Studio " + MainFrame.getVersion() + ": 设置界面", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		if (opt == JOptionPane.OK_OPTION) {
 			SaveProfile.get().setDataSources(dataSourceChooserPanel.getDataSourceDescriptors());
@@ -134,24 +134,23 @@ public class Main {
 		} catch (final Exception e) {
 			e.printStackTrace();
 			String message =
-					"The C++ natives to parse FBX models failed to load. " +
-							"You will not be able to open FBX until you install the necessary software" +
-							"\nand restart Retera Model Studio." +
-							"\n\nMaybe you are missing some Visual Studio Runtime dependency?" +
-							"\n\nNext up I will show you the error message that says why " +
-							"these C++ jassimp natives failed to load," +
-							"\nin case you want to copy them and ask for help. " +
-							"Once you press OK on that error popup, you can probably still use" +
-							"\nRetera Model Studio just fine for everything else.";
-			JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+					"C++ 解析本地FBX模块失败。您将不能打开FBX功能直到你安装了必要的软件。" +
+							"\n并重启Retera Model Studio。" +
+							"\n\n您可能丢失了一些Visual Studio运行时依赖？" +
+							"\n\n接下来我讲给你展示一些错误信息来告诉你为什么" +
+							"这些C++ jassimp 本地功能加载失败，" +
+							"\n如果你想复制这些错误并寻求帮助。" +
+							"当你在弹出界面里点击“OK”按钮后，你应该还能正常继续使用" +
+							"\nRetera Model Studio的其他功能。";
+			JOptionPane.showMessageDialog(null, message, "错误", JOptionPane.ERROR_MESSAGE);
 			ExceptionPopup.display(e);
 		}
 	}
 
 	private static void startupFailDialog() {
 		JOptionPane.showMessageDialog(null,
-				"Retera Model Studio startup sequence has failed for two attempts. The program will now exit.",
-				"Error", JOptionPane.ERROR_MESSAGE);
+				"Retera Model Studio的启动序列已经连续失败两次。程序决定现在退出。",
+				"错误", JOptionPane.ERROR_MESSAGE);
 		System.exit(-1);
 	}
 
