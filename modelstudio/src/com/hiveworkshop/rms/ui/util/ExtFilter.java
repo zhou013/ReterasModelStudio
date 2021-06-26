@@ -15,17 +15,17 @@ public class ExtFilter {
 	private final Set<String> supModelExtensions = new HashSet<>();
 	private final Set<String> supTextureExtensions = new HashSet<>();
 	List<ExtInfo> extInfos = Arrays.asList(
-			new ExtInfo("Warcraft III Binary Model", FileType.MODEL, true, true, "mdx"),
-			new ExtInfo("Warcraft III Text Model", FileType.MODEL, true, true, "mdl"),
-			new ExtInfo("Warcraft III BLP Image", FileType.IMAGE, true, true, "blp"),
-			new ExtInfo("DDS Image", FileType.IMAGE, true, true, "dds"),
-			new ExtInfo("TGA Image", FileType.IMAGE, true, true, "tga"),
-			new ExtInfo("Autodesk FBX Model", FileType.MODEL, false, false, "fbx"),
-			new ExtInfo("Wavefront OBJ Model", FileType.MODEL, false, false, "obj"),
-			new ExtInfo("PNG Image", FileType.IMAGE, true, false, "png"),
-			new ExtInfo("JPG Image", FileType.IMAGE, true, false, "jpg", "jpeg"),
-			new ExtInfo("BMP Image", FileType.IMAGE, true, false, "bmp"),
-			new ExtInfo("TIF Image", FileType.IMAGE, true, false, "tif")
+			new ExtInfo("魔兽争霸III 二进制模型", FileType.MODEL, true, true, "mdx"),
+			new ExtInfo("魔兽争霸III 文本模型", FileType.MODEL, true, true, "mdl"),
+			new ExtInfo("魔兽争霸III BLP 图像", FileType.IMAGE, true, true, "blp"),
+			new ExtInfo("DDS 图像", FileType.IMAGE, true, true, "dds"),
+			new ExtInfo("TGA 图像", FileType.IMAGE, true, true, "tga"),
+			new ExtInfo("Autodesk FBX 模型", FileType.MODEL, false, false, "fbx"),
+			new ExtInfo("Wavefront OBJ 模型", FileType.MODEL, false, false, "obj"),
+			new ExtInfo("PNG 图像", FileType.IMAGE, true, false, "png"),
+			new ExtInfo("JPG 图像", FileType.IMAGE, true, false, "jpg", "jpeg"),
+			new ExtInfo("BMP 图像", FileType.IMAGE, true, false, "bmp"),
+			new ExtInfo("TIF 图像", FileType.IMAGE, true, false, "tif")
 	);
 
 	public ExtFilter() {
@@ -86,21 +86,21 @@ public class ExtFilter {
 			extDes.append(extInfo.getExtDescription());
 			exts.addAll(Arrays.asList(extInfo.getExtVarients()));
 		}
-		extDes.replace(0, 1, "(");
-		extDes.append(")");
+		extDes.replace(0, 1, "（");
+		extDes.append("）");
 		String wholeDes = "";
 
 		if (onlyWC3) {
-			wholeDes += "Warcraft III ";
+			wholeDes += "魔兽争霸III";
 		} else {
-			wholeDes += "Supported ";
+			wholeDes += "支持的";
 		}
 
 		if (fileTypes.size() == 1) {
 			wholeDes += fileTypes.get(0).getType();
 		}
 
-		wholeDes += " Files ";
+		wholeDes += "文件";
 
 		extDes.insert(0, wholeDes);
 
@@ -153,7 +153,7 @@ public class ExtFilter {
 	}
 
 	private enum FileType {
-		MODEL("Model"), IMAGE("Image"), OTHER("File");
+		MODEL("模型"), IMAGE("图像"), OTHER("文件");
 		String type;
 
 		FileType(String type) {
