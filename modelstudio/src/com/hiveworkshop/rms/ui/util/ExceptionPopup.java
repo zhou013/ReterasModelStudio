@@ -64,12 +64,12 @@ public class ExceptionPopup {
 	public static void displayIfNotEmpty() {
 		if (!stringsToShow.isEmpty()) {
 			JPanel infoPanel = new JPanel(new MigLayout("fill, ins 0", "[grow][]", "[][][grow]"));
-			infoPanel.add(new JLabel("Errors occurred while loading model."), "cell 0 0");
-			infoPanel.add(new JLabel("To get more information run RMS from a terminal."), "cell 0 1");
+			infoPanel.add(new JLabel("读取模型时发生了错误。"), "cell 0 0");
+			infoPanel.add(new JLabel("用终端来运行本软件以获得更多错误信息。"), "cell 0 1");
 
 			if (firstException != null) {
-				JButton exceptionButton = new JButton("Show first Exeption");
-				exceptionButton.addActionListener(e -> display(firstException, "First exception to occur:"));
+				JButton exceptionButton = new JButton("显示第一个Exeption");
+				exceptionButton.addActionListener(e -> display(firstException, "出现的第一个Exception："));
 				infoPanel.add(exceptionButton, "cell 1 0, spany 2, al 100% 50%, wrap");
 			}
 
@@ -88,7 +88,7 @@ public class ExceptionPopup {
 			jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 			clearStringsToShow();
-			JOptionPane.showMessageDialog(null, infoPanel, "Warning (" + MainFrame.getVersion() + ")", JOptionPane.WARNING_MESSAGE, null);
+			JOptionPane.showMessageDialog(null, infoPanel, "警告（" + MainFrame.getVersion() + "）", JOptionPane.WARNING_MESSAGE, null);
 
 			clearFirstException();
 		}
@@ -102,7 +102,7 @@ public class ExceptionPopup {
 					doc.insertString(doc.getLength(), s, null);
 				} catch (final BadLocationException e) {
 					JOptionPane.showMessageDialog(null,
-							"MDL open error popup failed to create info popup.");
+							"MDL打开错误，弹出窗口未能创建信息弹出窗口。");
 					e.printStackTrace();
 				}
 			}
