@@ -27,6 +27,7 @@ allprojects {
 		image4jVersion = '0.7'
 		rsyntaxtextareaVersion = '3.0.2'
         nashornVersion = '15.2'
+        snakeyaml = '1.29'
     }
 
     repositories {
@@ -53,6 +54,8 @@ project(":modelstudio") {
         compile "com.github.inwc3:JMPQ3:1.7.14"
         compile "org.json:json:20200518"
         compile "org.openjdk.nashorn:nashorn-core:${nashornVersion}"
+
+        compile "org.yaml:snakeyaml:${snakeyaml}"
     }
 }
 
