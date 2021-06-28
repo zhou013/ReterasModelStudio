@@ -1,0 +1,5 @@
+region: "auto"
+
+# Default to auto.
+# "auto" means that the system will choose the most appropriate language file for you.
+# Please use UTF-8 as default encoding.
