@@ -29,6 +29,8 @@ import java.util.ResourceBundle;
 
 public class Main {
 
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static void main(final String[] args) throws IOException {
 		final boolean hasArgs = args.length > 0;
 		final List<String> startupModelPaths = new ArrayList<>();
@@ -108,7 +110,6 @@ public class Main {
 
 	private static boolean showDataSourceChooser(List<DataSourceDescriptor> dataSources) {
 		final DataSourceChooserPanel dataSourceChooserPanel = new DataSourceChooserPanel(dataSources);
-		ResourceBundle resourceBundle = LanguageReader.getRb();
 
 		int opt = JOptionPane.showConfirmDialog(null, dataSourceChooserPanel,
 				MessageFormat.format(resourceBundle.getString("retera.model.studio.setup"), MainFrame.getVersion()), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -136,25 +137,16 @@ public class Main {
 			loader.load("jassimp-natives");
 		} catch (final Exception e) {
 			e.printStackTrace();
-			String message =
-					"The C++ natives to parse FBX models failed to load. " +
-							"You will not be able to open FBX until you install the necessary software" +
-							"\nand restart Retera Model Studio." +
-							"\n\nMaybe you are missing some Visual Studio Runtime dependency?" +
-							"\n\nNext up I will show you the error message that says why " +
-							"these C++ jassimp natives failed to load," +
-							"\nin case you want to copy them and ask for help. " +
-							"Once you press OK on that error popup, you can probably still use" +
-							"\nRetera Model Studio just fine for everything else.";
-			JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+			String message = resourceBundle.getString("FBX.models.fail");
+			JOptionPane.showMessageDialog(null, message, resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			ExceptionPopup.display(e);
 		}
 	}
 
 	private static void startupFailDialog() {
 		JOptionPane.showMessageDialog(null,
-				"Retera Model Studio startup sequence has failed for two attempts. The program will now exit.",
-				"Error", JOptionPane.ERROR_MESSAGE);
+				resourceBundle.getString("RMS.startup.failed.twice"),
+				resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 		System.exit(-1);
 	}
 
