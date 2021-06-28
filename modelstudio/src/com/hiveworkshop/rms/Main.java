@@ -16,14 +16,16 @@ import com.hiveworkshop.rms.ui.preferences.DataSourceChooserPanel;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.ThemeLoadingUtils;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class Main {
 
@@ -106,9 +108,10 @@ public class Main {
 
 	private static boolean showDataSourceChooser(List<DataSourceDescriptor> dataSources) {
 		final DataSourceChooserPanel dataSourceChooserPanel = new DataSourceChooserPanel(dataSources);
+		ResourceBundle resourceBundle = LanguageReader.getRb();
 
 		int opt = JOptionPane.showConfirmDialog(null, dataSourceChooserPanel,
-				"Retera Model Studio " + MainFrame.getVersion() + ": Setup", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				MessageFormat.format(resourceBundle.getString("retera.model.studio.setup"), MainFrame.getVersion()), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		if (opt == JOptionPane.OK_OPTION) {
 			SaveProfile.get().setDataSources(dataSourceChooserPanel.getDataSourceDescriptors());
