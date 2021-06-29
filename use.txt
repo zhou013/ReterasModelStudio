@@ -3,3 +3,5 @@ git pull
 git pull ReterasModelStudioChineseVer master
 
 git pull ReterasModelStudioChineseVer master --allow-unrelated-histories
+
+git config --global http.sslVerify "false"
