@@ -2,4 +2,11 @@ region: "auto"
 
 # Default to auto.
 # "auto" means that the system will choose the most appropriate language file for you.
+# Of course you can choose a spcific language.
+# The file name should follow the format like this: content_{Your Locales}.properties
+# For example: content_en_US.properties
+# You can check all the available locales in https://docs.oracle.com/cd/E23824_01/html/E26033/glset.html
+
+# DO NOT DELETE ANY THING LIKE {0}, {1}, ... IN THE LANGUAGE FILE! WILL CAUSE FATAL ERROR!
+
 # Please use UTF-8 as default encoding.
