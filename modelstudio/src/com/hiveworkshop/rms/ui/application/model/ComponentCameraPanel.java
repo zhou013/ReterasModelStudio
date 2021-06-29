@@ -6,13 +6,18 @@ import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.actions.model.NameChangeAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ResourceBundle;
 
 public class ComponentCameraPanel extends JPanel implements ComponentPanel<Camera> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -29,7 +34,7 @@ public class ComponentCameraPanel extends JPanel implements ComponentPanel<Camer
 		this.modelStructureChangeListener = modelStructureChangeListener;
 
 		setLayout(new MigLayout("fill, gap 0", "[]5[]5[grow]", "[][][][grow]"));
-		title = new JLabel("Select a Bone");
+		title = new JLabel(resourceBundle.getString("select.a.bone"));
 		add(title, "wrap");
 		nameField = new JTextField(24);
 		nameField.addFocusListener(changeName());

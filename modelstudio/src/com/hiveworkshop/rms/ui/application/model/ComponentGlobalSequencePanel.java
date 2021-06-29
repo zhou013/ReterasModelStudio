@@ -5,12 +5,17 @@ import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.actions.model.globalsequence.SetGlobalSequenceLengthAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 //public class ComponentGlobalSequencePanel extends JPanel implements ComponentPanel<EditableModel> {
 public class ComponentGlobalSequencePanel extends JPanel implements ComponentPanel<Integer> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -36,12 +41,12 @@ public class ComponentGlobalSequencePanel extends JPanel implements ComponentPan
 //				lengthSpinner();
 //			}
 //		});
-		add(new JLabel("GlobalSequence "), "cell 0 0");
+		add(new JLabel(resourceBundle.getString("globalsequence")), "cell 0 0");
 
 		indexLabel = new JLabel();
 		add(indexLabel, "cell 1 0");
 
-		add(new JLabel("Duration: "), "cell 0 1");
+		add(new JLabel(resourceBundle.getString("duration")), "cell 0 1");
 		add(lengthSpinner, "cell 1 1");
 	}
 

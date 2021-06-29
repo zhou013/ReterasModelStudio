@@ -5,6 +5,7 @@ import com.hiveworkshop.rms.editor.render3d.RenderModel;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
 import com.hiveworkshop.rms.ui.application.viewer.ComPerspRenderEnv;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.infonode.docking.View;
 import org.lwjgl.LWJGLException;
 
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Write a description of class DisplayPanel here.
@@ -21,6 +23,9 @@ import java.util.List;
  * @version (a version number or a date)
  */
 public class PerspDisplayPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private PerspectiveViewport vp;
 	private JPanel vpp;
 	private String title;
@@ -164,17 +169,17 @@ public class PerspDisplayPanel extends JPanel {
 	private void makeContextMenu() {
 		JPopupMenu contextMenu = new JPopupMenu();
 
-		JMenuItem reAssignMatrix = new JMenuItem("Re-assign Matrix");
+		JMenuItem reAssignMatrix = new JMenuItem(resourceBundle.getString("re.assign.matrix"));
 //		reAssignMatrix.addActionListener(this);
 		contextMenu.add(reAssignMatrix);
 
-		JMenuItem cogBone = new JMenuItem("Auto-Center Bone(s)");
+		JMenuItem cogBone = new JMenuItem(resourceBundle.getString("auto.center.bone.s"));
 		cogBone.addActionListener(e -> cogBone());
 		contextMenu.add(cogBone);
 	}
 
 	private void cogBone() {
 		JOptionPane.showMessageDialog(this,
-				"Please use other viewport, this action is not implemented for this viewport.");
+				resourceBundle.getString("please.use.other.viewport"));
 	}
 }

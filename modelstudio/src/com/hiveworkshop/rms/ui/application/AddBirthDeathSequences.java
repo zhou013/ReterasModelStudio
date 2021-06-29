@@ -15,16 +15,19 @@ import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.animation.AddKeyfr
 import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.animation.AddTimelineAction;
 import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.animation.TranslationKeyframeAction;
 import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.util.CompoundAction;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 
 import javax.swing.*;
-import java.util.*;
+import java.text.MessageFormat;import java.util.*;
 
 public class AddBirthDeathSequences {
 
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
     static void riseFallBirthActionRes(MainPanel mainPanel) {
         final int confirmed = JOptionPane.showConfirmDialog(mainPanel,
-                "This will permanently alter model. Are you sure?", "Confirmation",
+                resourceBundle.getString("alter.model.confirm"), resourceBundle.getString("confirmation"),
                 JOptionPane.OK_CANCEL_OPTION);
         if (confirmed != JOptionPane.OK_OPTION) {
             return;
@@ -34,7 +37,7 @@ public class AddBirthDeathSequences {
 
         replaceOrUseOldAnimation(mainPanel, "Death", 0, -300);
 
-        JOptionPane.showMessageDialog(mainPanel, "Done!");
+        JOptionPane.showMessageDialog(mainPanel, resourceBundle.getString("done"));
     }
 
     private static void replaceOrUseOldAnimation(MainPanel mainPanel, String name, int offsetStart, int offsetEnd) {
@@ -64,9 +67,9 @@ public class AddBirthDeathSequences {
 
         boolean removeOldAnimation = false;
         if (oldAnimation != null) {
-            final String[] choices = {"Ignore", "Delete", "Overwrite"};
+            final String[] choices = {resourceBundle.getString("ignore"), resourceBundle.getString("delete"), resourceBundle.getString("overwrite")};
             final Object x = JOptionPane.showInputDialog(mainPanel,
-                    "Existing " + name.toLowerCase() + " detected. What should be done with it?", "Question",
+                    MessageFormat.format(resourceBundle.getString("existing.animation.confirm"), name.toLowerCase()), resourceBundle.getString("question"),
                     JOptionPane.PLAIN_MESSAGE, null, choices, choices[0]);
             if (x == choices[1]) {
                 removeOldAnimation = true;

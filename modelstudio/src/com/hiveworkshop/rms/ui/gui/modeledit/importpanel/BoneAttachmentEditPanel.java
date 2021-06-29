@@ -2,6 +2,7 @@ package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.Bone;
 import com.hiveworkshop.rms.editor.model.Matrix;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -11,8 +12,11 @@ import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class BoneAttachmentEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	JCheckBox displayParents;
 	BoneShellListCellRenderer renderer;
@@ -88,7 +92,7 @@ public class BoneAttachmentEditPanel extends JPanel {
 							}
 							k++;
 							if (k > 1000) {
-								JOptionPane.showMessageDialog(null, "Unexpected error has occurred: IdObject to Bone parent loop, circular logic");
+								JOptionPane.showMessageDialog(null, resourceBundle.getString("error.bone.parent.loop.circular.logic"));
 								break;
 							}
 						}
@@ -101,22 +105,22 @@ public class BoneAttachmentEditPanel extends JPanel {
 	private JPanel getTopPanel() {
 		JPanel topPanel = new JPanel(new MigLayout("gap 0", "[][][]"));
 
-		JButton allMatrOriginal = new JButton("Reset all Matrices");
+		JButton allMatrOriginal = new JButton(resourceBundle.getString("reset.all.matrices"));
 		allMatrOriginal.addActionListener(e -> allMatrOriginal());
 		topPanel.add(allMatrOriginal);
 
-		JButton allMatrSameName = new JButton("Set all to available, original names");
+		JButton allMatrSameName = new JButton(resourceBundle.getString("set.all.to.available.original.names"));
 //		allMatrSameName.setToolTipText("matches matrix bones in the receiving model to bones with the same name (ignoring case) in the donating model");
-		allMatrSameName.setToolTipText("matches matrices bones to bones with the same name (ignoring case)");
+		allMatrSameName.setToolTipText(resourceBundle.getString("set.all.to.available.original.names.description"));
 		allMatrSameName.addActionListener(e -> allMatrSameName());
 		topPanel.add(allMatrSameName);
 
-		JButton allMatrSameishName = new JButton("Set all to similar names");
-		allMatrSameishName.setToolTipText("ignores \"bone\", \"helper\", \"_\" and space.");
+		JButton allMatrSameishName = new JButton(resourceBundle.getString("set.all.to.similar.names"));
+		allMatrSameishName.setToolTipText(resourceBundle.getString("ignores.bone.helper.and.space"));
 		allMatrSameishName.addActionListener(e -> allMatrSameishName());
 		topPanel.add(allMatrSameishName, "wrap");
 
-		displayParents = new JCheckBox("Display parent names");
+		displayParents = new JCheckBox(resourceBundle.getString("display.parent.names"));
 		displayParents.addActionListener(e -> showParents(renderer, displayParents));
 		topPanel.add(displayParents, "spanx, align center, wrap");
 

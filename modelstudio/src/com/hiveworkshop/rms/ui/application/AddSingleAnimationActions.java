@@ -8,17 +8,21 @@ import com.hiveworkshop.rms.parsers.slk.GameObject;
 import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.datamodel.MutableObjectData;
 import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.util.UnitFields;
 import com.hiveworkshop.rms.ui.browsers.model.ModelOptionPane;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AddSingleAnimationActions {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     static void addAnimationFromFile(MainPanel mainPanel) {
         FileDialog fileDialog = new FileDialog(mainPanel);
@@ -33,26 +37,25 @@ public class AddSingleAnimationActions {
 
     static void addSingleAnimation(MainPanel mainPanel, EditableModel current, EditableModel animationSourceModel) {
         Animation choice = null;
-        choice = (Animation) JOptionPane.showInputDialog(mainPanel, "Choose an animation!", "Add Animation",
+        choice = (Animation) JOptionPane.showInputDialog(mainPanel, resourceBundle.getString("choose.an.animation"), resourceBundle.getString("add.animation"),
                 JOptionPane.QUESTION_MESSAGE, null, animationSourceModel.getAnims().toArray(),
                 animationSourceModel.getAnims().get(0));
         if (choice == null) {
-            JOptionPane.showMessageDialog(mainPanel, "Bad choice. No animation added.");
+            JOptionPane.showMessageDialog(mainPanel, resourceBundle.getString("no.animation.added"));
             return;
         }
         Animation visibilitySource = (Animation) JOptionPane.showInputDialog(mainPanel,
-                "Which animation from THIS model to copy visiblity from?", "Add Animation",
+                resourceBundle.getString("copy.visiblity.from"), resourceBundle.getString("add.animation"),
                 JOptionPane.QUESTION_MESSAGE, null, current.getAnims().toArray(), current.getAnims().get(0));
         if (visibilitySource == null) {
-            JOptionPane.showMessageDialog(mainPanel, "No visibility will be copied.");
+            JOptionPane.showMessageDialog(mainPanel, resourceBundle.getString("no.visibility.will.be.copied"));
         }
         List<Animation> animationsAdded = current.addAnimationsFrom(animationSourceModel,
                 Collections.singletonList(choice));
         for (Animation anim : animationsAdded) {
             current.copyVisibility(visibilitySource, anim);
         }
-        JOptionPane.showMessageDialog(mainPanel, "Added " + animationSourceModel.getName() + "'s " + choice.getName()
-                + " with " + visibilitySource.getName() + "'s visibility  OK!");
+        JOptionPane.showMessageDialog(mainPanel, MessageFormat.format(resourceBundle.getString("added.0.s.1.with.2.s.visibility.ok"), animationSourceModel.getName(),choice.getName(),visibilitySource.getName()));
         mainPanel.modelStructureChangeListener.animationsAdded(animationsAdded);
     }
 
@@ -91,8 +94,8 @@ public class AddSingleAnimationActions {
         JPanel creationPanel = new JPanel(new MigLayout());
 
         JPanel newAnimationPanel = new JPanel(new MigLayout());
-        newAnimationPanel.add(new JLabel("Add new empty animation"), "span 2, wrap");
-        newAnimationPanel.add(new JLabel("Name"));
+        newAnimationPanel.add(new JLabel(resourceBundle.getString("add.new.empty.animation")), "span 2, wrap");
+        newAnimationPanel.add(new JLabel(resourceBundle.getString("name")));
         JTextField nameField = new JTextField();
         nameField.setText("newAnimation");
 //        nameField.setText("");
@@ -123,13 +126,13 @@ public class AddSingleAnimationActions {
         }
 
         DefaultTableModel animationTableModel = new DefaultTableModel();
-        animationTableModel.addColumn("start", startTimes.toArray());
-        animationTableModel.addColumn("end", endTimes.toArray());
-        animationTableModel.addColumn("name", animationNames.toArray());
+        animationTableModel.addColumn(resourceBundle.getString("animationTableModel.start"), startTimes.toArray());
+        animationTableModel.addColumn(resourceBundle.getString("animationTableModel.end"), endTimes.toArray());
+        animationTableModel.addColumn(resourceBundle.getString("animationTableModel.name"), animationNames.toArray());
 
         existingAnimationTable.setModel(animationTableModel);
 
-        JButton setStartAfter = new JButton("Start After");
+        JButton setStartAfter = new JButton(resourceBundle.getString("start.after"));
         setStartAfter.addActionListener(e -> {
             int end = (Integer) endSpinner.getValue();
             int duration = end - (Integer) startSpinner.getValue();
@@ -140,7 +143,7 @@ public class AddSingleAnimationActions {
             startSpinner.setValue(newStart);
             endSpinner.setValue(end);
         });
-        JButton setEndBefore = new JButton("End Before");
+        JButton setEndBefore = new JButton(resourceBundle.getString("end.before"));
 //        setEndBefore.addActionListener(e -> endSpinner.setValue(existingAnimationTable.getValueAt(existingAnimationTable.getSelectedRow(), 0)));
         setEndBefore.addActionListener(e -> {
             int start = (Integer) startSpinner.getValue();
@@ -157,7 +160,7 @@ public class AddSingleAnimationActions {
         existingAnimationsPanel.add(setEndBefore);
 
 //        optionPane.setOptions();
-        int option = JOptionPane.showConfirmDialog(mainPanel, creationPanel, "Create Empty Animation", JOptionPane.OK_CANCEL_OPTION);
+        int option = JOptionPane.showConfirmDialog(mainPanel, creationPanel, resourceBundle.getString("create.empty.animation"), JOptionPane.OK_CANCEL_OPTION);
         System.out.println("option \"" + option + "\"");
         int start = (Integer) startSpinner.getValue();
         int end = (Integer) endSpinner.getValue();
@@ -170,7 +173,7 @@ public class AddSingleAnimationActions {
 //            JPanel newEndPanel = new JPanel();
 //            JSpinner newEndSpinner = new JSpinner(new SpinnerNumberModel(start + 1,start+1,Integer.MAX_VALUE, 1));
 //            newEndPanel.add(newEndSpinner);
-            JOptionPane.showConfirmDialog(mainPanel, "End needs to be after start", "Choose valid end time", JOptionPane.DEFAULT_OPTION);
+            JOptionPane.showConfirmDialog(mainPanel, resourceBundle.getString("end.needs.to.be.after.start"), resourceBundle.getString("choose.valid.end.time"), JOptionPane.DEFAULT_OPTION);
         }
 
     }

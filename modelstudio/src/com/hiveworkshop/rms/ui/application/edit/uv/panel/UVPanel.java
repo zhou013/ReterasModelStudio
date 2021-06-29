@@ -31,6 +31,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarButtonGroup;
 import com.hiveworkshop.rms.ui.icons.IconUtils;
 import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.ModeButton;
 import com.hiveworkshop.rms.util.Vec2;
 import net.infonode.docking.View;
@@ -42,7 +43,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.List;
+import java.text.MessageFormat;import java.util.List;
 import java.util.*;
 
 /**
@@ -52,6 +53,8 @@ import java.util.*;
  * @version (a version number or a date)
  */
 public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEditorChangeActivityListener {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	static final ImageIcon UVIcon;
 
@@ -87,14 +90,14 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 	private AbstractAction undoAction;
 	private AbstractAction redoAction;
 
-	AbstractAction selectAllAction = new AbstractAction("Select All") {
+	AbstractAction selectAllAction = new AbstractAction(resourceBundle.getString("select.all")) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			UndoAction undoAction = modelEditorManager.getModelEditor().selectAll();
 			addUndoAction(undoAction);
 		}
 	};
-	AbstractAction invertSelectAction = new AbstractAction("Invert Selection") {
+	AbstractAction invertSelectAction = new AbstractAction(resourceBundle.getString("invert.selection")) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			UndoAction undoAction = modelEditorManager.getModelEditor().invertSelection();
@@ -102,14 +105,14 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 //            addUndoAction(modelEditorManager.getModelEditor().invertSelection());
 		}
 	};
-	AbstractAction expandSelectionAction = new AbstractAction("Expand Selection") {
+	AbstractAction expandSelectionAction = new AbstractAction(resourceBundle.getString("expand.selection")) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			UndoAction undoAction = modelEditorManager.getModelEditor().expandSelection();
 			addUndoAction(undoAction);
 		}
 	};
-	AbstractAction selFromMainAction = new AbstractAction("Sel From Main") {
+	AbstractAction selFromMainAction = new AbstractAction(resourceBundle.getString("sel.from.main")) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 //            UndoAction undoAction = modelEditorManager.getModelEditor().selectFromViewer(mpanel.getModelEditorManager().getSelectionView());
@@ -176,7 +179,7 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 		JPanel menuHolderPanel = new JPanel(new BorderLayout());
 		menuHolderPanel.add(this, BorderLayout.CENTER);
 		menuHolderPanel.add(createMenuBar(), BorderLayout.BEFORE_FIRST_LINE);
-		view = new View("Texture Coordinate Editor: " + currentModelPanel().getModel().getName(), UVIcon, menuHolderPanel);
+		view = new View(MessageFormat.format(resourceBundle.getString("texture.coordinate.editor.0"), currentModelPanel().getModel().getName()), UVIcon, menuHolderPanel);
 	}
 
 	private JPanel getBotomPanel() {
@@ -215,17 +218,17 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 
 	private JPanel getStuffPanel() {
 		// Copied from MainPanel
-		ModeButton selectButton = new ModeButton("Select");
+		ModeButton selectButton = new ModeButton(resourceBundle.getString("select"));
 		selectButton.addActionListener(new ButtonModeChangeListener(0));
 		modeToButton.put(selectionModeGroup.getToolbarButtonTypes()[0], selectButton);
 		selectionModeButtons.add(selectButton);
 
-		ModeButton addButton = new ModeButton("Add");
+		ModeButton addButton = new ModeButton(resourceBundle.getString("add"));
 		addButton.addActionListener(new ButtonModeChangeListener(1));
 		modeToButton.put(selectionModeGroup.getToolbarButtonTypes()[1], addButton);
 		selectionModeButtons.add(addButton);
 
-		ModeButton deselectButton = new ModeButton("Deselect");
+		ModeButton deselectButton = new ModeButton(resourceBundle.getString("deselect"));
 		deselectButton.addActionListener(new ButtonModeChangeListener(2));
 		modeToButton.put(selectionModeGroup.getToolbarButtonTypes()[2], deselectButton);
 		selectionModeButtons.add(deselectButton);
@@ -235,21 +238,21 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 			divider[i] = new JLabel("----------");
 		}
 
-		ModeButton loadImage = new ModeButton("Load Image");
+		ModeButton loadImage = new ModeButton(resourceBundle.getString("load.image"));
 		loadImage.addActionListener(e -> loadImage3());
 
-		ModeButton moveButton = new ModeButton("Move");
+		ModeButton moveButton = new ModeButton(resourceBundle.getString("move"));
 		moveButton.addActionListener(new ButtonActionChangeListener(0));
 
-		ModeButton rotateButton = new ModeButton("Rotate");
+		ModeButton rotateButton = new ModeButton(resourceBundle.getString("rotate"));
 		rotateButton.addActionListener(new ButtonActionChangeListener(1));
 
-		ModeButton scaleButton = new ModeButton("Scale");
+		ModeButton scaleButton = new ModeButton(resourceBundle.getString("scale"));
 		scaleButton.addActionListener(new ButtonActionChangeListener(2));
 
 		JComboBox<UnwrapDirection> unwrapDirectionBox = new JComboBox<>(UnwrapDirection.values());
 
-		ModeButton unwrapButton = new ModeButton("Remap UVs");
+		ModeButton unwrapButton = new ModeButton(resourceBundle.getString("remap.uvs"));
 		unwrapButton.addActionListener(e -> unwrapFromView(unwrapDirectionBox));
 
 		typeToButton.put(actionTypeGroup.getToolbarButtonTypes()[0], moveButton);
@@ -323,7 +326,7 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 //                    case PERSPECTIVE -> System.out.println("ugg");
 			}
 		} else {
-			JOptionPane.showMessageDialog(UVPanel.this, "Please select a direction", "Error",
+			JOptionPane.showMessageDialog(UVPanel.this, resourceBundle.getString("please.select.a.direction"), resourceBundle.getString("error"),
 					JOptionPane.ERROR_MESSAGE);
 		}
 
@@ -367,17 +370,17 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 		selectionItemTypeGroup = new ToolbarButtonGroup<>(toolbar, TVertexSelectionItemTypes.values());
 		toolbar.addSeparator();
 
-		TVertexToolbarActionButtonType selectAndMoveDescriptor = getButtonStuff("move2.png", "Select and Move", ModelEditorActionType.TRANSLATION);
+		TVertexToolbarActionButtonType selectAndMoveDescriptor = getButtonStuff("move2.png", resourceBundle.getString("select.and.move"), ModelEditorActionType.TRANSLATION);
 
-		TVertexToolbarActionButtonType selectAndRotateDescriptor = getButtonStuff("rotate.png", "Select and Rotate", ModelEditorActionType.ROTATION);
+		TVertexToolbarActionButtonType selectAndRotateDescriptor = getButtonStuff("rotate.png", resourceBundle.getString("select.and.rotate"), ModelEditorActionType.ROTATION);
 
-		TVertexToolbarActionButtonType selectAndScaleDescriptor = getButtonStuff("scale.png", "Select and Scale", ModelEditorActionType.SCALING);
+		TVertexToolbarActionButtonType selectAndScaleDescriptor = getButtonStuff("scale.png", resourceBundle.getString("select.and.scale"), ModelEditorActionType.SCALING);
 
 		actionTypeGroup = new ToolbarButtonGroup<>(toolbar, new TVertexToolbarActionButtonType[] {selectAndMoveDescriptor, selectAndRotateDescriptor, selectAndScaleDescriptor});
 		currentActivity = actionTypeGroup.getActiveButtonType();
 		toolbar.addSeparator();
 
-		JButton snapButton = toolbar.add(new AbstractAction("Snap", RMSIcons.loadToolBarImageIcon("snap.png")) {
+		JButton snapButton = toolbar.add(new AbstractAction(resourceBundle.getString("snap"), RMSIcons.loadToolBarImageIcon("snap.png")) {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ModelPanel currentModelPanel = currentModelPanel();
@@ -416,48 +419,48 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 	public JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
-		JMenu editMenu = new JMenu("Edit");
+		JMenu editMenu = new JMenu(resourceBundle.getString("edit"));
 		editMenu.setMnemonic(KeyEvent.VK_E);
-		editMenu.getAccessibleContext().setAccessibleDescription("Allows the user to use various tools to edit the currently selected model's TVertices.");
+		editMenu.getAccessibleContext().setAccessibleDescription(resourceBundle.getString("uv.edit.button.description"));
 		menuBar.add(editMenu);
 
-		JMenu dispMenu = new JMenu("View");
+		JMenu dispMenu = new JMenu(resourceBundle.getString("view"));
 		dispMenu.setMnemonic(KeyEvent.VK_V);
-		dispMenu.getAccessibleContext().setAccessibleDescription("Control display settings for this Texture Coordinate Editor window.");
+		dispMenu.getAccessibleContext().setAccessibleDescription(resourceBundle.getString("uv.view.button.description"));
 		menuBar.add(dispMenu);
 
-		createAndAddMenuItem("Select All", "control A", selectAllAction, editMenu);
+		createAndAddMenuItem(resourceBundle.getString("select.all"), "control A", selectAllAction, editMenu);
 
-		createAndAddMenuItem("Invert Selection", "control I", e -> addUndoAction(modelEditorManager.getModelEditor().invertSelection()), editMenu);
+		createAndAddMenuItem(resourceBundle.getString("invert.selection"), "control I", e -> addUndoAction(modelEditorManager.getModelEditor().invertSelection()), editMenu);
 
-		createAndAddMenuItem("Expand Selection", "control E", expandSelectionAction, editMenu);
+		createAndAddMenuItem(resourceBundle.getString("expand.selection"), "control E", expandSelectionAction, editMenu);
 
-		createAndAddMenuItem("Select from Viewer", "control V", selFromMainAction, editMenu);
+		createAndAddMenuItem(resourceBundle.getString("select.from.viewer"), "control V", selFromMainAction, editMenu);
 
-		createAndAddMenuItem("Split Vertex", "control V", e -> splitVertex(), editMenu);
+		createAndAddMenuItem(resourceBundle.getString("split.vertex"), "control V", e -> splitVertex(), editMenu);
 
-		wrapImage = new JCheckBoxMenuItem("Wrap Image", false);
-		wrapImage.setToolTipText("Repeat the texture many times in a grid-like display. This feature does not edit the model in any way; only this viewing window.");
+		wrapImage = new JCheckBoxMenuItem(resourceBundle.getString("wrap.image"), false);
+		wrapImage.setToolTipText(resourceBundle.getString("uv.warp.image.button.description"));
 		// wrapImage.addActionListener(this);
 		dispMenu.add(wrapImage);
 
-		JMenuItem setAspectRatio = new JMenuItem("Set Aspect Ratio");
+		JMenuItem setAspectRatio = new JMenuItem(resourceBundle.getString("set.aspect.ratio"));
 		setAspectRatio.setMnemonic(KeyEvent.VK_S);
 		setAspectRatio.setAccelerator(KeyStroke.getKeyStroke("control R"));
-		setAspectRatio.setToolTipText("Sets the amount by which the texture display is stretched, for editing textures with non-uniform width and height.");
+		setAspectRatio.setToolTipText(resourceBundle.getString("uv.set.aspect.ratio.button.description"));
 		setAspectRatio.addActionListener(e -> setAspectRatio());
 		dispMenu.add(setAspectRatio);
 
 		editMenu.add(new JSeparator());
 
-		JMenu mirrorSubmenu = new JMenu("Mirror");
+		JMenu mirrorSubmenu = new JMenu(resourceBundle.getString("mirror"));
 		mirrorSubmenu.setMnemonic(KeyEvent.VK_M);
-		mirrorSubmenu.getAccessibleContext().setAccessibleDescription("Allows the user to mirror objects.");
+		mirrorSubmenu.getAccessibleContext().setAccessibleDescription(resourceBundle.getString("allows.the.user.to.mirror.objects"));
 		editMenu.add(mirrorSubmenu);
 
-		createAndAddMenuItem("Mirror X", KeyEvent.VK_X, e -> mirror((byte) 0), mirrorSubmenu);
+		createAndAddMenuItem(resourceBundle.getString("mirror.x"), KeyEvent.VK_X, e -> mirror((byte) 0), mirrorSubmenu);
 
-		createAndAddMenuItem("Mirror Y", KeyEvent.VK_Y, e -> mirror((byte) 1), mirrorSubmenu);
+		createAndAddMenuItem(resourceBundle.getString("mirror.y"), KeyEvent.VK_Y, e -> mirror((byte) 1), mirrorSubmenu);
 
 		return menuBar;
 	}
@@ -751,7 +754,7 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 		JPanel panel = new JPanel();
 		JSpinner widthVal = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
 		JSpinner heightVal = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
-		JLabel toLabel = new JLabel(" to ");
+		JLabel toLabel = new JLabel(resourceBundle.getString("to.label"));
 		panel.add(widthVal);
 		panel.add(toLabel);
 		panel.add(heightVal);
@@ -761,9 +764,8 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 
 	private void loadImage() {
 		int x = JOptionPane.showConfirmDialog(this,
-				"Do you want to use the texture auto-loader to find available textures?" +
-						"\nIf you choose \"No\", then you will have to find a file on your hard drive instead.",
-				"Load Image", JOptionPane.YES_NO_CANCEL_OPTION);
+				resourceBundle.getString("texture.auto.loader.confirmation"),
+				resourceBundle.getString("load.image"), JOptionPane.YES_NO_CANCEL_OPTION);
 		if (x == JOptionPane.YES_OPTION) {
 			DefaultListModel<Material> materials = new DefaultListModel<>();
 			for (int i = 0; i < dispMDL.getModel().getMaterials().size(); i++) {
@@ -803,9 +805,8 @@ public class UVPanel extends JPanel implements CoordDisplayListener, TVertexEdit
 
 	private void loadImage2() {
 		int x = JOptionPane.showConfirmDialog(this,
-				"Do you want to use the texture auto-loader to find available textures?" +
-						"\nIf you choose \"No\", then you will have to find a file on your hard drive instead.",
-				"Load Image", JOptionPane.YES_NO_CANCEL_OPTION);
+				resourceBundle.getString("texture.auto.loader.confirmation"),
+				resourceBundle.getString("load.image"), JOptionPane.YES_NO_CANCEL_OPTION);
 		if (x == JOptionPane.YES_OPTION) {
 			DefaultListModel<Material> materials = new DefaultListModel<>();
 			for (int i = 0; i < dispMDL.getModel().getMaterials().size(); i++) {

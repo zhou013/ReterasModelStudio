@@ -1,14 +1,19 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.CaretListener;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 class BoneAttachmentPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	JLabel title;
 
 	// Old bone refs (matrices)
@@ -40,7 +45,7 @@ class BoneAttachmentPanel extends JPanel {
 		this.mht = mht;
 
 		JPanel oldBonesPanel = new JPanel(new MigLayout("gap 0 0 0 0, insets 0 0 0 0, fill", "[grow]", "[][][grow]"));
-		oldBonesPanel.add(new JLabel("Old Bone References"), "wrap");
+		oldBonesPanel.add(new JLabel(resourceBundle.getString("old.bone.references")), "wrap");
 
 		leftSearchField = new JTextField();
 		rightSearchField = new JTextField();
@@ -49,7 +54,7 @@ class BoneAttachmentPanel extends JPanel {
 
 		rightSearchField.addCaretListener(getCaretListener(rightSearchField, leftSearchField, this::setFutureBonesFilter));
 
-		linkBox = new JCheckBox("linked search");
+		linkBox = new JCheckBox(resourceBundle.getString("linked.search"));
 		linkBox.addActionListener(e -> queResetList());
 
 		oldBonesPanel.add(leftSearchField, "grow, split");
@@ -67,7 +72,7 @@ class BoneAttachmentPanel extends JPanel {
 		add(oldBonesPanel, "growy, growx");
 
 		JPanel newBonesPanel = new JPanel(new MigLayout("gap 0 0 0 0, insets 0 0 0 0, fill", "[grow]", "[][grow][]"));
-		newBonesPanel.add(new JLabel("New Refs"), "wrap");
+		newBonesPanel.add(new JLabel(resourceBundle.getString("new.refs")), "wrap");
 
 
 		newRefsList = new JList<>();
@@ -75,7 +80,7 @@ class BoneAttachmentPanel extends JPanel {
 		JScrollPane newRefsPane = new JScrollPane(newRefsList);
 		newBonesPanel.add(newRefsPane, "growy, growx, wrap");
 
-		JButton removeNewRef = new JButton("Remove", ImportPanel.redXIcon);
+		JButton removeNewRef = new JButton(resourceBundle.getString("remove"), ImportPanel.redXIcon);
 		removeNewRef.addActionListener(e -> removeNewRef());
 		newBonesPanel.add(removeNewRef, "alignx center");
 

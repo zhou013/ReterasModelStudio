@@ -6,6 +6,7 @@ import com.hiveworkshop.rms.editor.model.animflag.FloatAnimFlag;
 import com.hiveworkshop.rms.filesystem.GameDataFileSystem;
 import com.hiveworkshop.rms.parsers.mdlx.util.MdxUtils;
 import com.hiveworkshop.rms.ui.icons.IconUtils;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 import com.hiveworkshop.rms.util.Vec3SpinnerArray;
 import net.miginfocom.swing.MigLayout;
@@ -16,10 +17,13 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.*;
 
 public class AddParticlePanel {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     static String[][] sdParticleFilePairs = {
             {"DustEmitter.mdx", "DustEmitter.png"},
@@ -121,16 +125,16 @@ public class AddParticlePanel {
 
             JPanel optionsPanel = new JPanel(new MigLayout("ins 0, fill"));
 
-            final JLabel titleLabel = new JLabel("Add " + particleInformation.getName());
+            final JLabel titleLabel = new JLabel(MessageFormat.format(resourceBundle.getString("add.0"), particleInformation.getName()));
             titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
             optionsPanel.add(titleLabel, "spanx, wrap");
 
-            optionsPanel.add(new JLabel("Particle Name:"), "spanx, split 2");
-            JTextField nameField = new JTextField("My" + particleInformation.getName() + "Particle");
+            optionsPanel.add(new JLabel(resourceBundle.getString("particle.name")), "spanx, split 2");
+            JTextField nameField = new JTextField(MessageFormat.format(resourceBundle.getString("my.0.particle"), particleInformation.getName()));
             optionsPanel.add(nameField, "growx, wrap");
 
 
-            optionsPanel.add(new JLabel("Parent:"), "spanx, split 2");
+            optionsPanel.add(new JLabel(resourceBundle.getString("parent")), "spanx, split 2");
 
             java.util.List<IdObject> idObjects = new ArrayList<>(mainPanel.currentMDL().getIdObjects());
             Bone nullBone = new Bone("No parent");
@@ -150,7 +154,7 @@ public class AddParticlePanel {
 
             final JPanel animPanel = animVisPanel(animVisStatus);
 
-            final JButton chooseAnimations = new JButton("Choose when to show!");
+            final JButton chooseAnimations = new JButton(resourceBundle.getString("choose.when.to.show"));
             chooseAnimations.addActionListener(e13 -> JOptionPane.showMessageDialog(particlePanel, animPanel));
             optionsPanel.add(chooseAnimations, "spanx, align center, wrap");
 
@@ -164,7 +168,7 @@ public class AddParticlePanel {
             optionsPanel.add(colorPanel, "spanx, wrap");
 
             particlePanel.add(optionsPanel);
-            final int x = JOptionPane.showConfirmDialog(mainPanel, particlePanel, "Add " + particleInformation.getName(), JOptionPane.OK_CANCEL_OPTION);
+            final int x = JOptionPane.showConfirmDialog(mainPanel, particlePanel, MessageFormat.format(resourceBundle.getString("add.0"), particleInformation.getName()), JOptionPane.OK_CANCEL_OPTION);
             if (x == JOptionPane.OK_OPTION) {
                 IdObject parent = (IdObject) parentBone.getSelectedItem();
                 if (parent == nullBone) {
@@ -224,11 +228,11 @@ public class AddParticlePanel {
             final Vec3 colorValues = particle.getSegmentColor(i);
             final Color color = new Color((int) (colorValues.x * 255), (int) (colorValues.y * 255), (int) (colorValues.z * 255));
 
-            final JButton button = new JButton("Color " + (i + 1), new ImageIcon(IconUtils.createBlank(color, 32, 32)));
+            final JButton button = new JButton(MessageFormat.format(resourceBundle.getString("color.0"), i + 1), new ImageIcon(IconUtils.createBlank(color, 32, 32)));
             colors[i] = color;
             final int index = i;
             button.addActionListener(e12 -> {
-                final Color colorChoice = JColorChooser.showDialog(parentPanel,"Chooser Color", colors[index]);
+                final Color colorChoice = JColorChooser.showDialog(parentPanel,resourceBundle.getString("chooser.color"), colors[index]);
                 if (colorChoice != null) {
                     colors[index] = colorChoice;
                     button.setIcon(new ImageIcon(IconUtils.createBlank(colors[index], 32, 32)));

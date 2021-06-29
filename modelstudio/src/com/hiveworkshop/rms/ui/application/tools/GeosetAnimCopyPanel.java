@@ -9,14 +9,19 @@ import com.hiveworkshop.rms.ui.application.MainPanel;
 import com.hiveworkshop.rms.ui.application.actions.model.animFlag.ReplaceAnimFlagsAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class GeosetAnimCopyPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final FileDialog fileDialog;
 	JComboBox<String> donAnimBox;
 	JSpinner donTimeSpinner;
@@ -45,7 +50,7 @@ public class GeosetAnimCopyPanel extends JPanel {
 
 //		add(new JLabel("Copies all keyframes from source animation within specified interval to destination. \nWARNING: Make sure that the copied interval fits within the destination animation."), "spanx, wrap");
 //		JTextArea info = new JTextArea("Copies all keyframes from chosen interval in source animation into destination animation starting at specified frame.");
-		JTextArea info = new JTextArea("Copies all animation data from the chosen GeosetAnim to this GeosetAnim.");
+		JTextArea info = new JTextArea(resourceBundle.getString("copies.all.animation.data.from.the.chosen.geosetanim.to.this.geosetanim"));
 		info.setEditable(false);
 		info.setOpaque(false);
 		info.setLineWrap(true);
@@ -68,7 +73,7 @@ public class GeosetAnimCopyPanel extends JPanel {
 //		JPanel recAnimPanel = getRecAnimPanel(geosetAnims);
 //		add(recAnimPanel, "growx, wrap, aligny top");
 
-		JButton copyButton = new JButton("Copy Animation Data");
+		JButton copyButton = new JButton(resourceBundle.getString("copy.animation.data"));
 		copyButton.addActionListener(e -> doCopy(geosetAnim, geosetAnims));
 		add(copyButton, "spanx, align center, wrap");
 	}
@@ -120,7 +125,7 @@ public class GeosetAnimCopyPanel extends JPanel {
 
 	private JPanel getDonAnimPanel(List<GeosetAnim> animations) {
 		JPanel donAnimPanel = new JPanel(new MigLayout("fill, gap 0"));
-		donAnimPanel.add(new JLabel("From:"), "wrap");
+		donAnimPanel.add(new JLabel(resourceBundle.getString("from")), "wrap");
 		donAnimPanel.add(donAnimBox, "wrap, growx");
 //		donAnimPanel.add(donTimeLabel, "wrap");
 //		JPanel startP = new JPanel(new MigLayout("fill, gap 0, ins 0", "[5%:10%:10%]10[grow][][]"));

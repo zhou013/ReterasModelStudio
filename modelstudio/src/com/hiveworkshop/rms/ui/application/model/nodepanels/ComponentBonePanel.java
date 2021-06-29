@@ -13,6 +13,7 @@ import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener
 import com.hiveworkshop.rms.ui.application.model.ComponentPanel;
 import com.hiveworkshop.rms.ui.application.model.editors.QuatValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.Vec3ValuePanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Quat;
 import com.hiveworkshop.rms.util.Vec3;
 import net.miginfocom.swing.MigLayout;
@@ -20,8 +21,12 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ResourceBundle;
 
 public class ComponentBonePanel extends JPanel implements ComponentPanel<Bone> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -46,20 +51,20 @@ public class ComponentBonePanel extends JPanel implements ComponentPanel<Bone> {
 		parentChooser = new ParentChooser(modelViewManager);
 
 		setLayout(new MigLayout("fill, gap 0", "[]5[]5[grow]", "[][][][grow]"));
-		title = new JLabel("Select a Bone");
+		title = new JLabel(resourceBundle.getString("select.a.bone"));
 		add(title, "wrap");
 		nameField = new JTextField(24);
 		nameField.addFocusListener(changeName());
 		add(nameField, "wrap");
-		add(new JLabel("Parent: "));
-		parentName = new JLabel("Parent");
+		add(new JLabel(resourceBundle.getString("parent1")));
+		parentName = new JLabel(resourceBundle.getString("parent2"));
 		add(parentName);
-		JButton chooseParentButton = new JButton("change");
+		JButton chooseParentButton = new JButton(resourceBundle.getString("change"));
 		chooseParentButton.addActionListener(e -> chooseParent());
 		add(chooseParentButton, "wrap");
 
 		pivot = new JLabel("(0.0,0.0,0.0)");
-		add(new JLabel("pivot: "));
+		add(new JLabel(resourceBundle.getString("pivot")));
 		add(pivot, "wrap");
 		transPanel = new Vec3ValuePanel("Translation", undoActionListener, modelStructureChangeListener);
 		add(transPanel, "spanx, growx, wrap");

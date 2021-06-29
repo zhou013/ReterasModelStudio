@@ -16,16 +16,21 @@ import com.hiveworkshop.rms.ui.application.actions.model.material.SetLayerFilter
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.editors.*;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.ZoomableImagePreviewPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ComponentLayerPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static final String[] REFORGED_LAYER_DEFINITIONS = {"Diffuse", "Vertex", "ORM", "Emissive", "Team Color",
 			"Reflections"};
 	private JComboBox<FilterMode> filterModeDropdown;
@@ -65,7 +70,7 @@ public class ComponentLayerPanel extends JPanel {
 		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
 		add(titlePanel, "growx, span 3, wrap");
 
-		final JLabel layerLabel = new JLabel("Layer");
+		final JLabel layerLabel = new JLabel(resourceBundle.getString("layer"));
 		titlePanel.add(layerLabel);
 		final JButton layerDeleteButton = getDeleteButton(layer);
 
@@ -78,12 +83,12 @@ public class ComponentLayerPanel extends JPanel {
 				titlePanel.add(layerDeleteButton);
 				reforgedDefinition = "Unknown";
 			}
-			layerLabel.setText(reforgedDefinition + " Layer");
+			layerLabel.setText(MessageFormat.format(resourceBundle.getString("0.layer"), reforgedDefinition));
 			layerLabel.setFont(layerLabel.getFont().deriveFont(Font.BOLD));
 		} else {
 			titlePanel.add(Box.createHorizontalGlue());
 			titlePanel.add(layerDeleteButton);
-			layerLabel.setText("Layer " + (i + 1));
+			layerLabel.setText(MessageFormat.format(resourceBundle.getString("layer.0"), i + 1));
 			layerLabel.setFont(layerLabel.getFont().deriveFont(Font.PLAIN));
 		}
 
@@ -93,7 +98,7 @@ public class ComponentLayerPanel extends JPanel {
 
 
 		layerFlagsPanel = new LayerFlagsPanel();
-		layerFlagsPanel.setBorder(BorderFactory.createTitledBorder("Flags"));
+		layerFlagsPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("flags")));
 		add(layerFlagsPanel);
 
 		texturePreviewPanel = new JPanel();
@@ -123,21 +128,21 @@ public class ComponentLayerPanel extends JPanel {
 
 	private void fillLeftHandPanel(EditableModel model, JPanel leftHandSettingsPanel) {
 
-		leftHandSettingsPanel.add(new JLabel("Filter Mode:"));
+		leftHandSettingsPanel.add(new JLabel(resourceBundle.getString("filter.mode")));
 		filterModeDropdown = new JComboBox<>(FilterMode.values());
 		filterModeDropdown.addActionListener(e -> filterModeDropdownListener());
 		leftHandSettingsPanel.add(filterModeDropdown, "wrap, growx");
 
-		leftHandSettingsPanel.add(new JLabel("Texture:"));
+		leftHandSettingsPanel.add(new JLabel(resourceBundle.getString("texture")));
 		textureChooser = new JComboBox<String>(getTextures(model));
 		textureChooser.addActionListener(e -> chooseTexture());
 		leftHandSettingsPanel.add(textureChooser, "wrap, growx");
 
-		leftHandSettingsPanel.add(new JLabel("TVertex Anim:"));
-		tVertexAnimButton = new JButton("Choose TVertex Anim");
+		leftHandSettingsPanel.add(new JLabel(resourceBundle.getString("tvertex.anim")));
+		tVertexAnimButton = new JButton(resourceBundle.getString("choose.tvertex.anim"));
 		leftHandSettingsPanel.add(tVertexAnimButton, "wrap, growx");
 
-		leftHandSettingsPanel.add(new JLabel("CoordID:"));
+		leftHandSettingsPanel.add(new JLabel(resourceBundle.getString("coordid")));
 		coordIdSpinner = new ComponentEditorJSpinner(new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
 		coordIdSpinner.addEditingStoppedListener(this::setCoordId);
 		leftHandSettingsPanel.add(coordIdSpinner, "wrap, growx");
@@ -214,7 +219,7 @@ public class ComponentLayerPanel extends JPanel {
 		textureChooser.setSelectedIndex(layer.getTextureId());
 
 		coordIdSpinner.reloadNewValue(layer.getCoordId());
-		tVertexAnimButton.setText(layer.getTextureAnim() == null ? "None" : layer.getTextureAnim().getFlagNames());
+		tVertexAnimButton.setText(layer.getTextureAnim() == null ? resourceBundle.getString("none") : layer.getTextureAnim().getFlagNames());
 
 		texturePanel.reloadNewValue(layer.getTextureId(), (IntAnimFlag) layer.find("TextureID"), layer, "TextureID", layer::setTextureId);
 
@@ -241,7 +246,7 @@ public class ComponentLayerPanel extends JPanel {
 
 	private JButton getDeleteButton(Layer layer) {
 		final JButton layerDeleteButton;
-		layerDeleteButton = new JButton("Delete");
+		layerDeleteButton = new JButton(resourceBundle.getString("delete"));
 		layerDeleteButton.setBackground(Color.RED);
 		layerDeleteButton.setForeground(Color.WHITE);
 		layerDeleteButton.addActionListener(e -> removeLayer(layer));
@@ -266,7 +271,7 @@ public class ComponentLayerPanel extends JPanel {
 			}
 
 			if (numUses > 0) {
-				JOptionPane.showMessageDialog(this, "Cannot delete material as it is being used by " + numUses + " geosets.");
+				JOptionPane.showMessageDialog(this, MessageFormat.format(resourceBundle.getString("cannot.delete.material.as.it.is.being.used.by.0.geosets"), numUses));
 			} else {
 				removeMaterial();
 			}

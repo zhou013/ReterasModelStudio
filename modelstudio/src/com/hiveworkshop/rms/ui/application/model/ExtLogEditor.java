@@ -2,14 +2,19 @@ package com.hiveworkshop.rms.ui.application.model;
 
 import com.hiveworkshop.rms.editor.model.ExtLog;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorJSpinner;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 public class ExtLogEditor extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final Dimension MAXIMUM_SIZE = new Dimension(99999, 25);
 	private final JCheckBox minimumExtentBox;
 	private final ComponentEditorJSpinner minimumExtentX;
@@ -23,7 +28,7 @@ public class ExtLogEditor extends JPanel {
 	private final ComponentEditorJSpinner boundsRadius;
 
 	public ExtLogEditor() {
-		minimumExtentBox = new JCheckBox("Minimum Extent");
+		minimumExtentBox = new JCheckBox(resourceBundle.getString("minimum.extent"));
 
 		minimumExtentX = new ComponentEditorJSpinner(new SpinnerNumberModel(0., -Integer.MAX_VALUE, Integer.MAX_VALUE, 1.0));
 		minimumExtentX.setMaximumSize(MAXIMUM_SIZE);

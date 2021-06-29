@@ -1,12 +1,17 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class MultiVisibilityPanel extends VisibilityPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	ModelHolderThing mht;
 
 	public MultiVisibilityPanel(ModelHolderThing mht,
@@ -15,18 +20,18 @@ class MultiVisibilityPanel extends VisibilityPanel {
 	                            final VisShellBoxCellRenderer renderer) {
 		this.mht = mht;
 		setLayout(new MigLayout("gap 0"));
-		title = new JLabel("Multiple Selected");
+		title = new JLabel(resourceBundle.getString("multiple.selected"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 
-		JLabel oldAnimsLabel = new JLabel("Existing animation visibility from: ");
+		JLabel oldAnimsLabel = new JLabel(resourceBundle.getString("existing.animation.visibility.from"));
 		receivingModelSourcesBox = getSourceComboBox(renderer, recModVisSourcesOld);
 		receivingModelSourcesBox.addItemListener(e -> setVisGroupItemOld((VisibilityShell) receivingModelSourcesBox.getSelectedItem()));
 
-		JLabel newAnimsLabel = new JLabel("Imported animation visibility from: ");
+		JLabel newAnimsLabel = new JLabel(resourceBundle.getString("imported.animation.visibility.from"));
 		donatingModelSourcesBox = getSourceComboBox(renderer, donModVisSourcesNew);
 		donatingModelSourcesBox.addItemListener(e -> setVisGroupItemNew((VisibilityShell) donatingModelSourcesBox.getSelectedItem()));
 
-		favorOld = new JCheckBox("Favor component's original visibility when combining");
+		favorOld = new JCheckBox(resourceBundle.getString("favor.component.s.original.visibility.when.combining"));
 		favorOld.addActionListener(e -> favorOldPressed());
 
 		add(title, "align center, wrap");

@@ -4,12 +4,17 @@ import com.hiveworkshop.rms.editor.model.Bone;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShell;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShellListCellRenderer;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 public class SkinPopup extends JPanel {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
     private static final int BONE_COUNT = 4;
     private Bone[] bones = new Bone[BONE_COUNT];
     private JButton[] boneButtons = new JButton[BONE_COUNT];
@@ -29,7 +34,7 @@ public class SkinPopup extends JPanel {
 
         for (int i = 0; i < BONE_COUNT; i++) {
             final int index = i;
-            JButton boneButton = new JButton("Choose a Bone");
+            JButton boneButton = new JButton(resourceBundle.getString("choose.a.bone"));
             add(boneButton, "growx");
             boneButton.addActionListener(e -> boneChooserPopup(index, boneButton, boneChooserPanel));
 
@@ -48,7 +53,7 @@ public class SkinPopup extends JPanel {
 
 
 //        JOptionPane.showOptionDialog(this, panel, "Choose Bone", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, new String[] {"Ok", "Cancle"}, 1);
-        int option = JOptionPane.showConfirmDialog(this, panel, "Choose Bone", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+        int option = JOptionPane.showConfirmDialog(this, panel, resourceBundle.getString("choose.bone"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
         if (option == JOptionPane.OK_OPTION) {
             onBoneChosen(index, boneButton);
         }
@@ -59,7 +64,7 @@ public class SkinPopup extends JPanel {
         JPanel panel = new JPanel(new MigLayout("fill, gap 0", "[grow]", "[][][grow]"));
 
         BoneShellListCellRenderer renderer = new BoneShellListCellRenderer(modelView, null).setShowClass(false);
-        JCheckBox showParents = new JCheckBox("Show Parents");
+        JCheckBox showParents = new JCheckBox(resourceBundle.getString("show.parents"));
         showParents.addActionListener(e -> showParents(renderer, showParents, panel));
         panel.add(showParents, "wrap");
 

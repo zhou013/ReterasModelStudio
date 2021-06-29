@@ -28,6 +28,7 @@ import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.preferences.listeners.WarcraftDataSourceChangeListener.WarcraftDataSourceChangeNotifier;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.ZoomableImagePreviewPanel;
 import com.hiveworkshop.rms.util.Vec3;
 import net.infonode.docking.*;
@@ -45,11 +46,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainPanel extends JPanel
         implements ActionListener, UndoHandler, ModelEditorChangeActivityListener, ModelPanelCloseListener {
     MenuBar.UndoMenuItem undo;
     MenuBar.RedoMenuItem redo;
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     File currentFile;
     ImportPanel importPanel;
@@ -104,17 +108,17 @@ public class MainPanel extends JPanel
     WarcraftDataSourceChangeNotifier directoryChangeNotifier = new WarcraftDataSourceChangeNotifier();
 
     int contextClickedTab = 0;
-    public AbstractAction undoAction = new UndoActionImplementation("Undo", this);
-    public AbstractAction redoAction = new RedoActionImplementation("Redo", this);
+    public AbstractAction undoAction = new UndoActionImplementation(resourceBundle.getString("undo"), this);
+    public AbstractAction redoAction = new RedoActionImplementation(resourceBundle.getString("redo"), this);
     ClonedNodeNamePicker namePicker = new ClonedNodeNamePickerImplementation(this);
-    AbstractAction cloneAction = new AbstractAction("CloneSelection") {
+    AbstractAction cloneAction = new AbstractAction(resourceBundle.getString("cloneselection")) {
         @Override
         public void actionPerformed(final ActionEvent e) {
             cloneActionRes();
         }
     };
 
-    AbstractAction deleteAction = new AbstractAction("Delete") {
+    AbstractAction deleteAction = new AbstractAction(resourceBundle.getString("delete")) {
         @Override
         public void actionPerformed(final ActionEvent e) {
             deleteActionRes();
@@ -164,8 +168,8 @@ public class MainPanel extends JPanel
 
         final JPanel contentsDummy = new JPanel();
         contentsDummy.add(new JLabel("..."));
-        modelDataView = new View("Contents", null, contentsDummy);
-        modelComponentView = new View("Component", null, new JPanel());
+        modelDataView = new View(resourceBundle.getString("contents"), null, contentsDummy);
+        modelComponentView = new View(resourceBundle.getString("component"), null, new JPanel());
 
 //		toolView.getWindowProperties().setCloseEnabled(false);
         rootWindow.getWindowProperties().getTabProperties().getTitledTabProperties().setSizePolicy(TitledTabSizePolicy.EQUAL_SIZE);
@@ -182,7 +186,7 @@ public class MainPanel extends JPanel
 
         rootWindow.addListener(getDockingWindowListener2(fixit));
 
-        previewView = new View("Preview", null, new JPanel());
+        previewView = new View(resourceBundle.getString("preview"), null, new JPanel());
 
 //        timeSliderView = TimeSliderViewThing.createTimeSliderView(mouseCoordDisplay, setKeyframe, setTimeBounds, timeSliderPanel);
         timeSliderView = TimeSliderView.createTimeSliderView(timeSliderPanel);
@@ -194,10 +198,10 @@ public class MainPanel extends JPanel
             changeActivity(newType);
         }, prefs, actionTypeGroup, viewportListener, animatedRenderEnvironment);
 
-        creatorView = new View("Modeling", null, creatorPanel);
+        creatorView = new View(resourceBundle.getString("modeling"), null, creatorPanel);
 
 
-        animationControllerView = new View("Animation Controller", null, new JPanel());
+        animationControllerView = new View(resourceBundle.getString("animation.controller"), null, new JPanel());
 
         final TabWindow startupTabWindow = MainLayoutCreator.createMainLayout(this);
         rootWindow.setWindow(startupTabWindow);
@@ -258,7 +262,7 @@ public class MainPanel extends JPanel
         return rootWindow;
     }
 
-    AbstractAction selectAllAction = new AbstractAction("Select All") {
+    AbstractAction selectAllAction = new AbstractAction(resourceBundle.getString("select.all")) {
         @Override
         public void actionPerformed(final ActionEvent e) {
             selectAllActionRes();
@@ -273,7 +277,7 @@ public class MainPanel extends JPanel
         repaint();
     }
 
-    AbstractAction invertSelectAction = new AbstractAction("Invert Selection") {
+    AbstractAction invertSelectAction = new AbstractAction(resourceBundle.getString("invert.selection")) {
         @Override
         public void actionPerformed(final ActionEvent e) {
             invertSelectActionRes();
@@ -288,7 +292,7 @@ public class MainPanel extends JPanel
         repaint();
     }
 
-    AbstractAction rigAction = new AbstractAction("Rig") {
+    AbstractAction rigAction = new AbstractAction(resourceBundle.getString("rig")) {
         @Override
         public void actionPerformed(final ActionEvent e) {
             rigActionRes();
@@ -366,7 +370,7 @@ public class MainPanel extends JPanel
     }
 
     private AbstractAction getExpandSelectionAction() {
-        return new AbstractAction("Expand Selection") {
+        return new AbstractAction(resourceBundle.getString("expand.selection")) {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 getExpandSelectionActionRes();
@@ -414,8 +418,8 @@ public class MainPanel extends JPanel
 
         if (newType == SelectionItemTypes.TPOSE) {
 
-            final Object[] settings = {"Move Linked", "Move Single"};
-            final Object dialogResult = JOptionPane.showInputDialog(null, "Choose settings:", "T-Pose Settings",
+            final Object[] settings = {resourceBundle.getString("move.linked"), resourceBundle.getString("move.single")};
+            final Object dialogResult = JOptionPane.showInputDialog(null, resourceBundle.getString("choose.settings"), resourceBundle.getString("t.pose.settings"),
                     JOptionPane.PLAIN_MESSAGE, null, settings, settings[0]);
             ModelEditorManager.MOVE_LINKED = dialogResult == settings[0];
         }

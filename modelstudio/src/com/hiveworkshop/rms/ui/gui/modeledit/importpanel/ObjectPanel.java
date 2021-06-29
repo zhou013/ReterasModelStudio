@@ -1,13 +1,18 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.text.MessageFormat;import java.util.ResourceBundle;
 
 class ObjectPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	JLabel title;
 
 	JCheckBox doImport;
@@ -28,21 +33,21 @@ class ObjectPanel extends JPanel {
 		this.mht = mht;
 		setLayout(new MigLayout("gap 0, ins 0", "[grow]", "[][][][][grow]"));
 
-		title = new JLabel("Object Title");
+		title = new JLabel(resourceBundle.getString("object.title"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		add(title, "align center, wrap");
 
-		doImport = new JCheckBox("Import this object");
+		doImport = new JCheckBox(resourceBundle.getString("import.this.object"));
 		doImport.setSelected(true);
 		doImport.addActionListener(e -> setImportStatus());
 		add(doImport, "left, wrap");
 
 
-		oldParentLabel = new JLabel("(Old Parent: {no parent})");
+		oldParentLabel = new JLabel(resourceBundle.getString("old.parent.no.parent"));
 		add(oldParentLabel, "left, wrap");
 
 
-		parentLabel = new JLabel("Parent:");
+		parentLabel = new JLabel(resourceBundle.getString("parent"));
 		add(parentLabel, "left, wrap");
 
 		parentsList = new JList<>();
@@ -84,9 +89,9 @@ class ObjectPanel extends JPanel {
 //		title.setText(object.getClass().getSimpleName() + " \"" + object.getName() + "\"");
 
 		if (selectedObject.getOldParentBs() != null) {
-			oldParentLabel.setText("(Old Parent: " + selectedObject.getOldParentBs().getName() + ")");
+			oldParentLabel.setText(MessageFormat.format(resourceBundle.getString("old.parent.0"), selectedObject.getOldParentBs().getName()));
 		} else {
-			oldParentLabel.setText("(Old Parent: {no parent})");
+			oldParentLabel.setText(resourceBundle.getString("old.parent.no.parent"));
 		}
 	}
 

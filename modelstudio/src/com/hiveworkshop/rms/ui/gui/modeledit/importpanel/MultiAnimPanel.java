@@ -1,13 +1,18 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class MultiAnimPanel extends AnimPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	ModelHolderThing mht;
 
 	JComboBox<String> importTypeBox = new JComboBox<>(AnimShell.ImportType.getDispList());
@@ -17,11 +22,11 @@ class MultiAnimPanel extends AnimPanel {
 		setLayout(new MigLayout("gap 0"));
 		selectedAnim = null;
 
-		title = new JLabel("Multiple Selected");
+		title = new JLabel(resourceBundle.getString("multiple.selected"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		add(title, "align center, wrap");
 
-		inReverse = new JCheckBox("Reverse");
+		inReverse = new JCheckBox(resourceBundle.getString("reverse"));
 		inReverse.setSelected(false);
 		inReverse.addActionListener(e -> setInReverse());
 //		inReverse.setEnabled(false);

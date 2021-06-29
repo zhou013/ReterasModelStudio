@@ -6,6 +6,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
 import com.hiveworkshop.rms.ui.gui.modeledit.UndoAction;
 import com.hiveworkshop.rms.ui.gui.modeledit.selection.SelectionMode;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 import net.infonode.docking.DockingWindow;
 import net.infonode.docking.TabWindow;
@@ -15,8 +16,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 public class MainPanelLinkActions {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	static void linkActions(final MainPanel mainPanel, final JComponent root) {
 		root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("control Z"), "Undo");
 		root.getActionMap().put("Undo", mainPanel.undoAction);

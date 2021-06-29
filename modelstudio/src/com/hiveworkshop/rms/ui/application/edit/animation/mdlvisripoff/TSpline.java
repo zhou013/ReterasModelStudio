@@ -2,11 +2,13 @@ package com.hiveworkshop.rms.ui.application.edit.animation.mdlvisripoff;
 
 import com.hiveworkshop.rms.editor.model.animflag.AnimFlag;
 import com.hiveworkshop.rms.parsers.mdlx.InterpolationType;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Quat;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class TSpline extends JPanel {
 	private final TTan der; // in mdlvis this was just called der, and whatever, I'm copying them right now
@@ -16,26 +18,27 @@ public class TSpline extends JPanel {
 	private final JSpinner continuitySpinner;
 	private final JSpinner biasSpinner;
 	private AnimFlag timeline;
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public TSpline(final TTan der) {
 		super(new MigLayout("fillx, filly", "[grow][]", "[][grow][][][]"));
 		this.der = der;
-		add(new JLabel("Curve properties"), "growx");
+		add(new JLabel(resourceBundle.getString("curve.properties")), "growx");
 		add(new JButton("-"), "wrap");
 
 		curveRenderer = new CurveRenderer();
 		curveRenderer.setBackground(Color.WHITE);
 		add(curveRenderer, "wrap");
 
-		add(new JLabel("Tension:"), "growx");
+		add(new JLabel(resourceBundle.getString("tension")), "growx");
 		tensionSpinner = new JSpinner(new SpinnerNumberModel(0.0, Long.MIN_VALUE, Long.MAX_VALUE, 0.01));
 		add(tensionSpinner, "wrap");
 
-		add(new JLabel("Continuity:"), "growx");
+		add(new JLabel(resourceBundle.getString("continuity")), "growx");
 		continuitySpinner = new JSpinner(new SpinnerNumberModel(0.0, Long.MIN_VALUE, Long.MAX_VALUE, 0.01));
 		add(continuitySpinner, "wrap");
 
-		add(new JLabel("Bias:"), "growx");
+		add(new JLabel(resourceBundle.getString("bias")), "growx");
 		biasSpinner = new JSpinner(new SpinnerNumberModel(0.0, Long.MIN_VALUE, Long.MAX_VALUE, 0.01));
 		add(biasSpinner, "wrap");
 	}

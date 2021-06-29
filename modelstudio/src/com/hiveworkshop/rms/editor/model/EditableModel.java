@@ -9,6 +9,7 @@ import com.hiveworkshop.rms.filesystem.sources.CompoundDataSource;
 import com.hiveworkshop.rms.filesystem.sources.DataSource;
 import com.hiveworkshop.rms.filesystem.sources.FolderDataSource;
 import com.hiveworkshop.rms.parsers.mdlx.*;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.MathUtils;
 import com.hiveworkshop.rms.util.Quat;
 import com.hiveworkshop.rms.util.Vec2;
@@ -30,6 +31,7 @@ import java.util.*;
 public class EditableModel implements Named {
 	public static boolean RETERA_FORMAT_BPOS_MATRICES = false;
 	public static boolean DISABLE_BONE_GEO_ID_VALIDATOR = false;
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private File fileRef;
 	private String name = "UnnamedModel";
@@ -1018,7 +1020,7 @@ public class EditableModel implements Named {
 					allFlags.addAll(texa.animFlags.values());
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from TextureAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale"));
 				}
 			}
 		}
@@ -1028,7 +1030,7 @@ public class EditableModel implements Named {
 					allFlags.addAll(ga.animFlags.values());
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from GeosetAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale.from.geosetanims"));
 				}
 			}
 		}
@@ -1067,7 +1069,7 @@ public class EditableModel implements Named {
 					}
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from TextureAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale"));
 				}
 			}
 		}
@@ -1080,7 +1082,7 @@ public class EditableModel implements Named {
 					}
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from GeosetAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale.from.geosetanims"));
 				}
 			}
 		}
@@ -1549,7 +1551,7 @@ public class EditableModel implements Named {
 					texa.removeAllTimelinesForGlobalSeq(selectedValue);
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from TextureAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale"));
 				}
 			}
 		}
@@ -1559,7 +1561,7 @@ public class EditableModel implements Named {
 					ga.removeAllTimelinesForGlobalSeq(selectedValue);
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"WARNING: Error with processing time-scale from GeosetAnims! Program will attempt to proceed.");
+							resourceBundle.getString("error.with.processing.time.scale.from.geosetanims"));
 				}
 			}
 		}
@@ -1701,7 +1703,7 @@ public class EditableModel implements Named {
 				}
 			}
 		} catch (final Exception e) {
-			JOptionPane.showMessageDialog(null, "Bone reference broken or invalid!");
+			JOptionPane.showMessageDialog(null, resourceBundle.getString("bone.reference.error"));
 		}
 		return null;
 	}
@@ -1775,7 +1777,7 @@ public class EditableModel implements Named {
 	public void add(final Camera x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Camera component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.camera.component.to.model.errors"));
 		} else {
 			cameras.add(x);
 			if (ModelUtils.isBindPoseSupported(formatVersion) && (bindPose != null)) {
@@ -1789,7 +1791,7 @@ public class EditableModel implements Named {
 	public void add(final Animation x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Anim component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.anim.component.to.model.errors"));
 		} else {
 			anims.add(x);
 		}
@@ -1798,7 +1800,7 @@ public class EditableModel implements Named {
 	public void add(final Integer x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null GlobalSeq component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.globalseq.component.to.model.errors"));
 		} else {
 			globalSeqs.add(x);
 		}
@@ -1807,7 +1809,7 @@ public class EditableModel implements Named {
 	public void add(final Bitmap x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Bitmap component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.bitmap.component.to.model.errors"));
 		} else {
 			textures.add(x);
 		}
@@ -1816,7 +1818,7 @@ public class EditableModel implements Named {
 	public void add(final Material x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Material component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.material.component.to.model.errors"));
 		} else {
 			materials.add(x);
 		}
@@ -1825,7 +1827,7 @@ public class EditableModel implements Named {
 	public void add(final TextureAnim x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null TextureAnim component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.textureanim.component.to.model.errors"));
 		} else {
 			texAnims.add(x);
 		}
@@ -1834,7 +1836,7 @@ public class EditableModel implements Named {
 	public void add(final Geoset x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Geoset component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.geoset.component.to.model.errors"));
 		} else {
 			x.parentModel = this;
 			geosets.add(x);
@@ -1844,7 +1846,7 @@ public class EditableModel implements Named {
 	public void add(final GeosetVertex x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null GeosetVertex component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.geosetvertex.component.to.model.errors"));
 		} else {
 			if (!contains(x.geoset)) {
 				add(x.geoset);
@@ -1856,7 +1858,7 @@ public class EditableModel implements Named {
 	public void add(final Triangle x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null Triangle component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.triangle.component.to.model.errors"));
 		} else {
 			if (!contains(x.geoset)) {
 				add(x.geoset);
@@ -1868,7 +1870,7 @@ public class EditableModel implements Named {
 	public void add(final IdObject x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null IdObject component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.idobject.component.to.model.errors"));
 		} else {
 			modelIdObjects.addIdObject(x);
 //			idObjects.add(x);
@@ -1886,7 +1888,7 @@ public class EditableModel implements Named {
 	public void add(final GeosetAnim x) {
 		if (x == null) {
 			JOptionPane.showMessageDialog(null,
-					"Tried to add null GeosetAnim component to model, which is really bad. Tell Retera you saw this once you have errors.");
+					resourceBundle.getString("add.null.geosetanim.component.to.model.errors"));
 		} else {
 			geosetAnims.add(x);
 		}

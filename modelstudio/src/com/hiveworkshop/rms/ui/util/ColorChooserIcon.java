@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 
 public final class ColorChooserIcon extends JLabel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private Color currentColor;
 	private final ColorListener colorListener;
 
@@ -15,7 +19,7 @@ public final class ColorChooserIcon extends JLabel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(final MouseEvent e) {
-				final Color chosenColor = JColorChooser.showDialog(ColorChooserIcon.this, "Choose Background Color",
+				final Color chosenColor = JColorChooser.showDialog(ColorChooserIcon.this, resourceBundle.getString("choose.background.color"),
 						currentColor);
 				if (chosenColor != null) {
 					setCurrentColor(chosenColor);

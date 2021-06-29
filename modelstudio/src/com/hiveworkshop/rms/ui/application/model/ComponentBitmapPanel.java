@@ -14,6 +14,7 @@ import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorJSpinner;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorTextField;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.ZoomableImagePreviewPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -21,8 +22,11 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ResourceBundle;
 
 public class ComponentBitmapPanel extends JPanel implements ComponentPanel<Bitmap> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private Bitmap bitmap;
 	private final ComponentEditorTextField texturePathField;
@@ -50,25 +54,25 @@ public class ComponentBitmapPanel extends JPanel implements ComponentPanel<Bitma
 		replaceableIdSpinner.addEditingStoppedListener(this::replaceableIdSpinner);
 //		replaceableIdSpinner.addActionListener(this::replaceableIdSpinner);
 
-		wrapWidthBox = new JCheckBox("Wrap Width");
+		wrapWidthBox = new JCheckBox(resourceBundle.getString("wrap.width"));
 		wrapWidthBox.addActionListener(e -> wrapWidthBox());
 
-		wrapHeightBox = new JCheckBox("Wrap Height");
+		wrapHeightBox = new JCheckBox(resourceBundle.getString("wrap.height"));
 		wrapHeightBox.addActionListener(e -> wrapHeightBox());
 
 		previewPanel = new JPanel();
-		previewPanel.setBorder(new TitledBorder(null, "Previewer", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		previewPanel.setBorder(new TitledBorder(null, resourceBundle.getString("previewer"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		previewPanel.setLayout(new BorderLayout());
 
 		setLayout(new MigLayout("fillx", "[][grow][]", "[][][][][grow]"));
-		add(new JLabel("Path: "), "cell 0 0");
+		add(new JLabel(resourceBundle.getString("path")), "cell 0 0");
 		add(texturePathField, "cell 1 0 2, growx");
-		add(new JLabel("ReplaceableId: "), "cell 0 1");
+		add(new JLabel(resourceBundle.getString("replaceableid")), "cell 0 1");
 		add(replaceableIdSpinner, "cell 1 1 2");
 		add(wrapWidthBox, "cell 0 2 3");
 		add(wrapHeightBox, "cell 0 3");
 
-		final JButton exportTextureImageFile = new JButton("Export Texture Image File");
+		final JButton exportTextureImageFile = new JButton(resourceBundle.getString("export.texture.image.file"));
 		exportTextureImageFile.addActionListener(e -> exportTextureImageFile());
 		add(exportTextureImageFile, "cell 2 3, pushx");
 		add(previewPanel, "cell 0 4 3, growx, growy");

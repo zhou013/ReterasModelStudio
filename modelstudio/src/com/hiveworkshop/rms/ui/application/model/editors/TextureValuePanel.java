@@ -6,6 +6,7 @@ import com.hiveworkshop.rms.editor.model.Layer;
 import com.hiveworkshop.rms.ui.application.actions.model.material.ChangeLayerStaticTextureAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -13,8 +14,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class TextureValuePanel extends ValuePanel<Integer> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private final BasicComboPopup chooseTextureComboPopup;
 	private final JComboBox<Object> textureChooser;
@@ -37,7 +41,7 @@ public class TextureValuePanel extends ValuePanel<Integer> {
 
 		staticTextureChooser.setModel(new DefaultComboBoxModel<>(getTextures(model)));
 
-		floatTrackTableModel.addExtraColumn("Texture", "", String.class);  // 🎨 \uD83C\uDFA8
+		floatTrackTableModel.addExtraColumn(resourceBundle.getString("texture"), "", String.class);  // 🎨 \uD83C\uDFA8
 
 		addBitmapChangeListeners();
 	}

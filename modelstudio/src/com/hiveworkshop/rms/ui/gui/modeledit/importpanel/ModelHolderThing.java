@@ -3,6 +3,7 @@ package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 import com.hiveworkshop.rms.editor.model.EventObject;
 import com.hiveworkshop.rms.editor.model.*;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.BiMap;
 import com.hiveworkshop.rms.util.IterableListModel;
 
@@ -10,6 +11,9 @@ import javax.swing.*;
 import java.util.*;
 
 public class ModelHolderThing {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public EditableModel receivingModel;
 	public EditableModel donatingModel;
 
@@ -23,7 +27,7 @@ public class ModelHolderThing {
 	public IterableListModel<Material> allMaterials = new IterableListModel<>();
 
 	// Animation
-	public JCheckBox clearRecModAnims = new JCheckBox("Clear pre-existing animations");
+	public JCheckBox clearRecModAnims = new JCheckBox(resourceBundle.getString("clear.pre.existing.animations"));
 	public JTabbedPane animTabs = new JTabbedPane(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
 	public IterableListModel<AnimShell> recModAnims = new IterableListModel<>();
 	public IterableListModel<AnimShell> donModAnims = new IterableListModel<>();

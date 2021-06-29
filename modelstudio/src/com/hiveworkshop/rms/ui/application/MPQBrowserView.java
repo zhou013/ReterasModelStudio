@@ -22,6 +22,7 @@ import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
 import com.hiveworkshop.rms.ui.util.ExtFilter;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec2;
 import com.hiveworkshop.rms.util.War3ID;
 import jassimp.AiPostProcessSteps;
@@ -41,19 +42,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
 
 public class MPQBrowserView {
     static final ImageIcon MDLIcon = RMSIcons.MDLIcon;
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     static View createMPQBrowser(MainPanel mainPanel, final ImageIcon imageIcon) {
         final MPQBrowser mpqBrowser = new MPQBrowser(GameDataFileSystem.getDefault(),
                 filepath -> loadFileByType(mainPanel, filepath),
                 path -> fetchModelTexture(mainPanel, path));
-        final View view = new View("Data Browser", imageIcon, mpqBrowser);
+        final View view = new View(resourceBundle.getString("data.browser"), imageIcon, mpqBrowser);
         view.getWindowProperties().setCloseEnabled(true);
         return view;
     }
@@ -373,7 +373,7 @@ public class MPQBrowserView {
                 loadModel(mainPanel, temporary, selectNewTab, tempModelPanel);
             }
         } else if (SaveProfile.get().getRecent().contains(f.getPath())) {
-            int option = JOptionPane.showConfirmDialog(mainPanel, "Could not find the file.\nRemove from recent?", "File not found", JOptionPane.YES_NO_OPTION);
+            int option = JOptionPane.showConfirmDialog(mainPanel, resourceBundle.getString("could.not.find.the.file.and.remove"), resourceBundle.getString("file.not.found"), JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
                 SaveProfile.get().removeFromRecent(f.getPath());
                 MenuBar.updateRecent();
@@ -448,7 +448,7 @@ public class MPQBrowserView {
                 }
             }
         });
-        View doodadBrowserView = new View("Doodad Browser", new ImageIcon(MainFrame.frame.getIconImage().getScaledInstance(16, 16, Image.SCALE_FAST)), new JScrollPane(unitEditorTree));
+        View doodadBrowserView = new View(resourceBundle.getString("doodad.browser"), new ImageIcon(MainFrame.frame.getIconImage().getScaledInstance(16, 16, Image.SCALE_FAST)), new JScrollPane(unitEditorTree));
         mainPanel.rootWindow.setWindow(new SplitWindow(true, 0.75f, mainPanel.rootWindow.getWindow(), doodadBrowserView));
     }
 
@@ -473,7 +473,7 @@ public class MPQBrowserView {
                     }
 //                    mainPanel.toolsMenu.getAccessibleContext().setAccessibleDescription(
                     MenuBar.toolsMenu.getAccessibleContext().setAccessibleDescription(
-                            "Allows the user to control which parts of the model are displayed for editing.");
+                            resourceBundle.getString("model.display.description"));
 //                    mainPanel.toolsMenu.setEnabled(true);
                     MenuBar.toolsMenu.setEnabled(true);
                 }
@@ -526,7 +526,7 @@ public class MPQBrowserView {
             }
 //            mainPanel.toolsMenu.getAccessibleContext().setAccessibleDescription(
             MenuBar.toolsMenu.getAccessibleContext().setAccessibleDescription(
-                    "Allows the user to control which parts of the model are displayed for editing.");
+                    resourceBundle.getString("model.display.description"));
 //            mainPanel.toolsMenu.setEnabled(true);
             MenuBar.toolsMenu.setEnabled(true);
         }

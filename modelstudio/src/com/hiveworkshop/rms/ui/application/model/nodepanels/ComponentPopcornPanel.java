@@ -16,12 +16,16 @@ import com.hiveworkshop.rms.ui.application.model.editors.ColorValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorTextField;
 import com.hiveworkshop.rms.ui.application.model.editors.FloatValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.TimelineKeyNamer;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class ComponentPopcornPanel extends JPanel implements ComponentPanel<ParticleEmitterPopcorn> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
@@ -68,10 +72,10 @@ public class ComponentPopcornPanel extends JPanel implements ComponentPanel<Part
 		popcornPathField.addEditingStoppedListener(this::texturePathField);
 		add(popcornPathField, "wrap");
 
-		add(new JLabel("Parent: "), "split, spanx");
-		parentName = new JLabel("Parent");
+		add(new JLabel(resourceBundle.getString("parent1")), "split, spanx");
+		parentName = new JLabel(resourceBundle.getString("parent2"));
 		add(parentName);
-		JButton chooseParentButton = new JButton("change");
+		JButton chooseParentButton = new JButton(resourceBundle.getString("change"));
 		chooseParentButton.addActionListener(e -> chooseParent());
 		add(chooseParentButton, "wrap");
 
@@ -111,7 +115,7 @@ public class ComponentPopcornPanel extends JPanel implements ComponentPanel<Part
 //		rotPanel = getColorValuePanel(panel, "Rotation");
 //		scalePanel = getColorValuePanel(panel, "Scaling");
 
-		ColorValuePanel colorPanel1 = getColorValuePanel(panel, "Color");
+		ColorValuePanel colorPanel1 = getColorValuePanel(panel, resourceBundle.getString("color"));
 
 		colorPanel = colorPanel1;
 

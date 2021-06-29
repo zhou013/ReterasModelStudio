@@ -7,6 +7,7 @@ import com.hiveworkshop.rms.ui.application.actions.model.animFlag.*;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.gui.modeledit.UndoAction;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Quat;
 import com.hiveworkshop.rms.util.ScreenInfo;
 import com.hiveworkshop.rms.util.Vec3;
@@ -21,9 +22,13 @@ import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class ValuePanel<T> extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	protected static final Color LIGHT_GREEN = new Color(128, 255, 128);
 	protected static final Color LIGHT_YELLOW = new Color(255, 255, 128);
 	protected final JLabel typeLabel;
@@ -79,12 +84,12 @@ public abstract class ValuePanel<T> extends JPanel {
 		typeLabel = new JLabel("");
 		dynStatPanel.add(typeLabel, "al 0% 0%");
 
-		makeStaticButton = new JButton("Make Static");
+		makeStaticButton = new JButton(resourceBundle.getString("make.static"));
 		makeStaticButton.addActionListener(e -> makeStatic());
 		makeStaticButton.setVisible(true);
 		dynStatPanel.add(makeStaticButton, "al 100% 0%");
 
-		makeDynamicButton = new JButton("Make Dynamic");
+		makeDynamicButton = new JButton(resourceBundle.getString("make.dynamic"));
 		makeDynamicButton.addActionListener(e -> makeDynamic());
 		makeDynamicButton.setVisible(false);
 		dynStatPanel.add(makeDynamicButton, "al 100% 0%");

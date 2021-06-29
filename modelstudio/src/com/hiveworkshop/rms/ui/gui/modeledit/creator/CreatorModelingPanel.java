@@ -24,6 +24,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.builder.model.SquatToolWid
 import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarActionButtonType;
 import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarButtonGroup;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.ModeButton;
 import com.hiveworkshop.rms.util.Vec3;
 
@@ -36,6 +37,9 @@ import java.util.*;
 
 public class CreatorModelingPanel extends JPanel
 		implements ModelEditorChangeActivityListener, TimeSliderTimeSelectionListener {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final String ANIMATIONBASICS = "ANIMATIONBASICS";
 
 	private final class ActionListenerImplementation implements ActionListener {
@@ -134,19 +138,19 @@ public class CreatorModelingPanel extends JPanel
 
 		JPanel standardPrimitivesPanel = new JPanel(new BorderLayout());
 		JPanel drawPrimitivesPanel = new JPanel(new GridLayout(16, 1));
-		drawPrimitivesPanel.setBorder(BorderFactory.createTitledBorder("Draw"));
-		ModeButton planeButton = new ModeButton("Plane");
+		drawPrimitivesPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("draw")));
+		ModeButton planeButton = new ModeButton(resourceBundle.getString("plane"));
 		planeButton.addActionListener(new ActionListenerImplementation(new DrawPlaneActivityDescriptor(programPreferences, viewportListener), programPreferences, listener, planeButton));
 		drawPrimitivesPanel.add(planeButton);
 		modeButtons.add(planeButton);
 
-		ModeButton boxButton = new ModeButton("Box");
+		ModeButton boxButton = new ModeButton(resourceBundle.getString("box"));
 		boxButton.addActionListener(new ActionListenerImplementation(new DrawBoxActivityDescriptor(programPreferences, viewportListener), programPreferences, listener, boxButton));
 		drawPrimitivesPanel.add(boxButton);
 		modeButtons.add(boxButton);
 
 		JPanel spOptionsPanel = new JPanel(new GridLayout(16, 1));
-		spOptionsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
+		spOptionsPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("options")));
 		standardPrimitivesPanel.add(drawPrimitivesPanel, BorderLayout.NORTH);
 		standardPrimitivesPanel.add(spOptionsPanel, BorderLayout.CENTER);
 
@@ -164,9 +168,9 @@ public class CreatorModelingPanel extends JPanel
 	                                ToolbarButtonGroup<ToolbarActionButtonType> actionTypeGroup,
 	                                ViewportListener viewportListener, DefaultComboBoxModel<String> modeChooserBoxModel,
 	                                JPanel cardPanel) {
-		ModeButton vertexButton = new ModeButton("Vertex");
-		ModeButton faceButton = new ModeButton("Face from Selection");
-		ModeButton boneButton = new ModeButton("Bone");
+		ModeButton vertexButton = new ModeButton(resourceBundle.getString("vertex"));
+		ModeButton faceButton = new ModeButton(resourceBundle.getString("face.from.selection"));
+		ModeButton boneButton = new ModeButton(resourceBundle.getString("bone"));
 		faceButton.addActionListener(e -> {
 			if (modelEditorManager == null) {
 				return;
@@ -178,13 +182,13 @@ public class CreatorModelingPanel extends JPanel
 				undoActionListener.pushAction(createFaceFromSelection);
 			} catch (WrongModeException exc) {
 				JOptionPane.showMessageDialog(CreatorModelingPanel.this,
-						"Unable to create face, wrong selection mode", "Error", JOptionPane.ERROR_MESSAGE);
+						resourceBundle.getString("unable.to.create.face.wrong.selection.mode"), resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			} catch (FaceCreationException exc) {
-				JOptionPane.showMessageDialog(CreatorModelingPanel.this, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(CreatorModelingPanel.this, exc.getMessage(), resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		JPanel drawToolsPanel = new JPanel(new GridLayout(2, 1));
-		drawToolsPanel.setBorder(BorderFactory.createTitledBorder("Draw"));
+		drawToolsPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("draw")));
 		drawToolsPanel.add(vertexButton);
 		drawToolsPanel.add(faceButton);
 		drawToolsPanel.add(boneButton);
@@ -195,7 +199,7 @@ public class CreatorModelingPanel extends JPanel
 		cardPanel.add(meshBasicsPanel, modeChooserBoxModel.getElementAt(0));
 
 		JPanel editToolsPanel = new JPanel(new GridLayout(16, 1));
-		editToolsPanel.setBorder(BorderFactory.createTitledBorder("Manipulate"));
+		editToolsPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("manipulate")));
 
 		for (ToolbarActionButtonType type : actionTypeGroup.getToolbarButtonTypes()) {
 			String typeName = type.getName();
@@ -238,7 +242,7 @@ public class CreatorModelingPanel extends JPanel
 		JPanel meshBasicsPanel = new JPanel(new BorderLayout());
 		cardPanel.add(meshBasicsPanel, ANIMATIONBASICS);
 		JPanel editToolsPanel = new JPanel(new GridLayout(16, 1));
-		editToolsPanel.setBorder(BorderFactory.createTitledBorder("Manipulate"));
+		editToolsPanel.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("manipulate")));
 
 		int index = 0;
 		for (ToolbarActionButtonType type : actionTypeGroup.getToolbarButtonTypes()) {

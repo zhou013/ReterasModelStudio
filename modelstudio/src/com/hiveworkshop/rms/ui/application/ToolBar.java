@@ -13,31 +13,36 @@ import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarActionButtonType;
 import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarButtonGroup;
 import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ResourceBundle;
 
 public class ToolBar {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
     public static JToolBar createJToolBar(final MainPanel mainPanel) {
         JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
         toolbar.setFloatable(false);
         FileDialog fileDialog = new FileDialog(mainPanel);
 
-        addToolbarIcon(toolbar, "New", "new.png", () -> MenuBarActions.newModel(mainPanel));
+        addToolbarIcon(toolbar, resourceBundle.getString("new"), "new.png", () -> MenuBarActions.newModel(mainPanel));
 
 //        addToolbarIcon(toolbar, "Open", "open.png", () -> MenuBarActions.onClickOpen(mainPanel));
-        addToolbarIcon(toolbar, "Open", "open.png", fileDialog::onClickOpen);
+        addToolbarIcon(toolbar, resourceBundle.getString("open"), "open.png", fileDialog::onClickOpen);
 
 //        addToolbarIcon(toolbar, "Save", "save.png", () -> MenuBarActions.onClickSave(mainPanel));
-        addToolbarIcon(toolbar, "Save", "save.png", fileDialog::onClickSave);
+        addToolbarIcon(toolbar, resourceBundle.getString("save"), "save.png", fileDialog::onClickSave);
 
         toolbar.addSeparator();
 
 
-        addToolbarIcon(toolbar, "Undo", "undo.png", mainPanel.undoAction);
+        addToolbarIcon(toolbar, resourceBundle.getString("undo"), "undo.png", mainPanel.undoAction);
 
-        addToolbarIcon(toolbar, "Redo", "redo.png", mainPanel.redoAction);
+        addToolbarIcon(toolbar, resourceBundle.getString("redo"), "redo.png", mainPanel.redoAction);
 
         toolbar.addSeparator();
         mainPanel.selectionModeGroup = new ToolbarButtonGroup<>(toolbar, SelectionMode.values());
@@ -59,7 +64,7 @@ public class ToolBar {
 
         toolbar.addSeparator();
 
-        mainPanel.snapButton = addToolbarIcon(toolbar, "Snap", "snap.png", () -> ModelEditActions.snapVertices(mainPanel));
+        mainPanel.snapButton = addToolbarIcon(toolbar, resourceBundle.getString("snap"), "snap.png", () -> ModelEditActions.snapVertices(mainPanel));
 
         toolbar.setMaximumSize(new Dimension(80000, 48));
         return toolbar;
@@ -67,7 +72,7 @@ public class ToolBar {
 
     private static ToolbarActionButtonType getExtendWid(MainPanel mainPanel) {
         return new ToolbarActionButtonType(
-                RMSIcons.loadToolBarImageIcon("extend.png"), "Select and Extend") {
+                RMSIcons.loadToolBarImageIcon("extend.png"), resourceBundle.getString("select.and.extend")) {
             @Override
             public ModelEditorViewportActivity createActivity(final ModelEditorManager modelEditorManager,
                                                               final ModelView modelView,
@@ -82,7 +87,7 @@ public class ToolBar {
 
     private static ToolbarActionButtonType getExtrudeWid(MainPanel mainPanel) {
         return new ToolbarActionButtonType(
-                RMSIcons.loadToolBarImageIcon("extrude.png"), "Select and Extrude") {
+                RMSIcons.loadToolBarImageIcon("extrude.png"), resourceBundle.getString("select.and.extrude")) {
             @Override
             public ModelEditorViewportActivity createActivity(final ModelEditorManager modelEditorManager,
                                                               final ModelView modelView,
@@ -97,7 +102,7 @@ public class ToolBar {
 
     private static ToolbarActionButtonType getScaleWid(MainPanel mainPanel) {
         return new ToolbarActionButtonType(
-                RMSIcons.loadToolBarImageIcon("scale.png"), "Select and Scale") {
+                RMSIcons.loadToolBarImageIcon("scale.png"), resourceBundle.getString("select.and.scale")) {
             @Override
             public ModelEditorViewportActivity createActivity(final ModelEditorManager modelEditorManager,
                                                               final ModelView modelView,
@@ -112,7 +117,7 @@ public class ToolBar {
 
     private static ToolbarActionButtonType getRotatorWid(MainPanel mainPanel) {
         return new ToolbarActionButtonType(
-                RMSIcons.loadToolBarImageIcon("rotate.png"), "Select and Rotate") {
+                RMSIcons.loadToolBarImageIcon("rotate.png"), resourceBundle.getString("select.and.rotate")) {
             @Override
             public ModelEditorViewportActivity createActivity(final ModelEditorManager modelEditorManager,
                                                               final ModelView modelView,
@@ -127,7 +132,7 @@ public class ToolBar {
 
     private static ToolbarActionButtonType getMoverWid(MainPanel mainPanel) {
         return new ToolbarActionButtonType(
-                RMSIcons.loadToolBarImageIcon("move2.png"), "Select and Move") {
+                RMSIcons.loadToolBarImageIcon("move2.png"), resourceBundle.getString("select.and.move")) {
             @Override
             public ModelEditorViewportActivity createActivity(final ModelEditorManager modelEditorManager,
                                                               final ModelView modelView,

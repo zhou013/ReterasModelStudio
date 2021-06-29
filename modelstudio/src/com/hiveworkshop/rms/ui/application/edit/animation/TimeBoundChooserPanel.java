@@ -6,14 +6,16 @@ import com.hiveworkshop.rms.editor.render3d.RenderModel;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.viewer.AnimatedRenderEnvironment;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.Collections;
+import java.text.MessageFormat;import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class TimeBoundChooserPanel extends JPanel {
 	private JSpinner timeStart, timeEnd;
@@ -22,6 +24,7 @@ public class TimeBoundChooserPanel extends JPanel {
 	private IterableListModel<Integer> globalSeqs;
 	private JList<Integer> globalSeqBox;
 	private JTabbedPane tabs;
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public TimeBoundChooserPanel(ModelView modelView, ModelStructureChangeListener structureChangeListener) {
 		makeAnimationBox(modelView);
@@ -34,11 +37,11 @@ public class TimeBoundChooserPanel extends JPanel {
 		setLayout(new BorderLayout());
 		tabs = new JTabbedPane();
 
-		tabs.addTab("Animation", animationPanel);
+		tabs.addTab(resourceBundle.getString("animation"), animationPanel);
 
-		tabs.addTab("Custom Time", customTimePanel);
+		tabs.addTab(resourceBundle.getString("custom.time"), customTimePanel);
 
-		tabs.addTab("Global Sequence", globSeqPanel);
+		tabs.addTab(resourceBundle.getString("global.sequence"), globSeqPanel);
 		add(tabs);
 	}
 
@@ -50,20 +53,20 @@ public class TimeBoundChooserPanel extends JPanel {
 		animationPanel.add(animationScrollPane, "spanx, growx, growy, wrap");
 
 		JPanel buttonPanel = new JPanel(new MigLayout("ins 0"));
-		final JButton createAnimation = new JButton("Create");
+		final JButton createAnimation = new JButton(resourceBundle.getString("create"));
 		createAnimation.addActionListener(e -> createAnimation(modelView, structureChangeListener));
 		buttonPanel.add(createAnimation);
 
-		final JButton duplicateAnimation = new JButton("Duplicate");
+		final JButton duplicateAnimation = new JButton(resourceBundle.getString("duplicate"));
 		duplicateAnimation.addActionListener(e -> duplicateAnimation(modelView, structureChangeListener));
 		buttonPanel.add(duplicateAnimation);
 
 
-		final JButton editAnimation = new JButton("Edit");
+		final JButton editAnimation = new JButton(resourceBundle.getString("edit"));
 		editAnimation.addActionListener(e -> editAnimation(modelView, structureChangeListener));
 		buttonPanel.add(editAnimation);
 
-		final JButton deleteAnimation = new JButton("Delete");
+		final JButton deleteAnimation = new JButton(resourceBundle.getString("delete"));
 		deleteAnimation.addActionListener(e -> deleteAnimation(modelView, structureChangeListener));
 		buttonPanel.add(deleteAnimation);
 		animationPanel.add(buttonPanel);
@@ -85,10 +88,10 @@ public class TimeBoundChooserPanel extends JPanel {
 		globalSeqScrollPane.setPreferredSize(new Dimension(500, 320));
 		globSeqPanel.add(globalSeqScrollPane, "spanx, growx, growy");
 
-		final JButton createGlobalSeq = new JButton("Create");
+		final JButton createGlobalSeq = new JButton(resourceBundle.getString("create"));
 		createGlobalSeq.addActionListener(e -> createGlobalSeq(modelView));
 
-		final JButton deleteGlobalSeq = new JButton("Delete");
+		final JButton deleteGlobalSeq = new JButton(resourceBundle.getString("delete"));
 		deleteGlobalSeq.addActionListener(e -> deleteGlobalSeq(modelView));
 
 		globSeqPanel.add(createGlobalSeq);
@@ -105,11 +108,11 @@ public class TimeBoundChooserPanel extends JPanel {
 			endTime = timeBound.getEnd();
 		}
 		final JPanel customTimePanel = new JPanel(new MigLayout("", "[]"));
-		customTimePanel.add(new JLabel("Start:"));
+		customTimePanel.add(new JLabel(resourceBundle.getString("start")));
 		timeStart = new JSpinner(new SpinnerNumberModel(startTime, 0, Integer.MAX_VALUE, 1));
 		customTimePanel.add(timeStart, "growx, wrap");
 
-		customTimePanel.add(new JLabel("End:"));
+		customTimePanel.add(new JLabel(resourceBundle.getString("end")));
 		timeEnd = new JSpinner(new SpinnerNumberModel(endTime, 0, Integer.MAX_VALUE, 1));
 		customTimePanel.add(timeEnd, "growx, wrap");
 		return customTimePanel;
@@ -162,15 +165,15 @@ public class TimeBoundChooserPanel extends JPanel {
 			if (selectedValue != null) {
 				timeEnvironmentImpl.setGlobalSeq(selectedValue);
 			} else {
-				JOptionPane.showMessageDialog(this, "You didn't select a global sequence!", "Error",
+				JOptionPane.showMessageDialog(this, resourceBundle.getString("didnot.select.global.sequence"), resourceBundle.getString("error"),
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
 	private void deleteAnimation(ModelView modelView, ModelStructureChangeListener structureChangeListener) {
-		final int result = JOptionPane.showConfirmDialog(TimeBoundChooserPanel.this, "Also delete keyframes?",
-				"Delete Animation(s)", JOptionPane.YES_NO_CANCEL_OPTION);
+		final int result = JOptionPane.showConfirmDialog(TimeBoundChooserPanel.this, resourceBundle.getString("also.delete.keyframes"),
+				resourceBundle.getString("delete.animation.s"), JOptionPane.YES_NO_CANCEL_OPTION);
 		final List<Animation> selectedValues = animationBox.getSelectedValuesList();
 		if (result == JOptionPane.YES_OPTION) {
 			// del keys
@@ -191,7 +194,7 @@ public class TimeBoundChooserPanel extends JPanel {
 
 	private void deleteGlobalSeq(ModelView modelView) {
 		final int result = JOptionPane.showConfirmDialog(TimeBoundChooserPanel.this,
-				"Also delete linked timelines and their keyframes?", "Delete Animation",
+				resourceBundle.getString("delete.linked.timelines.and.their.keyframes"), resourceBundle.getString("delete.animation"),
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		final Integer selectedValue = globalSeqBox.getSelectedValue();
 		if (result == JOptionPane.YES_OPTION) {
@@ -209,16 +212,14 @@ public class TimeBoundChooserPanel extends JPanel {
 		final SpinnerNumberModel sModel = new SpinnerNumberModel(1000, 1, Integer.MAX_VALUE, 1);
 		final JSpinner spinner = new JSpinner(sModel);
 		final int userChoice = JOptionPane.showConfirmDialog(TimeBoundChooserPanel.this, spinner,
-				"Enter Length", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				resourceBundle.getString("enter.length"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (userChoice != JOptionPane.OK_OPTION) {
 			return;
 		}
 		if (globalSeqs.contains(spinner.getValue())) {
 			JOptionPane.showMessageDialog(TimeBoundChooserPanel.this,
-					"A Global Sequence with that length already exists." +
-							"\nThis program does not support multiple Global Sequences of the same length." +
-							"\nInstead, simply add animation data to the sequence of that length which already exists.",
-					"Error", JOptionPane.ERROR_MESSAGE);
+					resourceBundle.getString("global.sequence.with.length.exists"),
+					resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 		} else {
 			globalSeqs.addElement((Integer) spinner.getValue());
 			modelView.getModel().add((Integer) spinner.getValue());
@@ -241,15 +242,15 @@ public class TimeBoundChooserPanel extends JPanel {
 		});
 
 		final ButtonGroup newAnimBtnGrp = new ButtonGroup();
-		final JRadioButton lengthButton = new JRadioButton("Length");
-		final JRadioButton timeRangeButton = new JRadioButton("Time Range");
+		final JRadioButton lengthButton = new JRadioButton(resourceBundle.getString("length"));
+		final JRadioButton timeRangeButton = new JRadioButton(resourceBundle.getString("time.range"));
 		newAnimBtnGrp.add(lengthButton);
 		newAnimBtnGrp.add(timeRangeButton);
 
 		lengthButton.addActionListener(e -> lengthButton(lengthButton, newAnimLength, timeRangeButton, lastAnimationEnd, newAnimTimeStart, newAnimTimeEnd));
 		timeRangeButton.addActionListener(e -> timeRangeButton(lengthButton, newAnimLength, timeRangeButton, newAnimTimeStart, newAnimTimeEnd));
 
-		createAnimQuestionPanel.add(new JLabel("Name: "));
+		createAnimQuestionPanel.add(new JLabel(resourceBundle.getString("name1")));
 		final JTextField nameField = new JTextField(24);
 		createAnimQuestionPanel.add(nameField, "span x, wrap");
 
@@ -258,9 +259,9 @@ public class TimeBoundChooserPanel extends JPanel {
 		createAnimQuestionPanel.add(timeRangeButton, "wrap");
 
 		JPanel timeRangePanel = new JPanel(new MigLayout("fill, ins 0"));
-		timeRangePanel.add(new JLabel("Start: "));
+		timeRangePanel.add(new JLabel(resourceBundle.getString("start1")));
 		timeRangePanel.add(newAnimTimeStart);
-		timeRangePanel.add(new JLabel("End: "));
+		timeRangePanel.add(new JLabel(resourceBundle.getString("end1")));
 		timeRangePanel.add(newAnimTimeEnd, "wrap");
 		createAnimQuestionPanel.add(timeRangePanel, "spanx, wrap");
 
@@ -270,18 +271,18 @@ public class TimeBoundChooserPanel extends JPanel {
 		final JSpinner moveSpeedChooser = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 		extraProperties.setBorder(BorderFactory.createTitledBorder("Misc"));
 		extraProperties.setLayout(new MigLayout());
-		final JCheckBox nonLoopingChooser = new JCheckBox("NonLooping");
+		final JCheckBox nonLoopingChooser = new JCheckBox(resourceBundle.getString("nonlooping"));
 		extraProperties.add(nonLoopingChooser, "spanx");
-		extraProperties.add(new JLabel("Rarity"));
+		extraProperties.add(new JLabel(resourceBundle.getString("rarity")));
 		extraProperties.add(rarityChooser, "wrap");
-		extraProperties.add(new JLabel("MoveSpeed"));
+		extraProperties.add(new JLabel(resourceBundle.getString("movespeed")));
 		extraProperties.add(moveSpeedChooser, "wrap");
 
 		createAnimQuestionPanel.add(extraProperties, "spanx, wrap");
 
 		lengthButton.doClick();
 		final int result = JOptionPane.showConfirmDialog(TimeBoundChooserPanel.this, createAnimQuestionPanel,
-				"Create Animation", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				resourceBundle.getString("create.animation"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION) {
 			final Animation newAnimation = new Animation(nameField.getText(),
 					(Integer) newAnimTimeStart.getValue(),
@@ -326,7 +327,7 @@ public class TimeBoundChooserPanel extends JPanel {
 		final Animation selectedAnimation = animationBox.getSelectedValue();
 //		final List<Animation> selectedValues = animationBox.getSelectedValuesList();
 		final String userChosenName = JOptionPane.showInputDialog(TimeBoundChooserPanel.this,
-				"Choose new animation name:", selectedAnimation.getName() + " Second");
+				resourceBundle.getString("choose.new.animation.name"), MessageFormat.format(resourceBundle.getString("0.second"), selectedAnimation.getName()));
 		if (userChosenName != null) {
 //			for (Animation animation : selectedValues){
 //			}

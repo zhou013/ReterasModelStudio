@@ -2,6 +2,7 @@ package com.hiveworkshop.rms.ui.application.viewer;
 
 import com.hiveworkshop.rms.editor.model.Animation;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -9,8 +10,12 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AnimationController extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private ModelView mdlDisp;
 	private DefaultComboBoxModel<Animation> animations;
 	private JComboBox<Animation> animationBox;
@@ -29,36 +34,36 @@ public class AnimationController extends JPanel {
 		createAnimationChooser(mdlDisp, allowUnanimated, listener);
 		add(animationBox, "wrap, w 90%:90%:90%, gapbottom 16");
 
-		final JButton playAnimationButton = new JButton("Play Animation");
+		final JButton playAnimationButton = new JButton(resourceBundle.getString("play.animation"));
 		final ActionListener playAnimationActionListener = e -> listener.playAnimation();
 		playAnimationButton.addActionListener(playAnimationActionListener);
 		add(playAnimationButton, "wrap, gapbottom 16");
 
 		final ButtonGroup buttonGroup = new ButtonGroup();
 
-		final JRadioButton defaultLoopButton = new JRadioButton("Default Loop");
+		final JRadioButton defaultLoopButton = new JRadioButton(resourceBundle.getString("default.loop"));
 		defaultLoopButton.addActionListener(e -> setLoopType(listener, "default"));
 		buttonGroup.add(defaultLoopButton);
 		defaultLoopButton.setSelected(true);
 		add(defaultLoopButton, "wrap");
 
-		final JRadioButton alwaysLoopButton = new JRadioButton("Always Loop");
+		final JRadioButton alwaysLoopButton = new JRadioButton(resourceBundle.getString("always.loop"));
 		alwaysLoopButton.addActionListener(e -> setLoopType(listener, "always"));
 		buttonGroup.add(alwaysLoopButton);
 		add(alwaysLoopButton, "wrap");
 
-		final JRadioButton neverLoopButton = new JRadioButton("Never Loop");
+		final JRadioButton neverLoopButton = new JRadioButton(resourceBundle.getString("never.loop"));
 		neverLoopButton.addActionListener(e -> setLoopType(listener, "never"));
 		buttonGroup.add(neverLoopButton);
 		add(neverLoopButton, "wrap, gapbottom 16");
 
 		final JSlider speedSlider = new JSlider(0, 100, 50);
-		final JLabel speedSliderLabel = new JLabel("Speed: 100%");
+		final JLabel speedSliderLabel = new JLabel(resourceBundle.getString("speed.100"));
 		add(speedSliderLabel, "wrap");
 		speedSlider.addChangeListener(e -> changeAnimationSpeed(listener, speedSlider, speedSliderLabel));
 		add(speedSlider, "wrap, w 90%:90%:90%, gapbottom 16");
 
-		add(new JLabel("Level of Detail"), "wrap");
+		add(new JLabel(resourceBundle.getString("level.of.detail")), "wrap");
 		final JSpinner levelOfDetailSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
 		levelOfDetailSpinner.addChangeListener(e -> listener.setLevelOfDetail(((Number) levelOfDetailSpinner.getValue()).intValue()));
 		levelOfDetailSpinner.setMaximumSize(new Dimension(99999, 25));

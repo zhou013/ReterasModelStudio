@@ -2,10 +2,15 @@ package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.EditableModel;
 import com.hiveworkshop.rms.editor.model.Geoset;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 class GeosetAnimationPanel extends JTabbedPane {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	// Geoset Animation panel for controlling bone attachments and visibility
 	EditableModel model;
 	Geoset geoset;
@@ -24,7 +29,7 @@ class GeosetAnimationPanel extends JTabbedPane {
 		isImported = imported;
 
 //		bap = new BoneAttachmentPanel(mht, model, geoset, null);
-		addTab("Bones", ImportPanel.boneIcon, bap, "Allows you to edit bone references.");
+		addTab(resourceBundle.getString("bones"), ImportPanel.boneIcon, bap, resourceBundle.getString("allows.you.to.edit.bone.references"));
 
 		// vp = new
 		// VisibilityPane(thePanel.currentModel.m_geosets.size(),thePanel.currentModel.getName(),thePanel.importedModel.m_geosets.size(),thePanel.importedModel.getName(),geoIndex);

@@ -1,7 +1,10 @@
 package com.hiveworkshop.rms.ui.browsers.jworldedit.objects.better.fields;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
+
 import java.awt.Component;
-import java.text.ParseException;
+import java.text.MessageFormat;import java.text.ParseException;
+import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -14,6 +17,7 @@ import javax.swing.text.JTextComponent;
 
 public enum FieldPopupUtils {
 	;
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public static int showPopup(final Component parentComponent, final JPanel message, final String title,
 			final int optionType, final int messageType, final JComponent componentToFocus) {
@@ -82,7 +86,7 @@ public enum FieldPopupUtils {
                     spinner.commitEdit();
                 } catch (final ParseException e1) {
                     JOptionPane.showMessageDialog(parentComponent,
-                            "Unable to commit edit because: " + e1.getClass() + ": " + e1.getMessage());
+                            MessageFormat.format(resourceBundle.getString("unable.to.commit.edit.because.0.1"), e1.getClass(),e1.getMessage()));
                     e1.printStackTrace();
                 }
             });

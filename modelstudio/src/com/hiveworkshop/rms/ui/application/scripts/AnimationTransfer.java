@@ -9,6 +9,7 @@ import com.hiveworkshop.rms.ui.application.MenuBar;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.ImportPanel;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -17,8 +18,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;import java.util.ResourceBundle;
 
 public class AnimationTransfer extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	JTextField baseFileInput, animFileInput, outFileInput;
 	JCheckBox transferSingleAnimation, useCurrentModel;
 	JComboBox<Animation> pickAnimBox, visFromBox;
@@ -45,24 +50,24 @@ public class AnimationTransfer extends JPanel {
 		JPanel filePanel = new JPanel(new MigLayout("gap 0, wrap 3", "[grow]8[align right]8[align right]"));
 
 		baseFileInput = getFileField();
-		filePanel.add(new JLabel("Base file:"));
+		filePanel.add(new JLabel(resourceBundle.getString("base.file")));
 		filePanel.add(baseFileInput);
 		filePanel.add(getBrowseButton(e -> openAction(baseFileInput)));
 
 		animFileInput = getFileField();
-		filePanel.add(new JLabel("Animation file:"));
+		filePanel.add(new JLabel(resourceBundle.getString("animation.file")));
 		filePanel.add(animFileInput);
 		filePanel.add(getBrowseButton(e -> openAction(animFileInput)));
 
 		outFileInput = getFileField();
-		filePanel.add(new JLabel("Output file:"));
+		filePanel.add(new JLabel(resourceBundle.getString("output.file")));
 		filePanel.add(outFileInput);
 		filePanel.add(getBrowseButton(e -> saveAction(outFileInput)));
 		// TODO: remove save field and make "transfer" (and finished in ImportPanel) open save dialog
 
 		add(filePanel, "growx, spanx, wrap");
 
-		transferSingleAnimation = new JCheckBox("Transfer single animation:", false);
+		transferSingleAnimation = new JCheckBox(resourceBundle.getString("transfer.single.animation"), false);
 		transferSingleAnimation.addActionListener(e -> transferSingleAnimation());
 		transferSingleAnimation.setHorizontalTextPosition(SwingConstants.LEADING);
 		add(transferSingleAnimation, "spanx, wrap");
@@ -70,12 +75,12 @@ public class AnimationTransfer extends JPanel {
 
 		JPanel animTransferPanel = new JPanel(new MigLayout("gap 0, wrap 2", "20[]8[grow,align right]"));
 
-		animTransferPanel.add(new JLabel("Animation to transfer:"));
+		animTransferPanel.add(new JLabel(resourceBundle.getString("animation.to.transfer")));
 		pickAnimBox = new JComboBox<>();
 		pickAnimBox.setEnabled(false);
 		animTransferPanel.add(pickAnimBox, "growx");
 
-		animTransferPanel.add(new JLabel("Get visibility from:"));
+		animTransferPanel.add(new JLabel(resourceBundle.getString("get.visibility.from")));
 		visFromBox = new JComboBox<>();
 		visFromBox.setEnabled(false);
 		animTransferPanel.add(visFromBox, "growx");
@@ -84,13 +89,13 @@ public class AnimationTransfer extends JPanel {
 
 		JPanel transferDonePanel = new JPanel(new MigLayout());
 
-		JButton transfer = new JButton("Transfer");
+		JButton transfer = new JButton(resourceBundle.getString("transfer"));
 		transfer.setMnemonic(KeyEvent.VK_T);
 		transfer.setMinimumSize(new Dimension(200, 35));
 		transfer.addActionListener(e -> transfer(false));
 		transferDonePanel.add(transfer);
 
-		JButton done = new JButton("Done");
+		JButton done = new JButton(resourceBundle.getString("done1"));
 		done.setMnemonic(KeyEvent.VK_D);
 		done.setMinimumSize(new Dimension(80, 35));
 		done.addActionListener(e -> done());
@@ -98,12 +103,11 @@ public class AnimationTransfer extends JPanel {
 
 		add(transferDonePanel, "spanx, align center, wrap");
 
-		JButton goAdvanced = new JButton("Go Advanced");
+		JButton goAdvanced = new JButton(resourceBundle.getString("go.advanced"));
 		goAdvanced.setMnemonic(KeyEvent.VK_G);
 		goAdvanced.addActionListener(e -> transfer(true));
 		goAdvanced.setToolTipText(
-				"Opens the traditional MatrixEater Import window responsible for this Simple Import, " +
-						"so that you can micro-manage particular settings before finishing the operation.");
+				resourceBundle.getString("go.advanced.description"));
 
 		add(goAdvanced, "spanx, align center");
 	}
@@ -259,7 +263,7 @@ public class AnimationTransfer extends JPanel {
 							filepath += ".mdl";
 						}
 						trySave(receivingModel, filepath);
-						JOptionPane.showMessageDialog(null, "Animation transfer done!");
+						JOptionPane.showMessageDialog(null, resourceBundle.getString("animation.transfer.done"));
 					}
 				}
 
@@ -294,7 +298,7 @@ public class AnimationTransfer extends JPanel {
 						if (importPanel2.importStarted()) {
 							waitForPanel(importPanel2);
 							if (importPanel2.importSuccessful()) {
-								JOptionPane.showMessageDialog(null, "Animation transfer done!");
+								JOptionPane.showMessageDialog(null, resourceBundle.getString("animation.transfer.done"));
 								trySave(receivingModel, outFileInput.getText());
 							}
 						}
@@ -335,7 +339,7 @@ public class AnimationTransfer extends JPanel {
 		try {
 			Thread.sleep(1);
 		} catch (final Exception e) {
-			ExceptionPopup.display("MatrixEater detected error with Java's wait function", e);
+			ExceptionPopup.display(resourceBundle.getString("matrixeater.detected.error.with.java.s.wait.function"), e);
 		}
 	}
 

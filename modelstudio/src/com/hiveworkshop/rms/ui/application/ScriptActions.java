@@ -15,6 +15,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.ImportPanel;
 import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.util.CompoundAction;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Mat4;
 import com.hiveworkshop.rms.util.Vec2;
 import com.hiveworkshop.rms.util.Vec3;
@@ -26,10 +27,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ScriptActions {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	static void mergeGeosetActionRes(MainPanel mainPanel) throws IOException {
 		FileDialog fileDialog = new FileDialog(mainPanel);
 //
@@ -41,7 +46,7 @@ public class ScriptActions {
 			Geoset host = null;
 			while (going) {
 				String s = JOptionPane.showInputDialog(mainPanel,
-						"Geoset into which to Import: (1 to " + current.getGeosetsSize() + ")");
+						MessageFormat.format(resourceBundle.getString("geoset.into.which.to.import.1.to.0"), current.getGeosetsSize()));
 				try {
 					int x = Integer.parseInt(s);
 					if ((x >= 1) && (x <= current.getGeosetsSize())) {
@@ -56,7 +61,7 @@ public class ScriptActions {
 			going = true;
 			while (going) {
 				String s = JOptionPane.showInputDialog(mainPanel,
-						"Geoset to Import: (1 to " + geoSource.getGeosetsSize() + ")");
+						MessageFormat.format(resourceBundle.getString("geoset.to.import.1.to.0"), geoSource.getGeosetsSize()));
 				try {
 					int x = Integer.parseInt(s);
 					if ((x >= 1) && x <= geoSource.getGeosetsSize()) {
@@ -136,8 +141,8 @@ public class ScriptActions {
 
 	static void exportAnimatedToStaticMesh(MainPanel mainPanel) {
 		if (!mainPanel.animationModeState) {
-			JOptionPane.showMessageDialog(mainPanel, "You must be in the Animation Editor to use that!",
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainPanel, resourceBundle.getString("must.in.the.animation.editor"),
+					resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -239,16 +244,16 @@ public class ScriptActions {
 	static void combineAnimations(MainPanel mainPanel) {
 		List<Animation> anims = mainPanel.currentMDL().getAnims();
 		Animation[] array = anims.toArray(new Animation[0]);
-		Object choice = JOptionPane.showInputDialog(mainPanel, "Pick the first animation",
-				"Choose 1st Anim", JOptionPane.PLAIN_MESSAGE, null, array, array[0]);
+		Object choice = JOptionPane.showInputDialog(mainPanel, resourceBundle.getString("pick.the.first.animation"),
+				resourceBundle.getString("choose.1st.anim"), JOptionPane.PLAIN_MESSAGE, null, array, array[0]);
 		Animation animation = (Animation) choice;
 
-		Object choice2 = JOptionPane.showInputDialog(mainPanel, "Pick the second animation",
-				"Choose 2nd Anim", JOptionPane.PLAIN_MESSAGE, null, array, array[0]);
+		Object choice2 = JOptionPane.showInputDialog(mainPanel, resourceBundle.getString("pick.the.second.animation"),
+				resourceBundle.getString("choose.2nd.anim"), JOptionPane.PLAIN_MESSAGE, null, array, array[0]);
 		Animation animation2 = (Animation) choice2;
 
 		String nameChoice = JOptionPane.showInputDialog(mainPanel,
-				"What should the combined animation be called?");
+				resourceBundle.getString("combined.animation.being.called"));
 		if (nameChoice != null) {
 			int anim1Length = animation.getEnd() - animation.getStart();
 			int anim2Length = animation2.getEnd() - animation2.getStart();
@@ -265,7 +270,7 @@ public class ScriptActions {
 			newAnimation.setNonLooping(true);
 			newAnimation.setExtents(new ExtLog(animation.getExtents()));
 			JOptionPane.showMessageDialog(mainPanel,
-					"DONE! Made a combined animation called " + newAnimation.getName(), "Success",
+					MessageFormat.format(resourceBundle.getString("done.made.a.combined.animation.called.0"), newAnimation.getName()), resourceBundle.getString("success"),
 					JOptionPane.PLAIN_MESSAGE);
 		}
 	}
@@ -340,7 +345,7 @@ public class ScriptActions {
 		}
 
 		if (output == null) {
-			output = "name error";
+			output = resourceBundle.getString("name.error");
 		}
 		if (output.equals(name)) {
 			output = output + "_edit";
@@ -407,7 +412,7 @@ public class ScriptActions {
 		try {
 			Thread.sleep(1);
 		} catch (final Exception e) {
-			ExceptionPopup.display("MatrixEater detected error with Java's wait function", e);
+			ExceptionPopup.display(resourceBundle.getString("matrixeater.detected.error.with.java.s.wait.function"), e);
 		}
 	}
 
@@ -612,10 +617,10 @@ public class ScriptActions {
 		ModelPanel modelPanel = mainPanel.currentModelPanel();
 		if (modelPanel != null) {
 			JPanel panel = new JPanel(new MigLayout());
-			panel.add(new JLabel("LoD to remove"));
+			panel.add(new JLabel(resourceBundle.getString("lod.to.remove")));
 			JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, -2, 10, 1));
 			panel.add(spinner, "wrap");
-			int option = JOptionPane.showConfirmDialog(mainPanel, panel, "Remove LoDs", JOptionPane.OK_CANCEL_OPTION);
+			int option = JOptionPane.showConfirmDialog(mainPanel, panel, resourceBundle.getString("remove.lods1"), JOptionPane.OK_CANCEL_OPTION);
 			if (option == JOptionPane.OK_OPTION) {
 				removeLoDGeoset(modelPanel, (int) spinner.getValue(), mainPanel.getModelStructureChangeListener());
 

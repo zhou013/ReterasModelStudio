@@ -1,12 +1,17 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.Animation;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class AnimShell {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private Animation anim;
 	private Animation importAnim;
 	private List<AnimShell> animShellList = new ArrayList<>();
@@ -133,7 +138,11 @@ class AnimShell {
 	}
 
 	public enum ImportType {
-		DONTIMPORT("Do Not Import"), IMPORTBASIC("Import as-is"), CHANGENAME("Change name to:"), TIMESCALE("Time-scale into pre-existing:"), GLOBALSEQ("Rebuild as global sequence");
+		DONTIMPORT(resourceBundle.getString("do.not.import")),
+		IMPORTBASIC(resourceBundle.getString("import.as.is")),
+		CHANGENAME(resourceBundle.getString("change.name.to")),
+		TIMESCALE(resourceBundle.getString("time.scale.into.pre.existing")),
+		GLOBALSEQ(resourceBundle.getString("rebuild.as.global.sequence"));
 		String dispText;
 
 		ImportType(String s) {

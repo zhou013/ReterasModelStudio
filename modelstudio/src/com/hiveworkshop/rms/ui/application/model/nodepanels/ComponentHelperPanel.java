@@ -13,6 +13,7 @@ import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener
 import com.hiveworkshop.rms.ui.application.model.ComponentPanel;
 import com.hiveworkshop.rms.ui.application.model.editors.QuatValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.Vec3ValuePanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Quat;
 import com.hiveworkshop.rms.util.Vec3;
 import net.miginfocom.swing.MigLayout;
@@ -20,8 +21,12 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ResourceBundle;
 
 public class ComponentHelperPanel extends JPanel implements ComponentPanel<Helper> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -45,15 +50,15 @@ public class ComponentHelperPanel extends JPanel implements ComponentPanel<Helpe
 		parentChooser = new ParentChooser(modelViewManager);
 
 		setLayout(new MigLayout("fill, gap 0", "[][][grow]", "[][][grow]"));
-		title = new JLabel("Select a Helper");
+		title = new JLabel(resourceBundle.getString("select.a.helper"));
 		add(title, "wrap");
 		nameField = new JTextField(24);
 		nameField.addFocusListener(changeName());
 		add(nameField, "wrap");
-		add(new JLabel("Parent: "));
-		parentName = new JLabel("Parent");
+		add(new JLabel(resourceBundle.getString("parent1")));
+		parentName = new JLabel(resourceBundle.getString("parent2"));
 		add(parentName);
-		JButton chooseParentButton = new JButton("change");
+		JButton chooseParentButton = new JButton(resourceBundle.getString("change"));
 		chooseParentButton.addActionListener(e -> chooseParent());
 		add(chooseParentButton, "wrap");
 		transPanel = new Vec3ValuePanel("Translation", undoActionListener, modelStructureChangeListener);
@@ -73,7 +78,7 @@ public class ComponentHelperPanel extends JPanel implements ComponentPanel<Helpe
 		if (parent != null) {
 			this.parentName.setText(parent.getName());
 		} else {
-			parentName.setText("no parent");
+			parentName.setText(resourceBundle.getString("no.parent"));
 		}
 
 		transPanel.reloadNewValue(new Vec3(0, 0, 0), (Vec3AnimFlag) idObject.find("Translation"), idObject, "Translation", null);

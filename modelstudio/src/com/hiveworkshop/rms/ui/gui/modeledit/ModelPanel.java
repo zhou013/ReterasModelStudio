@@ -24,6 +24,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.selection.SelectionMode;
 import com.hiveworkshop.rms.ui.gui.modeledit.toolbar.ToolbarButtonGroup;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.util.InfoPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;import java.util.ResourceBundle;
 
 /**
  * The ModelPanel is a pane holding the display of a given MDL model. I plan to
@@ -40,6 +42,9 @@ import java.io.IOException;
  * Eric Theller 6/7/2012
  */
 public class ModelPanel implements ActionListener, MouseListener {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final int VERTEX_SIZE = 3;
 	private JMenuBar menuBar;
 	private JMenu fileMenu, modelMenu;
@@ -146,7 +151,7 @@ public class ModelPanel implements ActionListener, MouseListener {
 		botArea.setControlsVisible(prefs.showVMControls());
 		sideArea.setControlsVisible(prefs.showVMControls());
 
-		perspArea = new PerspDisplayPanel("Perspective", modelView, prefs);
+		perspArea = new PerspDisplayPanel(resourceBundle.getString("perspective"), modelView, prefs);
 
 		componentsPanel = new ComponentsPanel(getModelViewManager(), undoManager, modelStructureChangeListener);
 
@@ -228,11 +233,10 @@ public class ModelPanel implements ActionListener, MouseListener {
 		boolean canceled = false;
 		// int myIndex = parent.tabbedPane.indexOfComponent(this);
 		if (!undoManager.isUndoListEmpty()) {
-			final Object[] options = { "Yes", "No", "Cancel" };
+			final Object[] options = { resourceBundle.getString("yes"), resourceBundle.getString("no"), resourceBundle.getString("cancel") };
 			final int n = JOptionPane.showOptionDialog(parent,
-					"Would you like to save " + model.getName()/* parent.tabbedPane.getTitleAt(myIndex) */ + " (\""
-							+ model.getHeaderName() + "\") before closing?",
-					"Warning", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
+					MessageFormat.format(resourceBundle.getString("would.you.like.to.save.0.1.before.closing"), model.getName(),model.getHeaderName()),
+					resourceBundle.getString("warning"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
 					options[2]);
 			switch (n) {
 			case JOptionPane.YES_OPTION:

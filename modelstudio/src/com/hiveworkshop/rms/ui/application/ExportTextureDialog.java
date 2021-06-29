@@ -4,13 +4,17 @@ import com.hiveworkshop.rms.editor.model.*;
 import com.hiveworkshop.rms.parsers.blp.BLPHandler;
 import com.hiveworkshop.rms.ui.gui.modeledit.MaterialListRenderer;
 import com.hiveworkshop.rms.ui.gui.modeledit.TextureListRenderer;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.ResourceBundle;
 
 public class ExportTextureDialog {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     //ToDo figure out why these throw errors sometimes (might have to do with non-existing texture files)
     static void exportMaterialAsTextures(MainPanel mainPanel) {
@@ -35,15 +39,15 @@ public class ExportTextureDialog {
         panel.add(texturePane, "wrap");
 
         FileDialog fileDialog = new FileDialog(mainPanel);
-        JButton exportButton = new JButton("Export");
+        JButton exportButton = new JButton(resourceBundle.getString("export"));
         exportButton.addActionListener(e -> exportChosenMaterial(model, materialsList, fileDialog));
         panel.add(exportButton);
 
         JOptionPane.showOptionDialog(
                 mainPanel, panel,
-                "Export Material as Texture",
+                resourceBundle.getString("export.material.as.texture"),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, new String[] {"Close"}, "Close");
+                null, new String[] {resourceBundle.getString("close")}, resourceBundle.getString("close"));
 //        }
     }
 
@@ -77,15 +81,15 @@ public class ExportTextureDialog {
         panel.add(texturePane, "growx, wrap");
 
         FileDialog fileDialog = new FileDialog(mainPanel);
-        JButton exportButton = new JButton("Export");
+        JButton exportButton = new JButton(resourceBundle.getString("export"));
         exportButton.addActionListener(e -> exportChosenTexture(model, bitmapJList, fileDialog));
         panel.add(exportButton);
 
         JOptionPane.showOptionDialog(
                 mainPanel, panel,
-                "Export Texture",
+                resourceBundle.getString("export.texture"),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, new String[] {"Close"}, "Close");
+                null, new String[] {resourceBundle.getString("close")}, resourceBundle.getString("close"));
     }
 
     private static void exportChosenTexture(EditableModel model, JList<Bitmap> bitmapJList, FileDialog fileDialog) {

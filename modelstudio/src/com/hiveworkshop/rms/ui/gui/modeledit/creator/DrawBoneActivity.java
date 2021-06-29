@@ -14,13 +14,17 @@ import com.hiveworkshop.rms.ui.application.edit.mesh.viewport.axes.CoordinateSys
 import com.hiveworkshop.rms.ui.gui.modeledit.UndoAction;
 import com.hiveworkshop.rms.ui.gui.modeledit.selection.SelectionView;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 
 public class DrawBoneActivity implements ModelEditorViewportActivity {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private Point lastMousePoint;
 	private final ProgramPreferences preferences;
@@ -69,7 +73,7 @@ public class DrawBoneActivity implements ModelEditorViewportActivity {
 			final UndoAction action = modelEditor.addBone(worldPressLocation.x, worldPressLocation.y, worldPressLocation.z);
 			undoActionListener.pushAction(action);
 		} catch (final WrongModeException exc) {
-			JOptionPane.showMessageDialog(null, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, exc.getMessage(), resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

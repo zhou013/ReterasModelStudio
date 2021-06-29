@@ -11,6 +11,7 @@ import com.hiveworkshop.rms.ui.application.edit.uv.UVViewportModelRenderer;
 import com.hiveworkshop.rms.ui.application.edit.uv.types.TVertexEditor;
 import com.hiveworkshop.rms.ui.application.edit.uv.types.TVertexEditorChangeListener;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +22,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class UVViewport extends JPanel implements CoordinateSystem, ViewportView, TVertexEditorChangeListener {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	ArrayList<Image> backgrounds = new ArrayList<>();
 	double m_a = 0;
 	double m_b = 0;
@@ -72,7 +77,7 @@ public class UVViewport extends JPanel implements CoordinateSystem, ViewportView
 		addMouseWheelListener(mouseAdapter);
 
 		contextMenu = new JPopupMenu();
-		placeholderButton = new JMenuItem("Placeholder Button");
+		placeholderButton = new JMenuItem(resourceBundle.getString("placeholder.button"));
 		contextMenu.add(placeholderButton);
 
 		this.parent = parent;

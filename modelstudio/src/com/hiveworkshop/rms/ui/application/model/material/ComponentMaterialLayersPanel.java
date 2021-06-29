@@ -7,14 +7,19 @@ import com.hiveworkshop.rms.ui.application.actions.model.material.AddLayerAction
 import com.hiveworkshop.rms.ui.application.actions.model.material.RemoveMaterialAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ComponentMaterialLayersPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static final String[] REFORGED_LAYER_DEFINITIONS = {"Diffuse", "Vertex", "ORM", "Emissive", "Team Color",
 			"Reflections"};
 	private static final Color HIGHLIGHT_BUTTON_BACKGROUND_COLOR = new Color(100, 118, 135);
@@ -33,11 +38,11 @@ public class ComponentMaterialLayersPanel extends JPanel {
 		JPanel twoSidedBoxHolder = new JPanel(new MigLayout("fill", "[grow]"));
 		add(twoSidedBoxHolder, "growx, span 3, wrap");
 
-		twoSided = new JCheckBox("TwoSided", false);
+		twoSided = new JCheckBox(resourceBundle.getString("twosided"), false);
 		twoSided.addActionListener(e -> setTwoSided());
 		twoSidedBoxHolder.add(twoSided);
 
-		JButton deleteMaterialButton = new JButton("Delete");
+		JButton deleteMaterialButton = new JButton(resourceBundle.getString("delete"));
 		deleteMaterialButton.setBackground(Color.RED);
 		deleteMaterialButton.setForeground(Color.WHITE);
 		deleteMaterialButton.addActionListener(e -> deleteMaterial());
@@ -55,7 +60,7 @@ public class ComponentMaterialLayersPanel extends JPanel {
 
 	private JButton getAddLayerButton() {
 		final JButton addLayerButton;
-		addLayerButton = new JButton("Add Layer");
+		addLayerButton = new JButton(resourceBundle.getString("add.layer"));
 		addLayerButton.setBackground(HIGHLIGHT_BUTTON_BACKGROUND_COLOR);
 		addLayerButton.setForeground(Color.WHITE);
 		addLayerButton.addActionListener(e -> addLayer());

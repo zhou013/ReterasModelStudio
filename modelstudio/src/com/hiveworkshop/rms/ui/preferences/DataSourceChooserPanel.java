@@ -6,6 +6,7 @@ import com.hiveworkshop.rms.filesystem.sources.DataSourceDescriptor;
 import com.hiveworkshop.rms.filesystem.sources.FolderDataSourceDescriptor;
 import com.hiveworkshop.rms.filesystem.sources.MpqDataSourceDescriptor;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.WindowsRegistry;
 import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
@@ -25,10 +26,13 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.text.MessageFormat;import java.util.List;
 import java.util.*;
 
 public class DataSourceChooserPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final ImageIcon CASCIcon;
 	private static final ImageIcon MPQIcon;
 	private static final ImageIcon FolderIcon;
@@ -53,12 +57,12 @@ public class DataSourceChooserPanel extends JPanel {
 
 		getWindowsRegistryDirectory();
 
-		JButton clearList = getButton("Clear All", e -> clearAll(), true);
-		JButton addWarcraft3Installation = getButton("Add War3 Install Directory", e -> addWar3InstallDirectory(), true);
-		JButton resetAllToDefaults = getButton("Reset to Defaults", e -> loadDefaults(null), true);
+		JButton clearList = getButton(resourceBundle.getString("clear.all"), e -> clearAll(), true);
+		JButton addWarcraft3Installation = getButton(resourceBundle.getString("add.war3.install.directory"), e -> addWar3InstallDirectory(), true);
+		JButton resetAllToDefaults = getButton(resourceBundle.getString("reset.to.defaults"), e -> loadDefaults(null), true);
 
-		JButton enterHDMode = getButton("Reforged Graphics Mode", e -> enterHDMode(), true);
-		JButton enterSDMode = getButton("Classic Graphics Mode", e -> enterSDMode(), true);
+		JButton enterHDMode = getButton(resourceBundle.getString("reforged.graphics.mode"), e -> enterHDMode(), true);
+		JButton enterSDMode = getButton(resourceBundle.getString("classic.graphics.mode"), e -> enterSDMode(), true);
 
 		JPanel leftPanel = new JPanel(new MigLayout("gap 0, ins 0"));
 		leftPanel.add(clearList, "growx, wrap");
@@ -68,16 +72,16 @@ public class DataSourceChooserPanel extends JPanel {
 		leftPanel.add(enterHDMode, "growx, wrap");
 		leftPanel.add(enterSDMode, "growx, wrap");
 
-		JButton addCASCButton = getButton("Add CASC", e -> addCASC(), true);
-		JButton addMPQButton = getButton("Add MPQ", e -> addMPQ(), true);
-		JButton addFolderButton = getButton("Add Folder", e -> addFolder(), true);
+		JButton addCASCButton = getButton(resourceBundle.getString("add.casc"), e -> addCASC(), true);
+		JButton addMPQButton = getButton(resourceBundle.getString("add.mpq"), e -> addMPQ(), true);
+		JButton addFolderButton = getButton(resourceBundle.getString("add.folder"), e -> addFolder(), true);
 
-		JButton addDefaultCascPrefixes = getButton("Add Default CASC Mod", e -> addDefaultCASCMod(), false);
-		JButton addSpecificCascPrefix = getButton("Add Specific CASC Mod", e -> addSpecificCASCMod(), false);
+		JButton addDefaultCascPrefixes = getButton(resourceBundle.getString("add.default.casc.mod"), e -> addDefaultCASCMod(), false);
+		JButton addSpecificCascPrefix = getButton(resourceBundle.getString("add.specific.casc.mod"), e -> addSpecificCASCMod(), false);
 
-		JButton deleteSelection = getButton("Delete Selection", e -> deleteSelection(), false);
-		JButton moveSelectionUp = getButton("Move Up", e -> moveUp(), false);
-		JButton moveSelectionDown = getButton("Move Down", e -> moveDown(), false);
+		JButton deleteSelection = getButton(resourceBundle.getString("delete.selection"), e -> deleteSelection(), false);
+		JButton moveSelectionUp = getButton(resourceBundle.getString("move.up"), e -> moveUp(), false);
+		JButton moveSelectionDown = getButton(resourceBundle.getString("move.down"), e -> moveDown(), false);
 
 		JPanel rightPanel = new JPanel(new MigLayout("gap 0, ins 0"));
 		rightPanel.add(addCASCButton, "growx, wrap");
@@ -102,10 +106,10 @@ public class DataSourceChooserPanel extends JPanel {
 		dstScrollpane.setPreferredSize(new Dimension(500, 400));
 
 
-		JLabel warcraft3InstallLocated = new JLabel("'Path' Registry Key: ");
+		JLabel warcraft3InstallLocated = new JLabel(resourceBundle.getString("path.registry.key"));
 		warcraft3InstallLocated.setFont(new Font("Consolas", Font.BOLD, getFont().getSize()));
 
-		JLabel warcraft3InstallPath = new JLabel(wcDirectory == null ? "Not found" : wcDirectory);
+		JLabel warcraft3InstallPath = new JLabel(wcDirectory == null ? resourceBundle.getString("not.found") : wcDirectory);
 		warcraft3InstallPath.setFont(new Font("Consolas", Font.PLAIN, getFont().getSize()));
 		if (wcDirectory == null) {
 			warcraft3InstallPath.setForeground(Color.RED);
@@ -294,7 +298,7 @@ public class DataSourceChooserPanel extends JPanel {
 
 	private void addMPQ() {
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"MPQ Archive File (*.mpq;*.w3x;*.w3m)", "mpq", "w3x", "w3m");
+				resourceBundle.getString("mpq.archive.file.mpq.w3x.w3m"), "mpq", "w3x", "w3m");
 		File selectedFile = getFile(filter, JFileChooser.FILES_ONLY);
 		if (selectedFile != null) {
 			dataSourceDescriptors.add(new MpqDataSourceDescriptor(selectedFile.getPath()));
@@ -445,14 +449,11 @@ public class DataSourceChooserPanel extends JPanel {
 				casc.deletePrefix(3);
 				reloadTree();
 			} else {
-				showMessage("Your Warcraft III data CASC configuration is not in the HD mode.");
+				showMessage(resourceBundle.getString("casc.not.in.hd.mode"));
 			}
 		} else {
 			showMessage(
-					"Your Warcraft III data configuration is not a standard Reforged CASC setup, " +
-							"so this automation feature is unavailable." +
-							"\nTo use this feature, please press 'Clear All' and then " +
-							"'Add War3 Install Directory' to choose a Reforged installation.");
+					resourceBundle.getString("warning.not.standard.reforge.casc"));
 		}
 	}
 
@@ -473,19 +474,14 @@ public class DataSourceChooserPanel extends JPanel {
 					reloadTree();
 				} else {
 					showMessage(
-							"Your Warcraft III data CASC configuration is not in the SD mode or " +
-									"is not configured in the expected way. You will need to apply " +
-									"HD mode manually by adding the appropriate CASC mods.");
+							resourceBundle.getString("not.in.sd.default.tohd"));
 				}
 			} else {
-				showMessage("Your Warcraft III data CASC configuration is not in the SD mode.");
+				showMessage(resourceBundle.getString("casc.not.in.sd.mode"));
 			}
 		} else {
 			showMessage(
-					"Your Warcraft III data configuration is not a standard Reforged CASC setup, " +
-							"so this automation feature is unavailable." +
-							"\nTo use this feature, please press 'Clear All' and then " +
-							"'Add War3 Install Directory' to choose a Reforged installation.");
+					resourceBundle.getString("warning.not.standard.reforge.casc"));
 		}
 	}
 
@@ -529,7 +525,7 @@ public class DataSourceChooserPanel extends JPanel {
 			if (descriptor instanceof CascDataSourceDescriptor) {
 				final CascDataSourceDescriptor cascDescriptor = (CascDataSourceDescriptor) descriptor;
 				if (cascDescriptor.getPrefixes().isEmpty()) {
-					newChild.setUserObject(newChild.getUserObject() + " (WARNING: No Mods Selected)");
+					newChild.setUserObject(MessageFormat.format(resourceBundle.getString("0.warning.no.mods.selected"), newChild.getUserObject()));
 				}
 				for (final String prefix : cascDescriptor.getPrefixes()) {
 					model.insertNodeInto(new DefaultMutableTreeNode(prefix), newChild, newChild.getChildCount());
@@ -570,7 +566,7 @@ public class DataSourceChooserPanel extends JPanel {
 
 	public static void main(final String[] args) {
 		setupLookAndFeel("Aluminium");
-		final JFrame dataSourceChooserFrame = new JFrame("DataSourceChooserPanel");
+		final JFrame dataSourceChooserFrame = new JFrame(resourceBundle.getString("datasourcechooserpanel"));
 		dataSourceChooserFrame.setContentPane(new DataSourceChooserPanel(null));
 		dataSourceChooserFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		dataSourceChooserFrame.pack();
@@ -620,9 +616,9 @@ public class DataSourceChooserPanel extends JPanel {
 
 			final JPanel comboBoxPanel = new JPanel(new BorderLayout());
 			comboBoxPanel.add(prefixChoiceComboBox, BorderLayout.CENTER);
-			comboBoxPanel.add(new JLabel("Choose a .w3mod:"), BorderLayout.BEFORE_FIRST_LINE);
+			comboBoxPanel.add(new JLabel(resourceBundle.getString("choose.a.w3mod")), BorderLayout.BEFORE_FIRST_LINE);
 
-			if (showConf(comboBoxPanel, "Choose Mod") == JOptionPane.OK_OPTION) {
+			if (showConf(comboBoxPanel, resourceBundle.getString("choose.mod")) == JOptionPane.OK_OPTION) {
 				final Object selectedItem = prefixChoiceComboBox.getSelectedItem();
 				if (selectedItem != null) {
 					final String newPrefixName = selectedItem.toString();
@@ -712,20 +708,20 @@ public class DataSourceChooserPanel extends JPanel {
 		List<String> defaultPrefixes;
 		switch (patchFormat) {
 			case PATCH130 -> {
-				System.out.println("Detected Patch 1.30");
+				System.out.println(resourceBundle.getString("detected.patch.1.30"));
 				// We used to have this, maybe some people still do?
 				String[] prefixes = {"war3.mpq", "deprecated.mpq", lowerLocale + "-war3local.mpq"};
 				defaultPrefixes = Arrays.asList(prefixes);
 			}
 			case PATCH131 -> {
-				System.out.println("Detected Patch 1.31");
+				System.out.println(resourceBundle.getString("detected.patch.1.31"));
 				// This is what I have right now
 				String[] prefixes = {"war3.w3mod", "war3.w3mod\\_deprecated.w3mod",
 						"war3.w3mod\\_locales\\" + lowerLocale + ".w3mod"};
 				defaultPrefixes = Arrays.asList(prefixes);
 			}
 			case PATCH132 -> {
-				System.out.println("Detected Patch 1.32+");
+				System.out.println(resourceBundle.getString("detected.patch.1.32"));
 				// This is what I have right now
 				String[] prefixes = {"war3.w3mod", "war3.w3mod\\_deprecated.w3mod",
 						"war3.w3mod\\_locales\\" + lowerLocale + ".w3mod", "war3.w3mod\\_hd.w3mod",
@@ -736,9 +732,7 @@ public class DataSourceChooserPanel extends JPanel {
 				String[] prefixes = {"war3.w3mod", "war3.w3mod", "war3.w3mod\\_deprecated.w3mod",
 						"war3.w3mod\\_locales\\" + lowerLocale + ".w3mod"};
 				showMessage(
-						"The Warcraft III Installation you have selected seems to be too new, " +
-								"or is not a supported version. The suggested prefix list from Patch 1.31 will be used." +
-								"\nThis will probably fail, and you will need more advanced configuration.");
+						resourceBundle.getString("unknown.wariii.version"));
 				defaultPrefixes = Arrays.asList(prefixes);
 			}
 			default -> defaultPrefixes = new ArrayList<>();
@@ -776,10 +770,10 @@ public class DataSourceChooserPanel extends JPanel {
 			JPanel chooseLocPanel = new JPanel();
 			chooseLocPanel.setLayout(new GridLayout(localeOptions.size() + 5, 1));
 
-			chooseLocPanel.add(new JLabel("Originally installed locale: " + originalInstallLocale + ", Launcher.db locale: " + launcherDbLocale));
-			chooseLocPanel.add(new JLabel("Locale could not be determined automatically. Please choose your locale."));
-			chooseLocPanel.add(new JLabel("An incorrect choice may cause the Retera Model Studio to fail to start."));
-			chooseLocPanel.add(new JLabel("Any option is valid if you have started the game using that locale at least once."));
+			chooseLocPanel.add(new JLabel(MessageFormat.format(resourceBundle.getString("originally.installed.locale.0.launcher.db.locale.1"), originalInstallLocale,launcherDbLocale)));
+			chooseLocPanel.add(new JLabel(resourceBundle.getString("locale.not.be.determined.automatically")));
+			chooseLocPanel.add(new JLabel(resourceBundle.getString("incorrect.choice.may.cause.fail")));
+			chooseLocPanel.add(new JLabel(resourceBundle.getString("any.option.is.valid.if.you.have.started.the.game.using.that.locale.at.least.once")));
 
 			ButtonGroup buttonGroup = new ButtonGroup();
 			List<JRadioButton> buttons = new ArrayList<>();
@@ -816,7 +810,7 @@ public class DataSourceChooserPanel extends JPanel {
 					radioButton.setSelected(true);
 				}
 			}
-			int confirmationResult = allowPopup ? showConf(chooseLocPanel, "Choose Locale") : JOptionPane.OK_OPTION;
+			int confirmationResult = allowPopup ? showConf(chooseLocPanel, resourceBundle.getString("choose.locale")) : JOptionPane.OK_OPTION;
 			JRadioButton selectedButton = null;
 			for (JRadioButton button : buttons) {
 				if (button.isSelected()) {
@@ -827,7 +821,7 @@ public class DataSourceChooserPanel extends JPanel {
 				return null;
 			}
 			if (selectedButton == null) {
-				showMessage("User did not choose a locale! Aborting!");
+				showMessage(resourceBundle.getString("user.did.not.choose.a.locale.aborting"));
 				return null;
 			}
 			locale = selectedButton.getText();
@@ -842,6 +836,6 @@ public class DataSourceChooserPanel extends JPanel {
 	}
 
 	private void showMessage(String message) {
-		JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, message, resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 	}
 }

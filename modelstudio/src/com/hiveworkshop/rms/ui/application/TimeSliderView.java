@@ -5,16 +5,20 @@ import com.hiveworkshop.rms.ui.application.edit.animation.TimeBoundChooserPanel;
 import com.hiveworkshop.rms.ui.application.edit.animation.TimeSliderPanel;
 import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
 import com.hiveworkshop.rms.ui.icons.RMSIcons;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.infonode.docking.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class TimeSliderView {
 
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	static View createTimeSliderView(TimeSliderPanel timeSliderPanel) {
 		final View timeSliderView;
-		timeSliderView = new View("Timeline", null, timeSliderPanel);
+		timeSliderView = new View(resourceBundle.getString("timeline"), null, timeSliderPanel);
 		return timeSliderView;
 	}
 
@@ -31,7 +35,7 @@ public class TimeSliderView {
 		final JButton setTimeBounds;
 		setTimeBounds = new JButton(RMSIcons.setTimeBoundsIcon);
 		setTimeBounds.setMargin(new Insets(0, 0, 0, 0));
-		setTimeBounds.setToolTipText("Choose Time Bounds");
+		setTimeBounds.setToolTipText(resourceBundle.getString("choose.time.bounds"));
 		setTimeBounds.addActionListener(e -> timeBoundsChooserPanel(mainPanel));
 		return setTimeBounds;
 	}
@@ -41,7 +45,7 @@ public class TimeSliderView {
 		ModelView modelView = panel == null ? null : panel.getModelViewManager();
 		TimeBoundChooserPanel tbcPanel = new TimeBoundChooserPanel(modelView, mainPanel.modelStructureChangeListener);
 		int confirmDialogResult = JOptionPane.showConfirmDialog(mainPanel, tbcPanel,
-				"Set Time Bounds", JOptionPane.OK_CANCEL_OPTION);
+				resourceBundle.getString("set.time.bounds"), JOptionPane.OK_CANCEL_OPTION);
 		if (confirmDialogResult == JOptionPane.OK_OPTION) {
 			tbcPanel.applyTo(mainPanel.animatedRenderEnvironment);
 			if (panel != null) {

@@ -2,11 +2,16 @@ package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.Bone;
 import com.hiveworkshop.rms.editor.model.IdObject;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.BiMap;
 
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public class BoneShell {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final Bone bone;
 	private BoneShell importBoneShell;
 	private String modelName;
@@ -177,7 +182,7 @@ public class BoneShell {
 //	static final String LEAVE = "Do not import";
 
 	public enum ImportType {
-		DONTIMPORT("Do Not Import"), IMPORT("Import this bone"), MOTIONFROM("Import motion to pre-existing:");
+		DONTIMPORT(resourceBundle.getString("do.not.import")), IMPORT(resourceBundle.getString("import.this.bone")), MOTIONFROM(resourceBundle.getString("import.motion.to.pre.existing"));
 		String dispText;
 
 		ImportType(String s) {

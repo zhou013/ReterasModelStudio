@@ -5,14 +5,19 @@ import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.nodepanels.*;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ComponentsPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final String BLANK = "BLANK";
 	private static final String GLOBALSEQ = "GLOBALSEQ";
 	private final CardLayout cardLayout;
@@ -27,7 +32,7 @@ public class ComponentsPanel extends JPanel {
 		setLayout(cardLayout);
 
 		JPanel blankPanel = new JPanel();
-		blankPanel.add(new JLabel("Select a model component to get started..."));
+		blankPanel.add(new JLabel(resourceBundle.getString("select.a.model.component.to.get.started")));
 		add(blankPanel, BLANK);
 //		panelMap.put(null, blankPanel);
 

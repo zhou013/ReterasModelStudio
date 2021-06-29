@@ -2,6 +2,7 @@ package com.hiveworkshop.rms.ui.application;
 
 import com.hiveworkshop.rms.parsers.blp.BLPHandler;
 import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.infonode.docking.View;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -14,8 +15,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 public class ScriptView {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	static View createHackerView(final MainPanel mainPanel) {
 		final View hackerView;
 		final JPanel hackerPanel = new JPanel(new BorderLayout());
@@ -27,10 +32,10 @@ public class ScriptView {
 		ImageIcon icon = new ImageIcon(BLPHandler.get()
 				.getGameTex("ReplaceableTextures\\CommandButtons\\BTNReplay-Play.blp")
 				.getScaledInstance(24, 24, Image.SCALE_FAST));
-		final JButton run = new JButton("Run", icon);
+		final JButton run = new JButton(resourceBundle.getString("run"), icon);
 		run.addActionListener(showScriptViewAction(mainPanel, matrixEaterScriptTextArea));
 		hackerPanel.add(run, BorderLayout.NORTH);
-		hackerView = new View("Matrix Eater Script", null, hackerPanel);
+		hackerView = new View(resourceBundle.getString("matrix.eater.script"), null, hackerPanel);
 		return hackerView;
 	}
 
@@ -51,10 +56,10 @@ public class ScriptView {
 						engine.eval(text);
 					} catch (final ScriptException e1) {
 						e1.printStackTrace();
-						JOptionPane.showMessageDialog(mainPanel, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(mainPanel, e1.getMessage(), resourceBundle.getString("error"), JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(mainPanel, "Must open a file!", "Error",
+					JOptionPane.showMessageDialog(mainPanel, resourceBundle.getString("must.open.a.file"), resourceBundle.getString("error"),
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}

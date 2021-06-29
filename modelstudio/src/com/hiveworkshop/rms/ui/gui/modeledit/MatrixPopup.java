@@ -7,6 +7,7 @@ import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShell;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShellListCellRenderer;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.ImportPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * The panel to handle re-assigning Matrices.
@@ -22,6 +24,8 @@ import java.util.List;
  */
 
 public class MatrixPopup extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	// New refs
 	public IterableListModel<BoneShell> newRefs;
@@ -42,12 +46,12 @@ public class MatrixPopup extends JPanel {
 		final ModelView disp = new ModelViewManager(model);
 		BoneShellListCellRenderer renderer = new BoneShellListCellRenderer(disp, null).setShowClass(false);
 
-		JCheckBox displayParents = new JCheckBox("Display parents", false);
+		JCheckBox displayParents = new JCheckBox(resourceBundle.getString("display.parents"), false);
 		displayParents.addActionListener(e -> showParents(renderer, displayParents));
 
 
 		JPanel bonePanel = new JPanel(new MigLayout("gap 0, ins 0", "[grow, align center]", "[][][grow][]"));
-		bonePanel.add(new JLabel("Bones"), "wrap");
+		bonePanel.add(new JLabel(resourceBundle.getString("bones")), "wrap");
 
 		boneSearch = new JTextField();
 		boneSearch.addCaretListener(e -> filterBones());
@@ -63,13 +67,13 @@ public class MatrixPopup extends JPanel {
 
 		bonePanel.add(bonesPane, "wrap");
 
-		JButton useBone = new JButton("Use Bone(s)", ImportPanel.greenArrowIcon);
+		JButton useBone = new JButton(resourceBundle.getString("use.bone.s"), ImportPanel.greenArrowIcon);
 		useBone.addActionListener(e -> useBone());
 
 		bonePanel.add(useBone, "wrap");
 
 		JPanel newRefsPanel = new JPanel(new MigLayout("gap 0, ins 0", "[grow, align center]", "[][grow][]"));
-		newRefsPanel.add(new JLabel("New Refs"), "wrap");
+		newRefsPanel.add(new JLabel(resourceBundle.getString("new.refs")), "wrap");
 
 		newRefs = new IterableListModel<>();
 		newRefsJList = new JList<>(newRefs);
@@ -79,7 +83,7 @@ public class MatrixPopup extends JPanel {
 
 		newRefsPanel.add(newRefsPane, "wrap");
 
-		JButton removeNewRef = new JButton("Remove", ImportPanel.redXIcon);
+		JButton removeNewRef = new JButton(resourceBundle.getString("remove"), ImportPanel.redXIcon);
 		removeNewRef.addActionListener(e -> removeNewRef());
 
 		newRefsPanel.add(removeNewRef, "wrap");

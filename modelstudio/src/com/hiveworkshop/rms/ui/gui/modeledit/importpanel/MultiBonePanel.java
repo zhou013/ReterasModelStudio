@@ -1,12 +1,17 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class MultiBonePanel extends BonePanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	JButton setAllParent;
 	ModelHolderThing mht;
 
@@ -18,7 +23,7 @@ class MultiBonePanel extends BonePanel {
 		setLayout(new MigLayout("gap 0"));
 		selectedBone = null;
 
-		title = new JLabel("Multiple Selected");
+		title = new JLabel(resourceBundle.getString("multiple.selected"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		add(title, "align center, wrap");
 
@@ -39,7 +44,7 @@ class MultiBonePanel extends BonePanel {
 		cards.show(cardPanel, "blank");
 		add(cardPanel, "wrap");
 
-		setAllParent = new JButton("Set Parent for All");
+		setAllParent = new JButton(resourceBundle.getString("set.parent.for.all"));
 		setAllParent.addActionListener(e -> setParentMultiBones());
 		add(setAllParent, "wrap");
 	}
@@ -100,7 +105,7 @@ class MultiBonePanel extends BonePanel {
 	public void setParentMultiBones() {
 		final JList<BoneShell> list = new JList<>(mht.getFutureBoneListExtended(true));
 		list.setCellRenderer(mht.boneShellRenderer);
-		final int x = JOptionPane.showConfirmDialog(this, new JScrollPane(list), "Set Parent for All Selected Bones", JOptionPane.OK_CANCEL_OPTION);
+		final int x = JOptionPane.showConfirmDialog(this, new JScrollPane(list), resourceBundle.getString("set.parent.for.all.selected.bones"), JOptionPane.OK_CANCEL_OPTION);
 		if (x == JOptionPane.OK_OPTION) {
 			for (BoneShell temp : mht.donModBoneShellJList.getSelectedValuesList()) {
 				temp.setNewParentBs(list.getSelectedValue());

@@ -9,16 +9,19 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ExceptionPopup {
 	private static final List<String> stringsToShow = new ArrayList<>();
 	private static Exception firstException;
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public static void display(final Throwable e) {
 
-		display(e, "Unknown error occurred:");
+		display(e, resourceBundle.getString("unknown.error.occurred"));
 	}
 
 	public static void display(final String s, final Exception e) {
@@ -39,7 +42,7 @@ public class ExceptionPopup {
 		jScrollPane.setPreferredSize(ScreenInfo.getSmallWindow());
 		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-		JOptionPane.showMessageDialog(null, jScrollPane, "Warning (" + MainFrame.getVersion() + ")", JOptionPane.WARNING_MESSAGE, null);
+		JOptionPane.showMessageDialog(null, jScrollPane, MessageFormat.format(resourceBundle.getString("warning.0"), MainFrame.getVersion()), JOptionPane.WARNING_MESSAGE, null);
 	}
 
 
@@ -64,12 +67,12 @@ public class ExceptionPopup {
 	public static void displayIfNotEmpty() {
 		if (!stringsToShow.isEmpty()) {
 			JPanel infoPanel = new JPanel(new MigLayout("fill, ins 0", "[grow][]", "[][][grow]"));
-			infoPanel.add(new JLabel("Errors occurred while loading model."), "cell 0 0");
-			infoPanel.add(new JLabel("To get more information run RMS from a terminal."), "cell 0 1");
+			infoPanel.add(new JLabel(resourceBundle.getString("errors.occurred.while.loading.model")), "cell 0 0");
+			infoPanel.add(new JLabel(resourceBundle.getString("to.get.more.information.run.rms.from.a.terminal")), "cell 0 1");
 
 			if (firstException != null) {
-				JButton exceptionButton = new JButton("Show first Exeption");
-				exceptionButton.addActionListener(e -> display(firstException, "First exception to occur:"));
+				JButton exceptionButton = new JButton(resourceBundle.getString("show.first.exeption"));
+				exceptionButton.addActionListener(e -> display(firstException, resourceBundle.getString("first.exception.to.occur")));
 				infoPanel.add(exceptionButton, "cell 1 0, spany 2, al 100% 50%, wrap");
 			}
 
@@ -88,7 +91,7 @@ public class ExceptionPopup {
 			jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 			clearStringsToShow();
-			JOptionPane.showMessageDialog(null, infoPanel, "Warning (" + MainFrame.getVersion() + ")", JOptionPane.WARNING_MESSAGE, null);
+			JOptionPane.showMessageDialog(null, infoPanel, MessageFormat.format(resourceBundle.getString("warning.0"), MainFrame.getVersion()), JOptionPane.WARNING_MESSAGE, null);
 
 			clearFirstException();
 		}
@@ -102,7 +105,7 @@ public class ExceptionPopup {
 					doc.insertString(doc.getLength(), s, null);
 				} catch (final BadLocationException e) {
 					JOptionPane.showMessageDialog(null,
-							"MDL open error popup failed to create info popup.");
+							resourceBundle.getString("mdl.open.error.popup.failed.to.create.info.popup"));
 					e.printStackTrace();
 				}
 			}

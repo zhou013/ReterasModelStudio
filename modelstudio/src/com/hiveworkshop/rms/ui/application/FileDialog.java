@@ -10,6 +10,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
 import com.hiveworkshop.rms.ui.util.ExtFilter;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
+import java.text.MessageFormat;import java.util.List;
+import java.util.ResourceBundle;
 
 public class FileDialog {
     public static final int OPEN_FILE = 0;
@@ -39,6 +41,8 @@ public class FileDialog {
     private JComponent parent;
     private final JFileChooser fileChooser;
     private final ExtFilter extFilter;
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
     public FileDialog(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
@@ -133,8 +137,8 @@ public class FileDialog {
                 if (selectedFile.exists() && this.getDialogType() == JFileChooser.SAVE_DIALOG) {
                     int confirmOverwriteFile = JOptionPane.showConfirmDialog(
                             getParent(),
-                            "File \"" + selectedFile.getName() + "\" already exists. Overwrite anyway?",
-                            "Export File",
+                            MessageFormat.format(resourceBundle.getString("file.0.overwrite"), selectedFile.getName()),
+                            resourceBundle.getString("export.file"),
                             JOptionPane.OK_CANCEL_OPTION);
                     if (confirmOverwriteFile == JOptionPane.OK_OPTION) {
                         //selectedFile.delete();
@@ -213,7 +217,7 @@ public class FileDialog {
                     }
                 } else {
                     JOptionPane.showMessageDialog(getParent(),
-                            "You tried to save, but you somehow didn't select a file.\nThat is bad.");
+                            resourceBundle.getString("save.but..didn.t.select.a.file"));
                 }
             }
             fileChooser.setSelectedFile(null);
@@ -325,15 +329,13 @@ public class FileDialog {
     private void saveTexture(BufferedImage bufferedImage, File modelFile, String ext) throws IOException {
         String fileExtension = ext.toLowerCase();
         if (fileExtension.equals("bmp") || fileExtension.equals("jpg") || fileExtension.equals("jpeg")) {
-            JOptionPane.showMessageDialog(getParent(),
-                    "Warning: Alpha channel was converted to black. Some data will be lost" +
-                            "\nif you convert this texture back to Warcraft BLP.");
+            JOptionPane.showMessageDialog(getParent(), resourceBundle.getString("alpha.will.be.lost"));
             bufferedImage = BLPHandler.removeAlphaChannel(bufferedImage);
         }
         final boolean write = ImageIO.write(bufferedImage, fileExtension, modelFile);
         SaveProfile.get().addRecent(modelFile.getPath());
         if (!write) {
-            JOptionPane.showMessageDialog(getParent(), "File type unknown or unavailable");
+            JOptionPane.showMessageDialog(getParent(), resourceBundle.getString("file.type.error"));
         }
     }
 
@@ -365,7 +367,7 @@ public class FileDialog {
     }
 
     void onClickOpen(int operationType) {
-        fileChooser.setDialogTitle("Open");
+        fileChooser.setDialogTitle(resourceBundle.getString("open"));
         setFilter(operationType);
         final EditableModel model = getModel();
         setCurrentDirectory(model);
@@ -380,7 +382,7 @@ public class FileDialog {
     }
 
     public EditableModel chooseModelFile(int operationType) {
-        fileChooser.setDialogTitle("Open");
+        fileChooser.setDialogTitle(resourceBundle.getString("open"));
         setFilter(operationType);
         setCurrentDirectory(getModel());
 
@@ -454,7 +456,7 @@ public class FileDialog {
             // botArea.clearGeosets();
 //            mainPanel.toolsMenu.getAccessibleContext().setAccessibleDescription(
             MenuBar.toolsMenu.getAccessibleContext().setAccessibleDescription(
-                    "Allows the user to control which parts of the model are displayed for editing.");
+                    resourceBundle.getString("model.display.description"));
 //            mainPanel.toolsMenu.setEnabled(true);
             MenuBar.toolsMenu.setEnabled(true);
             SaveProfile.get().addRecent(getCurrentFile().getPath());

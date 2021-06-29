@@ -11,14 +11,19 @@ import com.hiveworkshop.rms.ui.browsers.model.ModelOptionPane;
 import com.hiveworkshop.rms.ui.browsers.unit.UnitOptionPane;
 import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.ImportPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ImportFileActions {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
     public static void importFile(MainPanel mainPanel, final File f){
         final EditableModel currentModel = mainPanel.currentMDL();
         if (currentModel != null) {
@@ -63,7 +68,7 @@ public class ImportFileActions {
             optionNames.add(model);
         }
         final EditableModel choice = (EditableModel) JOptionPane.showInputDialog(mainPanel,
-                "Choose a workspace item to import data from:", "Import from Workspace",
+                resourceBundle.getString("choose.workspace.item"), resourceBundle.getString("import.from.workspace"),
                 JOptionPane.OK_CANCEL_OPTION, null, optionNames.toArray(), optionNames.get(0));
         if (choice != null) {
             importFile(mainPanel, EditableModel.deepClone(choice, choice.getHeaderName()));
@@ -94,7 +99,7 @@ public class ImportFileActions {
         final BetterUnitEditorModelSelector selector = new BetterUnitEditorModelSelector(MainLayoutCreator.getUnitData(),
                 MainLayoutCreator.getUnitEditorSettings());
         final int x = JOptionPane.showConfirmDialog(mainPanel, selector,
-                "Object Editor - Select Unit",
+                resourceBundle.getString("object.editor.select.unit"),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         final MutableObjectData.MutableGameObject choice = selector.getSelection();
         if ((choice == null) || (x != JOptionPane.OK_OPTION)) {
@@ -151,8 +156,8 @@ public class ImportFileActions {
         } catch (final Exception exc) {
             exc.printStackTrace();
             JOptionPane.showMessageDialog(MainFrame.frame,
-                    "The chosen model could not be used.",
-                    "Program Error",
+                    resourceBundle.getString("model.could.not.be.used"),
+                    resourceBundle.getString("program.error"),
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }

@@ -6,6 +6,7 @@ import com.hiveworkshop.rms.editor.model.animflag.FloatAnimFlag;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 import net.miginfocom.swing.MigLayout;
 
@@ -13,8 +14,9 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * The panel to handle the import function.
@@ -22,6 +24,9 @@ import java.util.List;
  * Eric Theller 6/11/2012
  */
 public class ImportPanel extends JTabbedPane {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static final ImageIcon animIcon = RMSIcons.animIcon;// new ImageIcon(ImportPanel.class.getClassLoader().getResource("ImageBin/anim_small.png"));
 	public static final ImageIcon boneIcon = RMSIcons.boneIcon;// new ImageIcon(ImportPanel.class.getClassLoader().getResource("ImageBin/Bone_small.png"));
 	public static final ImageIcon geoIcon = RMSIcons.geoIcon;// new ImageIcon(ImportPanel.class.getClassLoader().getResource("ImageBin/geo_small.png"));
@@ -56,41 +61,41 @@ public class ImportPanel extends JTabbedPane {
 		mht = new ModelHolderThing(receivingModel, donatingModel);
 		if (mht.receivingModel.getName().equals(mht.donatingModel.getName())) {
 			mht.donatingModel.setFileRef(new File(mht.donatingModel.getFile().getParent() + "/" + mht.donatingModel.getName() + " (Imported)" + ".mdl"));
-			frame = new JFrame("Importing " + mht.receivingModel.getName() + " into itself");
+			frame = new JFrame(MessageFormat.format(resourceBundle.getString("importing.0.into.itself"), mht.receivingModel.getName()));
 		} else {
-			frame = new JFrame("Importing " + mht.donatingModel.getName() + " into " + mht.receivingModel.getName());
+			frame = new JFrame(MessageFormat.format(resourceBundle.getString("importing.0.into.1"), mht.donatingModel.getName(),mht.receivingModel.getName()));
 		}
 		mht.receivingModel.doSavePreps();
 		try {
 			frame.setIconImage(RMSIcons.MDLIcon.getImage());
 		} catch (final Exception e) {
-			JOptionPane.showMessageDialog(null, "Error: Image files were not found! Due to bad programming, this might break the program!");
+			JOptionPane.showMessageDialog(null, resourceBundle.getString("error.image.files.not.found"));
 		}
 
 		// Geoset Panel
 		GeosetEditPanel geosetEditPanel = new GeosetEditPanel(mht);
-		addTab("Geosets", geoIcon, geosetEditPanel, "Controls which geosets will be imported.");
+		addTab(resourceBundle.getString("geosets"), geoIcon, geosetEditPanel, resourceBundle.getString("controls.which.geosets.will.be.imported"));
 //		addTab("Geosets", geoIcon, GeosetEditPanel.makeGeosetPanel(mht), "Controls which geosets will be imported.");
 
 		// Animation Panel
 		AnimEditPanel animEditPanel = new AnimEditPanel(mht);
-		addTab("Animation", animIcon, animEditPanel, "Controls which animations will be imported.");
+		addTab(resourceBundle.getString("animation"), animIcon, animEditPanel, resourceBundle.getString("controls.which.animations.will.be.imported"));
 
 		// Bone Panel
 		BoneEditPanel boneEditPanel = new BoneEditPanel(mht);
-		addTab("Bones", boneIcon, boneEditPanel, "Controls which bones will be imported.");
+		addTab(resourceBundle.getString("bones"), boneIcon, boneEditPanel, resourceBundle.getString("controls.which.bones.will.be.imported"));
 
 		// Matrices Panel // Build the geosetAnimTabs list of GeosetPanels
 		BoneAttachmentEditPanel boneAttachmentEditPanel = new BoneAttachmentEditPanel(mht);
-		addTab("Matrices", greenIcon, boneAttachmentEditPanel, "Controls which bones geosets are attached to.");
+		addTab(resourceBundle.getString("matrices"), greenIcon, boneAttachmentEditPanel, resourceBundle.getString("controls.which.bones.geosets.are.attached.to"));
 
 		// Objects Panel
 		ObjectEditPanel objectEditPanel = new ObjectEditPanel(mht);
-		addTab("Objects", objIcon, objectEditPanel, "Controls which objects are imported.");
+		addTab(resourceBundle.getString("objects"), objIcon, objectEditPanel, resourceBundle.getString("controls.which.objects.are.imported"));
 
 		// Visibility Panel
 		VisibilityEditPanel visibilityEditPanel = new VisibilityEditPanel(mht);
-		addTab("Visibility", orangeIcon, visibilityEditPanel, "Controls the visibility of portions of the model.");
+		addTab(resourceBundle.getString("visibility"), orangeIcon, visibilityEditPanel, resourceBundle.getString("controls.the.visibility.of.portions.of.the.model"));
 
 		final JPanel containerPanel = new JPanel(new MigLayout("gap 0, fill", "[grow]", "[grow][]"));
 		containerPanel.add(this, "growx, growy, wrap");
@@ -112,9 +117,9 @@ public class ImportPanel extends JTabbedPane {
 
 	private JPanel getFooterPanel() {
 		JPanel footerPanel = new JPanel(new MigLayout("gap 0", "[grow, left]8[grow, right]"));
-		JButton okayButton = new JButton("Finish");
+		JButton okayButton = new JButton(resourceBundle.getString("finish"));
 		okayButton.addActionListener(e -> applyImport());
-		JButton cancelButton = new JButton("Cancel");
+		JButton cancelButton = new JButton(resourceBundle.getString("cancel"));
 		cancelButton.addActionListener(e -> cancelImport());
 
 		footerPanel.add(okayButton);
@@ -130,8 +135,8 @@ public class ImportPanel extends JTabbedPane {
 	}
 
 	private void cancelImport() {
-		final Object[] options = {"Yes", "No"};
-		final int n = JOptionPane.showOptionDialog(frame, "Really cancel this import?", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+		final Object[] options = {resourceBundle.getString("yes"), resourceBundle.getString("no")};
+		final int n = JOptionPane.showOptionDialog(frame, resourceBundle.getString("really.cancel.this.import"), resourceBundle.getString("confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 		if (n == 0) {
 			frame.setVisible(false);
 			frame = null;
@@ -152,7 +157,7 @@ public class ImportPanel extends JTabbedPane {
 			// The engine for actually performing the model to model import.
 
 			if (mht.receivingModel == mht.donatingModel) {
-				JOptionPane.showMessageDialog(null, "The program has confused itself.");
+				JOptionPane.showMessageDialog(null, resourceBundle.getString("the.program.has.confused.itself"));
 			}
 
 			List<Geoset> geosetsAdded = addChosenGeosets();
@@ -379,7 +384,7 @@ public class ImportPanel extends JTabbedPane {
 						if (mht.receivingModel.contains(bs.getBone())) {
 							if (bs.getBone().getClass() == Helper.class) {
 								JOptionPane.showMessageDialog(null,
-										"Error: Holy fo shizzle my grizzle! A geoset is trying to attach to a helper, not a bone!");
+										resourceBundle.getString("error.geoset.is.trying.to.attach.to.a.helper.not.a.bone"));
 							}
 							ms.getMatrix().add(bs.getBone());
 						} else {
@@ -388,12 +393,12 @@ public class ImportPanel extends JTabbedPane {
 					}
 					if (ms.getMatrix().size() == 0) {
 						JOptionPane.showMessageDialog(null,
-								"Error: A matrix was functionally destroyed while importing, and may take the program with it!");
+								resourceBundle.getString("error.matrix.functionally.destroyed.while.importing"));
 					}
 					if (ms.getMatrix().getBones().size() < 1) {
 						if (dummyBone == null) {
 							dummyBone = new Bone();
-							dummyBone.setName("Bone_MatrixEaterDummy" + (int) (Math.random() * 2000000000));
+							dummyBone.setName(MessageFormat.format(resourceBundle.getString("bone.matrixeaterdummy.0"), (int) (Math.random() * 2000000000)));
 							dummyBone.setPivotPoint(new Vec3(0, 0, 0));
 							if (!mht.receivingModel.contains(dummyBone)) {
 								mht.receivingModel.add(dummyBone);
@@ -401,9 +406,7 @@ public class ImportPanel extends JTabbedPane {
 						}
 						if (!shownEmpty) {
 							JOptionPane.showMessageDialog(null,
-									"Warning: You left some matrices empty. This was detected, and a dummy bone at { 0, 0, 0 } has been generated for them named "
-											+ dummyBone.getName()
-											+ "\nMultiple geosets may be attached to this bone, and the error will only be reported once for your convenience.");
+									MessageFormat.format(resourceBundle.getString("warning.left.some.matrices.empty"), dummyBone.getName()));
 							shownEmpty = true;
 						}
 						if (!ms.getMatrix().getBones().contains(dummyBone)) {
@@ -647,7 +650,7 @@ public class ImportPanel extends JTabbedPane {
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Bug in anim transfer: attempted unnecessary 2-part transfer");
+			JOptionPane.showMessageDialog(null, resourceBundle.getString("bug.in.anim.transfer.attempted.unnecessary.2.part.transfer"));
 		}
 		for (VisibilityShell vs : mht.futureVisComponents) {
 			vs.setFavorOld(false);

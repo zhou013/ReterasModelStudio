@@ -1,13 +1,17 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class GeosetEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public CardLayout geoCardLayout = new CardLayout();
 	public JPanel geoPanelCards = new JPanel(geoCardLayout);
@@ -65,11 +69,11 @@ public class GeosetEditPanel extends JPanel {
 	private JPanel getTopPanel() {
 		JPanel topPanel = new JPanel(new MigLayout("gap 0", "[]8[]"));
 
-		JButton importAllGeos = new JButton("Import All");
+		JButton importAllGeos = new JButton(resourceBundle.getString("import.all"));
 		importAllGeos.addActionListener(e -> mht.importAllGeos(true));
 		topPanel.add(importAllGeos);
 
-		JButton uncheckAllGeos = new JButton("Leave All");
+		JButton uncheckAllGeos = new JButton(resourceBundle.getString("leave.all"));
 		uncheckAllGeos.addActionListener(e -> mht.importAllGeos(false));
 		topPanel.add(uncheckAllGeos);
 		return topPanel;

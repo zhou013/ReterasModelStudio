@@ -1,11 +1,16 @@
 package com.hiveworkshop.rms.ui.application.model.material;
 
 import com.hiveworkshop.rms.editor.model.Layer;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 public class LayerFlagsPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final JCheckBox unshaded;
 	private final JCheckBox sphereEnvMap;
 	private final JCheckBox twoSided;
@@ -16,25 +21,25 @@ public class LayerFlagsPanel extends JPanel {
 
 	public LayerFlagsPanel() {
 		setLayout(new MigLayout());
-		unshaded = new JCheckBox("Unshaded");
+		unshaded = new JCheckBox(resourceBundle.getString("unshaded"));
 		add(unshaded, "wrap");
 
-		sphereEnvMap = new JCheckBox("SphereEnvMap");
+		sphereEnvMap = new JCheckBox(resourceBundle.getString("sphereenvmap"));
 		add(sphereEnvMap, "wrap");
 
-		twoSided = new JCheckBox("TwoSided");
+		twoSided = new JCheckBox(resourceBundle.getString("twosided"));
 		add(twoSided, "wrap");
 
-		unfogged = new JCheckBox("Unfogged");
+		unfogged = new JCheckBox(resourceBundle.getString("unfogged"));
 		add(unfogged, "wrap");
 
-		noDepthTest = new JCheckBox("NoDepthTest");
+		noDepthTest = new JCheckBox(resourceBundle.getString("nodepthtest"));
 		add(noDepthTest, "wrap");
 
-		noDepthSet = new JCheckBox("NoDepthSet");
+		noDepthSet = new JCheckBox(resourceBundle.getString("nodepthset"));
 		add(noDepthSet, "wrap");
 
-		unlit = new JCheckBox("Unlit");
+		unlit = new JCheckBox(resourceBundle.getString("unlit"));
 		add(unlit, "wrap");
 	}
 

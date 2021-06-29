@@ -12,6 +12,7 @@ import com.hiveworkshop.rms.parsers.mdlx.util.MdxUtils;
 import com.hiveworkshop.rms.parsers.slk.GameObject;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Vec3;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -27,14 +28,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class MDLSnapshot {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	ModelView dispMDL;
 	Vec3 cameraPos = new Vec3(0, 0, 0);
@@ -198,8 +203,7 @@ public class MDLSnapshot {
 			// GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			// GL11.glLoadIdentity();
 		} catch (final Throwable e) {
-			JOptionPane.showMessageDialog(null, "initGL failed because of this exact reason:\n"
-					+ e.getClass().getSimpleName() + ": " + e.getMessage());
+			JOptionPane.showMessageDialog(null, MessageFormat.format(resourceBundle.getString("initgl.failed.because.of.this.exact.reason.0.1"), e.getClass().getSimpleName(),e.getMessage()));
 			throw new RuntimeException(e);
 		}
 	}
@@ -526,8 +530,7 @@ public class MDLSnapshot {
 		} catch (final Throwable e) {
 			if ((lastThrownErrorClass == null) || (lastThrownErrorClass != e.getClass())) {
 				lastThrownErrorClass = e.getClass();
-				JOptionPane.showMessageDialog(null, "Rendering failed because of this exact reason:\n"
-						+ e.getClass().getSimpleName() + ": " + e.getMessage());
+				JOptionPane.showMessageDialog(null, MessageFormat.format(resourceBundle.getString("rendering.failed.because.of.this.exact.reason.0.1"), e.getClass().getSimpleName(),e.getMessage()));
 			}
 			throw new RuntimeException(e);
 		}
@@ -765,7 +768,7 @@ public class MDLSnapshot {
 				initGL();// Re-overwrite textures
 			} catch (final Exception e) {
 				e.printStackTrace();
-				ExceptionPopup.display("Error loading textures:", e);
+				ExceptionPopup.display(resourceBundle.getString("error.loading.textures"), e);
 			}
 		} else if (wantReload) {
 			wantReload = false;
@@ -773,7 +776,7 @@ public class MDLSnapshot {
 				forceReloadTextures();
 			} catch (final Exception e) {
 				e.printStackTrace();
-				ExceptionPopup.display("Error loading new texture:", e);
+				ExceptionPopup.display(resourceBundle.getString("error.loading.new.texture"), e);
 			}
 		} else if (!texLoaded && ((programPreferences == null) || programPreferences.textureModels())) {
 			forceReloadTextures();

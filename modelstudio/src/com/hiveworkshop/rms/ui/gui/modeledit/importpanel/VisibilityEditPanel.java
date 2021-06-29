@@ -1,6 +1,7 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.*;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -9,8 +10,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class VisibilityEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private CardLayout visCardLayout = new CardLayout();
 	private JPanel visPanelCards = new JPanel(visCardLayout);
@@ -62,13 +66,19 @@ public class VisibilityEditPanel extends JPanel {
 	private JPanel getTopPanel() {
 		JPanel topPanel = new JPanel(new MigLayout("gap 0", "", "[]8[]8[]"));
 
-		JButton allInvisButton = createButton("All Invisible in Exotic Anims", e -> allVisButton(mht.allVisShellPanes, mht.receivingModel, mht.alwaysVisible), "Forces everything to be always invisibile in animations other than their own original animations.");
+		JButton allInvisButton = createButton(resourceBundle.getString("all.invisible.in.exotic.anims"),
+				e -> allVisButton(mht.allVisShellPanes, mht.receivingModel, mht.alwaysVisible),
+				resourceBundle.getString("all.invisible.in.exotic.anims.description"));
 		topPanel.add(allInvisButton, "align center, wrap");
 
-		JButton allVisButton = createButton("All Visible in Exotic Anims", e -> allVisButton(mht.allVisShellPanes, mht.receivingModel, mht.neverVisible), "Forces everything to be always visibile in animations other than their own original animations.");
+		JButton allVisButton = createButton(resourceBundle.getString("all.visible.in.exotic.anims"),
+				e -> allVisButton(mht.allVisShellPanes, mht.receivingModel, mht.neverVisible),
+				resourceBundle.getString("all.visible.in.exotic.anims.description"));
 		topPanel.add(allVisButton, "align center, wrap");
 
-		JButton selSimButton = createButton("Select Similar Options", e -> mht.selSimButton(), "Similar components will be selected as visibility sources in exotic animations.");
+		JButton selSimButton = createButton(resourceBundle.getString("select.similar.options"),
+				e -> mht.selSimButton(),
+				resourceBundle.getString("select.similar.options.description"));
 		topPanel.add(selSimButton, "align center, wrap");
 		return topPanel;
 	}

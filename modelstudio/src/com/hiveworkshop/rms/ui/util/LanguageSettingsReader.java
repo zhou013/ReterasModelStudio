@@ -9,6 +9,11 @@ import org.yaml.snakeyaml.Yaml;
 
 import javax.swing.*;
 
+/**
+ * Here is how do I read settings from yaml.
+ * --Frostlock
+ */
+
 public class LanguageSettingsReader {
     private static String region;
     private static String languageDir;

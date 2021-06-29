@@ -10,6 +10,7 @@ import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorJSpinner;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorTextField;
 import com.hiveworkshop.rms.ui.application.model.material.ComponentMaterialLayersPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -17,8 +18,12 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class ComponentMaterialPanel extends JPanel implements ComponentPanel<Material> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final String SD = "SD";
 	private static final String HD = "HD";
 	private Material material;
@@ -47,9 +52,9 @@ public class ComponentMaterialPanel extends JPanel implements ComponentPanel<Mat
 		multipleLayersPanel = new ComponentMaterialLayersPanel();
 
 		setLayout(new MigLayout("fill", "[][][grow]", "[][][grow]"));
-		add(new JLabel("Shader:"));
+		add(new JLabel(resourceBundle.getString("shader")));
 		add(shaderOptionComboBox, "wrap, growx, span 2");
-		add(new JLabel("Priority Plane:"));
+		add(new JLabel(resourceBundle.getString("priority.plane")));
 		add(priorityPlaneSpinner, "wrap, growx, span 2");
 		add(multipleLayersPanel, "growx, growy, span 3");
 	}
@@ -78,7 +83,7 @@ public class ComponentMaterialPanel extends JPanel implements ComponentPanel<Mat
 
 	private JComboBox<String> getShaderComboBox() {
 		final JComboBox<String> shaderOptionComboBox;
-		final String[] shaderOptions = {"", "Shader_SD_FixedFunction", "Shader_HD_DefaultUnit"};
+		final String[] shaderOptions = {"", resourceBundle.getString("shader.sd.fixedfunction"), resourceBundle.getString("shader.hd.defaultunit")};
 		shaderOptionComboBox = new JComboBox<>(shaderOptions);
 		shaderOptionComboBox.setRenderer(ShaderBoxRenderer());
 		shaderOptionComboBox.setEditor(ShaderBoxEditor());

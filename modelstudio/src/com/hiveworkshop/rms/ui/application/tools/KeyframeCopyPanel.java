@@ -11,13 +11,18 @@ import com.hiveworkshop.rms.ui.application.ImportFileActions;
 import com.hiveworkshop.rms.ui.application.MainPanel;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.gui.modeledit.ModelPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class KeyframeCopyPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final FileDialog fileDialog;
 	JComboBox<String> donAnimBox;
 	JSpinner donTimeSpinner;
@@ -39,13 +44,13 @@ public class KeyframeCopyPanel extends JPanel {
 		setLayout(new MigLayout("fill", "[grow][grow]"));
 
 //		add(new JLabel("Copies all keyframes from source animation within specified interval to destination. \nWARNING: Make sure that the copied interval fits within the destination animation."), "spanx, wrap");
-		JTextArea info = new JTextArea("Copies all keyframes from chosen interval in source animation into destination animation starting at specified frame.");
+		JTextArea info = new JTextArea(resourceBundle.getString("copies.all.keyframe"));
 		info.setEditable(false);
 		info.setOpaque(false);
 		info.setLineWrap(true);
 		info.setWrapStyleWord(true);
 		add(info, "spanx, growx, wrap");
-		JTextArea warning = new JTextArea("WARNING: Make sure that the copied interval fits within the destination animation.");
+		JTextArea warning = new JTextArea(resourceBundle.getString("warning.copied.interval.fits.within.the.destination.animation"));
 		warning.setEditable(false);
 		warning.setOpaque(false);
 		warning.setLineWrap(true);
@@ -62,7 +67,7 @@ public class KeyframeCopyPanel extends JPanel {
 		JPanel recAnimPanel = getRecAnimPanel(animations);
 		add(recAnimPanel, "growx, wrap, aligny top");
 
-		JButton copyButton = new JButton("Copy Keyframe");
+		JButton copyButton = new JButton(resourceBundle.getString("copy.keyframe"));
 		copyButton.addActionListener(e -> doCopy(modelView.getModel(), animations));
 		add(copyButton, "spanx, align center, wrap");
 	}
@@ -72,7 +77,7 @@ public class KeyframeCopyPanel extends JPanel {
 		if (modelPanel != null) {
 			final KeyframeCopyPanel textureManager = new KeyframeCopyPanel(modelPanel.getModelViewManager(),
 					mainPanel.getModelStructureChangeListener());
-			final JFrame frame = new JFrame("Copy Keyframes");
+			final JFrame frame = new JFrame(resourceBundle.getString("copy.keyframes"));
 //			textureManager.setSize(new Dimension(600, 450));
 			frame.setContentPane(textureManager);
 			frame.pack();
@@ -104,7 +109,7 @@ public class KeyframeCopyPanel extends JPanel {
 		recAnimPanel.add(recTimeLabel, "wrap");
 		recAnimPanel.add(recTimeSpinner, "wrap");
 		JPanel startP = new JPanel(new MigLayout("fill, gap 0, ins 0", "[5%:10%:10%]10[grow][][]"));
-		startP.add(new JLabel("Start"));
+		startP.add(new JLabel(resourceBundle.getString("start2")));
 		startP.add(recTimeSpinner, "growx");
 		JButton rwButton1 = new JButton("\u23EE");
 		rwButton1.addActionListener(e -> recTimeSpinner.setValue(recAnim.getStart()));
@@ -118,11 +123,11 @@ public class KeyframeCopyPanel extends JPanel {
 
 	private JPanel getDonAnimPanel(List<Animation> animations) {
 		JPanel donAnimPanel = new JPanel(new MigLayout("fill, gap 0"));
-		donAnimPanel.add(new JLabel("From:"), "wrap");
+		donAnimPanel.add(new JLabel(resourceBundle.getString("from")), "wrap");
 		donAnimPanel.add(donAnimBox, "wrap, growx");
 		donAnimPanel.add(donTimeLabel, "wrap");
 		JPanel startP = new JPanel(new MigLayout("fill, gap 0, ins 0", "[5%:10%:10%]10[grow][][]"));
-		startP.add(new JLabel("Start"));
+		startP.add(new JLabel(resourceBundle.getString("start2")));
 		startP.add(donTimeSpinner, "growx");
 		JButton dRwButton1 = new JButton("\u23EE");
 		dRwButton1.addActionListener(e -> donTimeSpinner.setValue(donAnim.getStart()));
@@ -151,14 +156,14 @@ public class KeyframeCopyPanel extends JPanel {
 		donAnimBox = new JComboBox<>(animNames);
 		donAnimBox.addActionListener(e -> donAnimChoosen(animations));
 		donAnim = animations.get(0);
-		donTimeLabel.setText(donAnim.getStart() + "  to  " + donAnim.getEnd() + "  (" + (donAnim.getEnd() - donAnim.getStart()) + ")");
+		donTimeLabel.setText(MessageFormat.format(resourceBundle.getString("0.to.1.2"), donAnim.getStart(),donAnim.getEnd(),donAnim.getEnd() - donAnim.getStart()));
 		donTimeSpinner = new JSpinner(getAnimModel(donAnim));
 		donTimeEndSpinner = new JSpinner(getAnimModel(donAnim));
 
 		recAnimBox = new JComboBox<>(animNames);
 		recAnimBox.addActionListener(e -> recAnimChosen(animations));
 		recAnim = animations.get(0);
-		recTimeLabel.setText(recAnim.getStart() + "  to  " + recAnim.getEnd() + "  (" + (recAnim.getEnd() - recAnim.getStart()) + ")");
+		recTimeLabel.setText(MessageFormat.format(resourceBundle.getString("0.to.1.2"), recAnim.getStart(),recAnim.getEnd(),recAnim.getEnd() - recAnim.getStart()));
 		recTimeSpinner = new JSpinner(getAnimModel(recAnim));
 		revalidate();
 	}
@@ -166,14 +171,14 @@ public class KeyframeCopyPanel extends JPanel {
 	private void recAnimChosen(List<Animation> animations) {
 		recAnim = animations.get(recAnimBox.getSelectedIndex());
 		recTimeSpinner.setModel(getAnimModel(recAnim));
-		recTimeLabel.setText(recAnim.getStart() + "  to  " + recAnim.getEnd() + "  (" + (recAnim.getEnd() - recAnim.getStart()) + ")");
+		recTimeLabel.setText(MessageFormat.format(resourceBundle.getString("0.to.1.2"), recAnim.getStart(),recAnim.getEnd(),recAnim.getEnd() - recAnim.getStart()));
 	}
 
 	private void donAnimChoosen(List<Animation> animations) {
 		donAnim = animations.get(donAnimBox.getSelectedIndex());
 		donTimeSpinner.setModel(getAnimModel(donAnim));
 		donTimeEndSpinner.setModel(getAnimModel(donAnim));
-		donTimeLabel.setText(donAnim.getStart() + "  to  " + donAnim.getEnd() + "  (" + (donAnim.getEnd() - donAnim.getStart()) + ")");
+		donTimeLabel.setText(MessageFormat.format(resourceBundle.getString("0.to.1.2"), donAnim.getStart(),donAnim.getEnd(),donAnim.getEnd() - donAnim.getStart()));
 	}
 
 	private SpinnerNumberModel getAnimModel(Animation animation) {

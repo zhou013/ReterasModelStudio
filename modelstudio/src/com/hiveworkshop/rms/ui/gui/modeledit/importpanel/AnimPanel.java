@@ -1,5 +1,6 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -9,8 +10,11 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class AnimPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	JLabel title;
 	JCheckBox inReverse;
@@ -46,11 +50,11 @@ class AnimPanel extends JPanel {
 		this.recModAnims = recModAnims;
 		recModAnimListModel = new IterableListModel<>(recModAnims);
 
-		title = new JLabel("Select an Animation");
+		title = new JLabel(resourceBundle.getString("select.an.animation"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		add(title, "align center, spanx, wrap");
 
-		inReverse = new JCheckBox("Reverse");
+		inReverse = new JCheckBox(resourceBundle.getString("reverse"));
 		inReverse.setSelected(false);
 		inReverse.addActionListener(e -> setInReverse());
 		inReverse.setEnabled(false);

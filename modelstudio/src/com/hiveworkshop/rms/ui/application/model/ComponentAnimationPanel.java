@@ -8,12 +8,17 @@ import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorJSpinner;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorTextField;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class ComponentAnimationPanel extends JPanel implements ComponentPanel<Animation> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ComponentEditorTextField nameField;
 	private final ComponentEditorJSpinner newAnimTimeStart;
 	private final ComponentEditorJSpinner newAnimTimeEnd;
@@ -44,11 +49,11 @@ public class ComponentAnimationPanel extends JPanel implements ComponentPanel<An
 //		newAnimTimeEnd.addActionListener(this::newAnimTimeEnd);
 
 		setLayout(new MigLayout());
-		add(new JLabel("Name: "), "cell 0 0");
+		add(new JLabel(resourceBundle.getString("name1")), "cell 0 0");
 		add(nameField, "cell 1 0");
-		add(new JLabel("Start: "), "cell 0 1");
+		add(new JLabel(resourceBundle.getString("start1")), "cell 0 1");
 		add(newAnimTimeStart, "cell 1 1");
-		add(new JLabel("End: "), "cell 2 1");
+		add(new JLabel(resourceBundle.getString("end1")), "cell 2 1");
 		add(newAnimTimeEnd, "cell 3 1");
 
 		rarityChooser = new ComponentEditorJSpinner(new SpinnerNumberModel(0d, 0d, Long.MAX_VALUE, 1d));
@@ -59,16 +64,16 @@ public class ComponentAnimationPanel extends JPanel implements ComponentPanel<An
 		moveSpeedChooser.addEditingStoppedListener(this::moveSpeedChooser);
 //		moveSpeedChooser.addActionListener(this::moveSpeedChooser);
 
-		nonLoopingChooser = new JCheckBox("NonLooping");
+		nonLoopingChooser = new JCheckBox(resourceBundle.getString("nonlooping"));
 		nonLoopingChooser.addActionListener(e -> nonLoopingChooser());
 
 		add(nonLoopingChooser, "cell 0 2");
-		add(new JLabel("Rarity"), "cell 0 3");
+		add(new JLabel(resourceBundle.getString("rarity")), "cell 0 3");
 		add(rarityChooser, "cell 1 3");
-		add(new JLabel("MoveSpeed"), "cell 0 4");
+		add(new JLabel(resourceBundle.getString("movespeed")), "cell 0 4");
 		add(moveSpeedChooser, "cell 1 4");
 
-		deleteButton = new JButton("Delete");
+		deleteButton = new JButton(resourceBundle.getString("delete"));
 		deleteButton.addActionListener(e -> deleteAnim());
 		deleteButton.setBackground(Color.RED);
 		deleteButton.setForeground(Color.WHITE);

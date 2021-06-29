@@ -1,5 +1,6 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -8,11 +9,15 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.ArrayList;
+import java.text.MessageFormat;import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class BonePanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	BoneShell selectedBone;
 	JLabel title;
 	JComboBox<String> importTypeBox = new JComboBox<>(BoneShell.ImportType.getDispList());
@@ -62,10 +67,10 @@ public class BonePanel extends JPanel {
 
 		rightSearchField.addCaretListener(getCaretListener(rightSearchField, leftSearchField, this::setFutureBonesFilter));
 
-		linkBox = new JCheckBox("linked search");
+		linkBox = new JCheckBox(resourceBundle.getString("linked.search"));
 		linkBox.addActionListener(e -> queResetList());
 
-		title = new JLabel("Select a Bone");
+		title = new JLabel(resourceBundle.getString("select.a.bone"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 
 		add(title, "cell 0 0, spanx, align center, wrap");
@@ -79,7 +84,7 @@ public class BonePanel extends JPanel {
 
 		JPanel importMotionIntoPanel = new JPanel(new MigLayout("gap 0, ins 0, fill", "[grow][]", "[][][grow]"));
 
-		importMotionIntoPanel.add(new JLabel("Bones to receive motion"), "wrap");
+		importMotionIntoPanel.add(new JLabel(resourceBundle.getString("bones.to.receive.motion")), "wrap");
 		importMotionIntoPanel.add(leftSearchField, "grow");
 		importMotionIntoPanel.add(linkBox, "wrap");
 
@@ -98,8 +103,8 @@ public class BonePanel extends JPanel {
 
 		JPanel rightPanel = new JPanel(new MigLayout("gap 0, fill", "[][]", "[][][grow]"));
 
-		rightPanel.add(new JLabel("Parent:"), "align left, gap 20 0 0 0");
-		parentTitle = new JLabel("Parent:      (Old Parent: {no parent})");
+		rightPanel.add(new JLabel(resourceBundle.getString("parent")), "align left, gap 20 0 0 0");
+		parentTitle = new JLabel(resourceBundle.getString("parent.old.parent.no.parent"));
 		rightPanel.add(parentTitle, "wrap");
 		rightPanel.add(rightSearchField, "grow, spanx");
 
@@ -143,9 +148,9 @@ public class BonePanel extends JPanel {
 		title.setText(selectedBone.getBone().getClass().getSimpleName() + " \"" + selectedBone.getName() + "\"");
 
 		if (selectedBone.getOldParentBs() != null) {
-			parentTitle.setText("Parent:      (Old Parent: " + selectedBone.getOldParentBs().getName() + ")");
+			parentTitle.setText(MessageFormat.format(resourceBundle.getString("parent.old.parent.0"), selectedBone.getOldParentBs().getName()));
 		} else {
-			parentTitle.setText("Parent:      (Old Parent: {no parent})");
+			parentTitle.setText(resourceBundle.getString("parent.old.parent.no.parent"));
 		}
 	}
 

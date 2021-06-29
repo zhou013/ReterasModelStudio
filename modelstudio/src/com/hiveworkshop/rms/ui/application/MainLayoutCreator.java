@@ -10,6 +10,7 @@ import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.UnitEditorTree;
 import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.UnitEditorTreeBrowser;
 import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.UnitTabTreeBrowserBuilder;
 import com.hiveworkshop.rms.ui.browsers.jworldedit.objects.datamodel.MutableObjectData;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import de.wc3data.stream.BlizzardDataInputStream;
 import net.infonode.docking.DockingWindow;
 import net.infonode.docking.SplitWindow;
@@ -19,23 +20,27 @@ import net.infonode.docking.View;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class MainLayoutCreator {
+
+    private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
     static TabWindow createMainLayout(MainPanel mainPanel) {
 
         final JPanel jPanel = new JPanel();
         jPanel.add(new JLabel("..."));
-        mainPanel.viewportControllerWindowView = new View("Outliner", null, jPanel);// GlobalIcons.geoIcon
+        mainPanel.viewportControllerWindowView = new View(resourceBundle.getString("outliner"), null, jPanel);// GlobalIcons.geoIcon
 //		viewportControllerWindowView.getWindowProperties().setCloseEnabled(false);
 //		viewportControllerWindowView.getWindowProperties().setMaximizeEnabled(true);
 //		viewportControllerWindowView.getWindowProperties().setMinimizeEnabled(true);
 //		viewportControllerWindowView.getWindowProperties().setRestoreEnabled(true);
-        mainPanel.toolView = new View("Tools", null, new JPanel());
+        mainPanel.toolView = new View(resourceBundle.getString("tools"), null, new JPanel());
 
-        mainPanel.leftView = new View("Side", null, new JPanel());
-        mainPanel.frontView = new View("Front", null, new JPanel());
-        mainPanel.bottomView = new View("Bottom", null, new JPanel());
-        mainPanel.perspectiveView = new View("Perspective", null, new JPanel());
+        mainPanel.leftView = new View(resourceBundle.getString("side"), null, new JPanel());
+        mainPanel.frontView = new View(resourceBundle.getString("front"), null, new JPanel());
+        mainPanel.bottomView = new View(resourceBundle.getString("bottom"), null, new JPanel());
+        mainPanel.perspectiveView = new View(resourceBundle.getString("perspective"), null, new JPanel());
 
 
         final SplitWindow editingTab = getEditTab(mainPanel);
@@ -43,7 +48,7 @@ public class MainLayoutCreator {
         final SplitWindow viewingTab = getViewTab(mainPanel);
 
         final SplitWindow modelTab = new SplitWindow(true, 0.2f, mainPanel.modelDataView, mainPanel.modelComponentView);
-        modelTab.getWindowProperties().setTitleProvider(arg0 -> "Model");
+        modelTab.getWindowProperties().setTitleProvider(arg0 -> resourceBundle.getString("model"));
 
         final TabWindow startupTabWindow = new TabWindow(new DockingWindow[] {viewingTab, editingTab, modelTab});
 //        final TabWindow startupTabWindow = new TabWindow(new DockingWindow[] {editingTab, viewingTab, modelTab});
@@ -58,7 +63,7 @@ public class MainLayoutCreator {
         final View mpqBrowserView = MPQBrowserView.createMPQBrowser(mainPanel, imageIcon);
 
         final UnitEditorTree unitEditorTree = createUnitEditorTree(mainPanel);
-        View view = new View("Unit Browser", imageIcon, new JScrollPane(unitEditorTree));
+        View view = new View(resourceBundle.getString("unit.browser"), imageIcon, new JScrollPane(unitEditorTree));
         DockingWindow[] dockingWindow = new DockingWindow[] {view, mpqBrowserView};
 
         final TabWindow tabWindow = new TabWindow(dockingWindow);
@@ -68,7 +73,7 @@ public class MainLayoutCreator {
         SplitWindow animPersp = new SplitWindow(true, 0.8f, mainPanel.previewView, mainPanel.animationControllerView);
         final SplitWindow viewingTab = new SplitWindow(true, 0.8f, animPersp, tabWindow);
 
-        viewingTab.getWindowProperties().setTitleProvider(arg0 -> "View");
+        viewingTab.getWindowProperties().setTitleProvider(arg0 -> resourceBundle.getString("view"));
         viewingTab.getWindowProperties().setCloseEnabled(false);
         return viewingTab;
     }
@@ -86,7 +91,7 @@ public class MainLayoutCreator {
         final SplitWindow editingTab = new SplitWindow(false, 0.875f, splitWindow, mainPanel.timeSliderView);
 
         editingTab.getWindowProperties().setCloseEnabled(false);
-        editingTab.getWindowProperties().setTitleProvider(arg0 -> "Edit");
+        editingTab.getWindowProperties().setTitleProvider(arg0 -> resourceBundle.getString("edit"));
         return editingTab;
     }
 

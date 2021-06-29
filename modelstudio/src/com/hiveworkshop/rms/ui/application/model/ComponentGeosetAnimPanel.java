@@ -11,14 +11,19 @@ import com.hiveworkshop.rms.ui.application.model.editors.ColorValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.FloatValuePanel;
 import com.hiveworkshop.rms.ui.application.model.editors.TimelineKeyNamer;
 import com.hiveworkshop.rms.ui.application.tools.GeosetAnimCopyPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 
 public class ComponentGeosetAnimPanel extends JPanel implements ComponentPanel<GeosetAnim> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -44,9 +49,9 @@ public class ComponentGeosetAnimPanel extends JPanel implements ComponentPanel<G
 		animsPanelHolder = new JPanel(new MigLayout());
 		add(animsPanelHolder, "wrap, growx, span 3");
 
-		animsPanelHolder.add(new JLabel("GeosetAnim"), "wrap");
+		animsPanelHolder.add(new JLabel(resourceBundle.getString("geosetanim")), "wrap");
 
-		JButton button = new JButton("copy all geosetAnim-info from other");
+		JButton button = new JButton(resourceBundle.getString("copy.all.geosetanim.info.from.other"));
 		button.addActionListener(e -> copyFromOther());
 		animsPanelHolder.add(button, "wrap");
 

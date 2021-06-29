@@ -1,31 +1,36 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class MultiObjectPanel extends ObjectPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	ModelHolderThing mht;
 
 	public MultiObjectPanel(ModelHolderThing mht, final IterableListModel<BoneShell> possibleParents) {
 		this.mht = mht;
 		setLayout(new MigLayout("gap 0", "[grow]", "[][][][][grow]"));
-		title = new JLabel("Multiple Selected");
+		title = new JLabel(resourceBundle.getString("multiple.selected"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		add(title, "align center, wrap");
 
-		doImport = new JCheckBox("Import these objects (click to apply to all)");
+		doImport = new JCheckBox(resourceBundle.getString("import.these.objects.click.to.apply.to.all"));
 		doImport.setSelected(true);
 		doImport.addActionListener(e -> doImportPressed());
 		add(doImport, "left, wrap");
 
-		oldParentLabel = new JLabel("(Old parent can only be displayed for a single object)");
+		oldParentLabel = new JLabel(resourceBundle.getString("old.parent.can.only.be.displayed.for.a.single.object"));
 		add(oldParentLabel, "left, wrap");
 
-		parentLabel = new JLabel("Parent:");
+		parentLabel = new JLabel(resourceBundle.getString("parent"));
 		add(parentLabel, "left, wrap");
 
 		parents = possibleParents;

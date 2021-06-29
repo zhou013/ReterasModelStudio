@@ -23,6 +23,7 @@ import com.hiveworkshop.rms.ui.gui.modeledit.selection.SelectionView;
 import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.preferences.GUITheme;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.Timer;
@@ -48,6 +49,7 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 	private static final int SIDE_OFFSETS = SLIDING_TIME_CHOOSER_WIDTH / 2;
 	private static final Stroke WIDTH_2_STROKE = new BasicStroke(2);
 	private static final Stroke WIDTH_1_STROKE = new BasicStroke(1);
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	private boolean keyframeModeActive;
 	private final TimeBoundProvider timeBoundProvider;
@@ -124,7 +126,7 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 		playButton.setPreferredSize(PLAY_BUTTON_DIMENSION);
 		playButton.setSize(PLAY_BUTTON_DIMENSION);
 		buttonPanel.add(playButton, "spany 2");
-		allKF = new JCheckBox("All KF");
+		allKF = new JCheckBox(resourceBundle.getString("all.kf"));
 		allKF.addActionListener(e -> revalidateKeyframeDisplay());
 
 
@@ -193,7 +195,7 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 		final JButton setKeyframe;
 		setKeyframe = new JButton(RMSIcons.setKeyframeIcon);
 		setKeyframe.setMargin(new Insets(0, 0, 0, 0));
-		setKeyframe.setToolTipText("Create Keyframe");
+		setKeyframe.setToolTipText(resourceBundle.getString("create.keyframe"));
 		setKeyframe.addActionListener(e -> createKeyframe(mainPanel));
 		return setKeyframe;
 	}
@@ -363,24 +365,24 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 		popupMenu.add(timeIndicator);
 		popupMenu.addSeparator();
 
-		final JMenuItem deleteAll = new JMenuItem("Delete All");
+		final JMenuItem deleteAll = new JMenuItem(resourceBundle.getString("delete.all"));
 		deleteAll.addActionListener(e -> deleteKeyframes("delete keyframe", structureChangeListener, timeAndKey.getKey(), timeAndKey.getValue().objects));
 		popupMenu.add(deleteAll);
 		popupMenu.addSeparator();
 
-		final JMenuItem cutItem = new JMenuItem("Cut");
+		final JMenuItem cutItem = new JMenuItem(resourceBundle.getString("cut"));
 		cutItem.addActionListener(e -> cutItem(timeAndKey, structureChangeListener));
 		popupMenu.add(cutItem);
 
-		final JMenuItem copyItem = new JMenuItem("Copy");
+		final JMenuItem copyItem = new JMenuItem(resourceBundle.getString("copy"));
 		copyItem.addActionListener(e -> copyKeyframes(structureChangeListener, timeAndKey.getKey()));
 		popupMenu.add(copyItem);
 
-		final JMenuItem copyFrameItem = new JMenuItem("Copy Frame (whole model)");
+		final JMenuItem copyFrameItem = new JMenuItem(resourceBundle.getString("copy.frame.whole.model"));
 		copyFrameItem.addActionListener(e -> copyAllKeyframes(timeAndKey.getKey()));
 		popupMenu.add(copyFrameItem);
 
-		final JMenuItem pasteItem = new JMenuItem("Paste");
+		final JMenuItem pasteItem = new JMenuItem(resourceBundle.getString("paste"));
 		pasteItem.addActionListener(e -> pasteToAllSelected(structureChangeListener, timeAndKey.getKey()));
 		popupMenu.add(pasteItem);
 
@@ -393,20 +395,20 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 					final JMenu subMenu = new JMenu(object.getName() + ": " + flag.getName());
 					popupMenu.add(subMenu);
 
-					final JMenuItem deleteSpecificItem = new JMenuItem("Delete");
-					deleteSpecificItem.addActionListener(e -> deleteKeyframe("delete keyframe", structureChangeListener, object, flag, timeAndKey.getKey()));
+					final JMenuItem deleteSpecificItem = new JMenuItem(resourceBundle.getString("delete"));
+					deleteSpecificItem.addActionListener(e -> deleteKeyframe(resourceBundle.getString("delete.keyframe"), structureChangeListener, object, flag, timeAndKey.getKey()));
 					subMenu.add(deleteSpecificItem);
 					subMenu.addSeparator();
 
-					final JMenuItem cutSpecificItem = new JMenuItem("Cut");
+					final JMenuItem cutSpecificItem = new JMenuItem(resourceBundle.getString("cut"));
 					cutSpecificItem.addActionListener(e -> cutSpecificItem(timeAndKey, structureChangeListener, object, flag));
 					subMenu.add(cutSpecificItem);
 
-					final JMenuItem copySpecificItem = new JMenuItem("Copy");
+					final JMenuItem copySpecificItem = new JMenuItem(resourceBundle.getString("copy"));
 					copySpecificItem.addActionListener(e -> copyKeyframes(structureChangeListener, object, flag, timeAndKey.getKey()));
 					subMenu.add(copySpecificItem);
 
-					final JMenuItem pasteSpecificItem = new JMenuItem("Paste");
+					final JMenuItem pasteSpecificItem = new JMenuItem(resourceBundle.getString("paste"));
 					pasteSpecificItem.addActionListener(e -> pasteToSpecificTimeline(structureChangeListener, timeAndKey, flag));
 					subMenu.add(pasteSpecificItem);
 				}
@@ -424,15 +426,15 @@ public class TimeSliderPanel extends JPanel implements TimeBoundChangeListener, 
 		popupMenu.add(timeIndicator);
 		popupMenu.addSeparator();
 
-		final JMenuItem copyItem = new JMenuItem("Copy");
+		final JMenuItem copyItem = new JMenuItem(resourceBundle.getString("copy"));
 		copyItem.addActionListener(e -> copyKeyframes(structureChangeListener, currentTime));
 		popupMenu.add(copyItem);
 
-		final JMenuItem copyFrameItem = new JMenuItem("Copy Frame (whole model)");
+		final JMenuItem copyFrameItem = new JMenuItem(resourceBundle.getString("copy.frame.whole.model"));
 		copyFrameItem.addActionListener(e -> copyAllKeyframes(currentTime));
 		popupMenu.add(copyFrameItem);
 
-		final JMenuItem pasteItem = new JMenuItem("Paste");
+		final JMenuItem pasteItem = new JMenuItem(resourceBundle.getString("paste"));
 		pasteItem.addActionListener(e -> pasteToAllSelected(structureChangeListener, currentTime));
 		popupMenu.add(pasteItem);
 

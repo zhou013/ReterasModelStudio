@@ -1,6 +1,7 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
 import com.hiveworkshop.rms.editor.model.Animation;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -8,8 +9,11 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AnimEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	ModelHolderThing mht;
 	AnimPanel singleAnimPanel;
@@ -81,16 +85,16 @@ public class AnimEditPanel extends JPanel {
 	private JPanel getTopPanel() {
 		JPanel topPanel = new JPanel(new MigLayout("gap 0"));
 
-		JButton importAllAnims = createButton("Import All", e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.IMPORTBASIC));
+		JButton importAllAnims = createButton(resourceBundle.getString("import.all"), e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.IMPORTBASIC));
 		topPanel.add(importAllAnims);
 
-		JButton timescaleAllAnims = createButton("Time-scale All", e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.TIMESCALE));
+		JButton timescaleAllAnims = createButton(resourceBundle.getString("time.scale.all"), e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.TIMESCALE));
 		topPanel.add(timescaleAllAnims);
 
-		JButton renameAllAnims = createButton("Import and Rename All", e -> renameAllAnims(mht));
+		JButton renameAllAnims = createButton(resourceBundle.getString("import.and.rename.all"), e -> renameAllAnims(mht));
 		topPanel.add(renameAllAnims);
 
-		JButton uncheckAllAnims = createButton("Leave All", e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.DONTIMPORT));
+		JButton uncheckAllAnims = createButton(resourceBundle.getString("leave.all"), e -> mht.setImportTypeForAllAnims(AnimShell.ImportType.DONTIMPORT));
 		topPanel.add(uncheckAllAnims, "wrap");
 
 
@@ -105,7 +109,7 @@ public class AnimEditPanel extends JPanel {
 	}
 
 	private void renameAllAnims(ModelHolderThing mht) {
-		final String newTagString = JOptionPane.showInputDialog(this, "Choose additional naming (i.e. swim or alternate)");
+		final String newTagString = JOptionPane.showInputDialog(this, resourceBundle.getString("choose.additional.naming"));
 
 		if (newTagString != null) {
 			for (AnimShell animShell : mht.animTabList) {

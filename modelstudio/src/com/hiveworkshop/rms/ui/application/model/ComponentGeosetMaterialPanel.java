@@ -6,15 +6,16 @@ import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.actions.model.material.AddMaterialAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ComponentGeosetMaterialPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	Map<String, Material> materialMap = new TreeMap<>();
 	int materialNumber = -1;
 	private JComboBox<String> materialChooser;
@@ -136,7 +137,7 @@ public class ComponentGeosetMaterialPanel extends JPanel {
 			updateMaterialChooserBox(geoset);
 
 			remove(cloneMaterial);
-			cloneMaterial = new JButton("Clone This Material");
+			cloneMaterial = new JButton(resourceBundle.getString("clone.this.material"));
 			cloneMaterial.addActionListener(e -> cloneMaterial(geoset, modelViewManager));
 			add(cloneMaterial);
 

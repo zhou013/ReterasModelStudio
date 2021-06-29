@@ -5,6 +5,7 @@ import com.hiveworkshop.rms.editor.model.Geoset;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -12,8 +13,12 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ComponentGeosetPanel extends JPanel implements ComponentPanel<Geoset> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -46,7 +51,7 @@ public class ComponentGeosetPanel extends JPanel implements ComponentPanel<Geose
 		materialPanelHolder = new JPanel(new MigLayout("hidemode 1"));
 		add(materialPanelHolder, "wrap, growx, spanx");
 
-		materialPanelHolder.add(new JLabel("Material:"), "wrap");
+		materialPanelHolder.add(new JLabel(resourceBundle.getString("material1")), "wrap");
 		materialPanel = new ComponentGeosetMaterialPanel();
 		materialPanelHolder.add(materialPanel);
 
@@ -56,22 +61,22 @@ public class ComponentGeosetPanel extends JPanel implements ComponentPanel<Geose
 		createHDPanel(modelViewManager);
 		geosetInfoPanel.add(hdPanel, "growx, spanx, wrap");
 
-		geosetInfoPanel.add(new JLabel("Triangles: "));
+		geosetInfoPanel.add(new JLabel(resourceBundle.getString("triangles")));
 		trisLabel = new JLabel("0");
 		geosetInfoPanel.add(trisLabel, "wrap");
 
-		geosetInfoPanel.add(new JLabel("Vertices: "));
+		geosetInfoPanel.add(new JLabel(resourceBundle.getString("vertices")));
 		vertLabel = new JLabel("0");
 		geosetInfoPanel.add(vertLabel, "wrap");
 
-		geosetInfoPanel.add(new JLabel("SelectionGroup: "));
+		geosetInfoPanel.add(new JLabel(resourceBundle.getString("selectiongroup")));
 		selectionGroupSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
 		selectionGroupSpinner.addChangeListener(e -> setSelectionGroup());
 		geosetInfoPanel.add(selectionGroupSpinner, "wrap");
 //		selectionGroupLabel = new JLabel("0");
 
-		JButton editUvButton = new JButton("Edit Geoset UVs");
-		toggleSdHd = new JButton("Make Geoset HD");
+		JButton editUvButton = new JButton(resourceBundle.getString("edit.geoset.uvs"));
+		toggleSdHd = new JButton(resourceBundle.getString("make.geoset.hd"));
 		toggleSdHd.addActionListener(e -> toggleSdHd());
 		add(toggleSdHd, "wrap");
 	}
@@ -79,12 +84,12 @@ public class ComponentGeosetPanel extends JPanel implements ComponentPanel<Geose
 	private void createHDPanel(ModelViewManager modelViewManager) {
 		hdPanel = new JPanel(new MigLayout("fill, ins 0", "[]16[][grow][grow]"));
 
-		hdPanel.add(new JLabel("Name: "));
+		hdPanel.add(new JLabel(resourceBundle.getString("name1")));
 		nameTextField = new JTextField(26);
 		nameTextField.addFocusListener(setLoDName());
 		hdPanel.add(nameTextField, "spanx 2, wrap");
 
-		hdPanel.add(new JLabel("LevelOfDetail: "));
+		hdPanel.add(new JLabel(resourceBundle.getString("levelofdetail")));
 		lodSpinner = new JSpinner(new SpinnerNumberModel(0, -1, 10000, 1));
 		hdPanel.add(lodSpinner, "wrap");
 		lodSpinner.addChangeListener(e -> setLoD());
@@ -149,9 +154,9 @@ public class ComponentGeosetPanel extends JPanel implements ComponentPanel<Geose
 	private void setToggleButtonText() {
 		toggleSdHd.setVisible(modelViewManager.getModel().getFormatVersion() >= 900);
 		if (geoset.isHD()) {
-			toggleSdHd.setText("Make Geoset SD");
+			toggleSdHd.setText(resourceBundle.getString("make.geoset.sd"));
 		} else {
-			toggleSdHd.setText("Make Geoset HD");
+			toggleSdHd.setText(resourceBundle.getString("make.geoset.hd"));
 		}
 	}
 

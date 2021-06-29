@@ -10,12 +10,17 @@ import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorJSpinner;
 import com.hiveworkshop.rms.ui.application.model.editors.ComponentEditorTextField;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
+import java.util.ResourceBundle;
 
 public class ComponentHeaderPanel extends JPanel implements ComponentPanel<EditableModel> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private static final Dimension MAXIMUM_SIZE = new Dimension(99999, 25);
 	private final ComponentEditorTextField modelNameField;
 	private final ComponentEditorJSpinner formatVersionSpinner;
@@ -33,17 +38,17 @@ public class ComponentHeaderPanel extends JPanel implements ComponentPanel<Edita
 		this.undoActionListener = undoActionListener;
 		this.changeListener = changeListener;
 
-		final JLabel modelNameLabel = new JLabel("Model Name:");
+		final JLabel modelNameLabel = new JLabel(resourceBundle.getString("model.name1"));
 		modelNameField = new ComponentEditorTextField();
 		modelNameField.setMaximumSize(MAXIMUM_SIZE);
 		modelNameField.addActionListener(e -> modelNameField());
 
-		final JLabel versionLabel = new JLabel("Format Version:");
+		final JLabel versionLabel = new JLabel(resourceBundle.getString("format.version"));
 		formatVersionSpinner = new ComponentEditorJSpinner(new SpinnerNumberModel(800, Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
 		formatVersionSpinner.setMaximumSize(MAXIMUM_SIZE);
 		formatVersionSpinner.addActionListener(this::formatVersionSpinner);
 
-		final JLabel blendTimeLabel = new JLabel("Blend Time:");
+		final JLabel blendTimeLabel = new JLabel(resourceBundle.getString("blend.time"));
 		blendTimeSpinner = new ComponentEditorJSpinner(new SpinnerNumberModel(150, Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
 		blendTimeSpinner.setMaximumSize(MAXIMUM_SIZE);
 		blendTimeSpinner.addActionListener(this::blendTimeSpinner);

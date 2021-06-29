@@ -12,6 +12,7 @@ import com.hiveworkshop.rms.ui.application.edit.animation.TimeBoundProvider;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.util.BetterAWTGLCanvas;
 import com.hiveworkshop.rms.ui.util.ExceptionPopup;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.Mat4;
 import com.hiveworkshop.rms.util.Quat;
 import com.hiveworkshop.rms.util.Vec3;
@@ -21,6 +22,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -28,15 +30,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public abstract class ComPerspViewport extends BetterAWTGLCanvas implements RenderResourceAllocator {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static final boolean LOG_EXCEPTIONS = true;
 	private static final int BYTES_PER_PIXEL = 4;
 	private final float[] whiteDiffuse = {1f, 1f, 1f, 1f};
@@ -546,7 +549,7 @@ public abstract class ComPerspViewport extends BetterAWTGLCanvas implements Rend
 				initGL();// Re-overwrite textures
 			} catch (final Exception e) {
 				e.printStackTrace();
-				ExceptionPopup.display("Error loading textures:", e);
+				ExceptionPopup.display(resourceBundle.getString("error.loading.textures"), e);
 			}
 		} else if (wantReload) {
 			wantReload = false;
@@ -554,7 +557,7 @@ public abstract class ComPerspViewport extends BetterAWTGLCanvas implements Rend
 				forceReloadTextures();
 			} catch (final Exception e) {
 				e.printStackTrace();
-				ExceptionPopup.display("Error loading new texture:", e);
+				ExceptionPopup.display(resourceBundle.getString("error.loading.new.texture"), e);
 			}
 		} else if (!texLoaded && ((programPreferences == null) || programPreferences.textureModels())) {
 			forceReloadTextures();

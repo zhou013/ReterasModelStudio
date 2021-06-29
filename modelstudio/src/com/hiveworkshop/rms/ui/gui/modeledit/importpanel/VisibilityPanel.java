@@ -1,13 +1,18 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.List;
+import java.util.ResourceBundle;
 
 class VisibilityPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	protected JComboBox<VisibilityShell> receivingModelSourcesBox;
 	protected JComboBox<VisibilityShell> donatingModelSourcesBox;
 	protected JCheckBox favorOld;
@@ -26,26 +31,26 @@ class VisibilityPanel extends JPanel {
 	public VisibilityPanel(ModelHolderThing mht, VisShellBoxCellRenderer renderer, List<VisibilityShell> recModVisSourcesOld, List<VisibilityShell> donModVisSourcesNew) {
 		this.mht = mht;
 		setLayout(new MigLayout("gap 0"));
-		title = new JLabel("Select a source");
+		title = new JLabel(resourceBundle.getString("select.a.source"));
 		title.setFont(new Font("Arial", Font.BOLD, 26));
 		title.setMaximumSize(new Dimension(500, 500));
 		add(title, "align center, wrap");
 
-		JLabel oldAnimsLabel = new JLabel("Existing animation visibility from: ");
+		JLabel oldAnimsLabel = new JLabel(resourceBundle.getString("existing.animation.visibility.from"));
 		add(oldAnimsLabel, "left, wrap");
 
 		receivingModelSourcesBox = getSourceComboBox(renderer, recModVisSourcesOld);
 		receivingModelSourcesBox.addItemListener(this::setOldSource);
 		add(receivingModelSourcesBox, "grow, wrap");
 
-		JLabel newAnimsLabel = new JLabel("Imported animation visibility from: ");
+		JLabel newAnimsLabel = new JLabel(resourceBundle.getString("imported.animation.visibility.from"));
 		add(newAnimsLabel, "left, wrap");
 
 		donatingModelSourcesBox = getSourceComboBox(renderer, donModVisSourcesNew);
 		donatingModelSourcesBox.addItemListener(this::setNewSource);
 		add(donatingModelSourcesBox, "grow, wrap");
 
-		favorOld = new JCheckBox("Favor component's original visibility when combining");
+		favorOld = new JCheckBox(resourceBundle.getString("favor.component.s.original.visibility.when.combining"));
 		favorOld.addActionListener(e -> setFavorOld());
 		add(favorOld, "left, wrap");
 	}

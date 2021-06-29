@@ -18,6 +18,7 @@ import com.hiveworkshop.rms.ui.icons.RMSIcons;
 import com.hiveworkshop.rms.ui.preferences.ProgramPreferences;
 import com.hiveworkshop.rms.ui.preferences.SaveProfile;
 import com.hiveworkshop.rms.ui.preferences.listeners.WarcraftDataSourceChangeListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.SmartButtonGroup;
 import com.hiveworkshop.rms.util.Vec2;
 import com.hiveworkshop.rms.util.Vec3;
@@ -32,11 +33,13 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Iterator;
+import java.text.MessageFormat;import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MenuBarActions {
 	static final ImageIcon POWERED_BY_HIVE = RMSIcons.loadHiveBrowserImageIcon("powered_by_hive.png");
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	static void updateUIFromProgramPreferences(List<ModelPanel> modelPanels, ProgramPreferences prefs) {
 		for (ModelPanel mpanel : modelPanels) {
@@ -98,20 +101,20 @@ public class MenuBarActions {
 		panel.add(BorderLayout.BEFORE_LINE_BEGINS, new JScrollPane(view));
 
 		JPanel tags = new JPanel();
-		tags.setBorder(BorderFactory.createTitledBorder("Tags"));
+		tags.setBorder(BorderFactory.createTitledBorder(resourceBundle.getString("tags")));
 		tags.setLayout(new GridLayout(30, 1));
-		tags.add(new JCheckBox("Results must include all selected tags"));
+		tags.add(new JCheckBox(resourceBundle.getString("results.must.include.all.selected.tags")));
 		tags.add(new JSeparator());
-		tags.add(new JLabel("Types (Models)"));
+		tags.add(new JLabel(resourceBundle.getString("types.models")));
 		tags.add(new JSeparator());
-		tags.add(new JCheckBox("Building"));
-		tags.add(new JCheckBox("Doodad"));
-		tags.add(new JCheckBox("Item"));
-		tags.add(new JCheckBox("User Interface"));
+		tags.add(new JCheckBox(resourceBundle.getString("building")));
+		tags.add(new JCheckBox(resourceBundle.getString("doodad")));
+		tags.add(new JCheckBox(resourceBundle.getString("item")));
+		tags.add(new JCheckBox(resourceBundle.getString("user.interface")));
 		panel.add(BorderLayout.CENTER, tags);
 
 		mainPanel.rootWindow.setWindow(new SplitWindow(true, 0.75f, mainPanel.rootWindow.getWindow(),
-				new View("Hive Browser",
+				new View(resourceBundle.getString("hive.browser"),
 						new ImageIcon(MainFrame.frame.getIconImage().getScaledInstance(16, 16, Image.SCALE_FAST)),
 						panel)));
 	}
@@ -122,7 +125,7 @@ public class MenuBarActions {
 		List<DataSourceDescriptor> priorDataSources = SaveProfile.get().getDataSources();
 		ProgramPreferencesPanel programPreferencesPanel = new ProgramPreferencesPanel(programPreferences, priorDataSources);
 
-		int ret = JOptionPane.showConfirmDialog(mainPanel, programPreferencesPanel, "Preferences",
+		int ret = JOptionPane.showConfirmDialog(mainPanel, programPreferencesPanel, resourceBundle.getString("preferences"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (ret == JOptionPane.OK_OPTION) {
 			mainPanel.prefs.loadFrom(programPreferences);
@@ -179,7 +182,7 @@ public class MenuBarActions {
 
 	static void clearRecent(MainPanel mainPanel) {
 		int dialogResult = JOptionPane.showConfirmDialog(mainPanel,
-				"Are you sure you want to clear the Recent history?", "Confirm Clear",
+				resourceBundle.getString("clear.recent.history.confirmation"), resourceBundle.getString("confirm.clear"),
 				JOptionPane.YES_NO_OPTION);
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			SaveProfile.get().clearRecent();
@@ -209,34 +212,35 @@ public class MenuBarActions {
 	static void newModel(MainPanel mainPanel) {
 		JPanel newModelPanel = new JPanel();
 		newModelPanel.setLayout(new MigLayout("fill, ins 0"));
-		newModelPanel.add(new JLabel("Model Name: "), "");
+		newModelPanel.add(new JLabel(resourceBundle.getString("model.name")), "");
 		JTextField newModelNameField = new JTextField("MrNew", 25);
 		newModelPanel.add(newModelNameField, "wrap");
 
 		SmartButtonGroup typeGroup = new SmartButtonGroup();
-		typeGroup.addJRadioButton("Create Empty", null);
-		typeGroup.addJRadioButton("Create Plane", null);
-		typeGroup.addJRadioButton("Create Box", null);
+		typeGroup.addJRadioButton(resourceBundle.getString("create.empty"), null);
+		typeGroup.addJRadioButton(resourceBundle.getString("create.plane"), null);
+		typeGroup.addJRadioButton(resourceBundle.getString("create.box"), null);
 		typeGroup.setSelectedIndex(0);
 		newModelPanel.add(typeGroup.getButtonPanel());
 
-		int userDialogResult = JOptionPane.showConfirmDialog(mainPanel, newModelPanel, "New Model", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		int userDialogResult = JOptionPane.showConfirmDialog(mainPanel, newModelPanel,
+				resourceBundle.getString("new.model"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (userDialogResult == JOptionPane.OK_OPTION) {
 			EditableModel mdl = new EditableModel(newModelNameField.getText());
-			if (typeGroup.getButton("Create Box").isSelected()) {
+			if (typeGroup.getButton(resourceBundle.getString("create.box")).isSelected()) {
 				SpinnerNumberModel sModel = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 				JSpinner spinner = new JSpinner(sModel);
-				int userChoice = JOptionPane.showConfirmDialog(mainPanel, spinner, "Box: Choose Segments",
+				int userChoice = JOptionPane.showConfirmDialog(mainPanel, spinner, resourceBundle.getString("box.choose.segments"),
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if (userChoice != JOptionPane.OK_OPTION) {
 					return;
 				}
 				ModelUtils.createBox(mdl, new Vec3(-64, -64, 0), new Vec3(64, 64, 128), ((Number) spinner.getValue()).intValue());
 				mdl.setExtents(new ExtLog(128).setDefault());
-			} else if (typeGroup.getButton("Create Plane").isSelected()) {
+			} else if (typeGroup.getButton(resourceBundle.getString("create.plane")).isSelected()) {
 				SpinnerNumberModel sModel = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
 				JSpinner spinner = new JSpinner(sModel);
-				int userChoice = JOptionPane.showConfirmDialog(mainPanel, spinner, "Plane: Choose Segments",
+				int userChoice = JOptionPane.showConfirmDialog(mainPanel, spinner, resourceBundle.getString("plane.choose.segments"),
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				if (userChoice != JOptionPane.OK_OPTION) {
 					return;
@@ -421,9 +425,7 @@ public class MenuBarActions {
 		}
 		if (parent != null) {
 			JOptionPane.showMessageDialog(parent,
-					"Tangent generation completed." +
-							"\nGood tangents: " + goodTangents + ", bad tangents: " + badTangents + "" +
-							"\nFound " + zeroAreaUVTris + " uv triangles with no area");
+					MessageFormat.format(resourceBundle.getString("tangent.generation.good.0.bad.1.found.2.uv.triangles.with.no.area"), goodTangents,badTangents,zeroAreaUVTris));
 		} else {
 			System.out.println(
 					"Tangent generation completed." +

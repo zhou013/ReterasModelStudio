@@ -5,13 +5,18 @@ import com.hiveworkshop.rms.editor.model.EditableModel;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ComponentNodePanel extends JPanel implements ComponentPanel<AnimatedNode> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -36,7 +41,7 @@ public class ComponentNodePanel extends JPanel implements ComponentPanel<Animate
 		nodePanelHolder = new JPanel(new MigLayout());
 		add(nodePanelHolder, "wrap, growx, span 3");
 
-		nodePanelHolder.add(new JLabel("Node"), "wrap");
+		nodePanelHolder.add(new JLabel(resourceBundle.getString("node")), "wrap");
 //		nodePanel = new ComponentGeosetMaterialPanel();
 //		nodePanelHolder.add(nodePanel);
 

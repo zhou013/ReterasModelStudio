@@ -1,12 +1,16 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ObjectEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public CardLayout objectCardLayout = new CardLayout();
 	public JPanel objectPanelCards = new JPanel(objectCardLayout);
@@ -20,11 +24,11 @@ public class ObjectEditPanel extends JPanel {
 		setLayout(new MigLayout("gap 0", "[grow][grow]", "[][grow]"));
 		this.mht = mht;
 
-		JButton importAllObjs = new JButton("Import All");
+		JButton importAllObjs = new JButton(resourceBundle.getString("import.all"));
 		importAllObjs.addActionListener(e -> mht.importAllObjs(true));
 		add(importAllObjs, "cell 0 0, right");
 
-		JButton uncheckAllObjs = new JButton("Leave All");
+		JButton uncheckAllObjs = new JButton(resourceBundle.getString("leave.all"));
 		uncheckAllObjs.addActionListener(e -> mht.importAllObjs(false));
 		add(uncheckAllObjs, "cell 1 0, left");
 
@@ -85,7 +89,7 @@ public class ObjectEditPanel extends JPanel {
 						}
 						k++;
 						if (k > 1000) {
-							JOptionPane.showMessageDialog(null, "Unexpected error has occurred: IdObject to Bone parent loop, circular logic");
+							JOptionPane.showMessageDialog(null, resourceBundle.getString("error.bone.parent.loop.circular.logic"));
 							break;
 						}
 					}

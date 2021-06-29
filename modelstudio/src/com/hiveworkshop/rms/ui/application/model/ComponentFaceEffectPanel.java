@@ -5,13 +5,18 @@ import com.hiveworkshop.rms.editor.model.FaceEffect;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelViewManager;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ResourceBundle;
 
 public class ComponentFaceEffectPanel extends JPanel implements ComponentPanel<FaceEffect> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -33,9 +38,9 @@ public class ComponentFaceEffectPanel extends JPanel implements ComponentPanel<F
 		effectField = new JTextField();
 		effectField.addFocusListener(setEffect());
 
-		add(new JLabel("Target: "));
+		add(new JLabel(resourceBundle.getString("target")));
 		add(targetField, "sg fields, growx, wrap");
-		add(new JLabel("Effect"));
+		add(new JLabel(resourceBundle.getString("effect")));
 		add(effectField, "sg fields, growx, wrap");
 
 

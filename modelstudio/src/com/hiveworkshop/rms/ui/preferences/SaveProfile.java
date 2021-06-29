@@ -2,13 +2,18 @@ package com.hiveworkshop.rms.ui.preferences;
 
 import com.hiveworkshop.rms.filesystem.sources.*;
 import com.hiveworkshop.rms.ui.preferences.listeners.WarcraftDataSourceChangeListener;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class SaveProfile implements Serializable {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	final static long serialVersionUID = 6L;
 	String lastDirectory;
 	static SaveProfile currentProfile;
@@ -245,8 +250,8 @@ public class SaveProfile implements Serializable {
 		final File datat = new File(wcDirectory + "/Data");
 		if (!temp.exists() && !datat.exists()) {
 			JOptionPane.showMessageDialog(null,
-					"Could not find war3.mpq. Please choose a valid Warcraft III installation.",
-					"WARNING: Needs WC3 Installation", JOptionPane.WARNING_MESSAGE);
+					resourceBundle.getString("could.not.find.war3.mpq"),
+					resourceBundle.getString("warning.needs.wc3.installation"), JOptionPane.WARNING_MESSAGE);
 			// requestNewWc3Directory();
 			return false;
 		}

@@ -5,6 +5,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ExtFilter {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final List<FileNameExtensionFilter> openFilesExtensions;
 	private final List<FileNameExtensionFilter> openModelExtensions;
 	private final List<FileNameExtensionFilter> saveModelExtensions;
@@ -15,17 +18,17 @@ public class ExtFilter {
 	private final Set<String> supModelExtensions = new HashSet<>();
 	private final Set<String> supTextureExtensions = new HashSet<>();
 	List<ExtInfo> extInfos = Arrays.asList(
-			new ExtInfo("Warcraft III Binary Model", FileType.MODEL, true, true, "mdx"),
-			new ExtInfo("Warcraft III Text Model", FileType.MODEL, true, true, "mdl"),
-			new ExtInfo("Warcraft III BLP Image", FileType.IMAGE, true, true, "blp"),
-			new ExtInfo("DDS Image", FileType.IMAGE, true, true, "dds"),
-			new ExtInfo("TGA Image", FileType.IMAGE, true, true, "tga"),
-			new ExtInfo("Autodesk FBX Model", FileType.MODEL, false, false, "fbx"),
-			new ExtInfo("Wavefront OBJ Model", FileType.MODEL, false, false, "obj"),
-			new ExtInfo("PNG Image", FileType.IMAGE, true, false, "png"),
-			new ExtInfo("JPG Image", FileType.IMAGE, true, false, "jpg", "jpeg"),
-			new ExtInfo("BMP Image", FileType.IMAGE, true, false, "bmp"),
-			new ExtInfo("TIF Image", FileType.IMAGE, true, false, "tif")
+			new ExtInfo(resourceBundle.getString("warcraft.iii.binary.model"), FileType.MODEL, true, true, "mdx"),
+			new ExtInfo(resourceBundle.getString("warcraft.iii.text.model"), FileType.MODEL, true, true, "mdl"),
+			new ExtInfo(resourceBundle.getString("warcraft.iii.blp.image"), FileType.IMAGE, true, true, "blp"),
+			new ExtInfo(resourceBundle.getString("dds.image"), FileType.IMAGE, true, true, "dds"),
+			new ExtInfo(resourceBundle.getString("tga.image"), FileType.IMAGE, true, true, "tga"),
+			new ExtInfo(resourceBundle.getString("autodesk.fbx.model"), FileType.MODEL, false, false, "fbx"),
+			new ExtInfo(resourceBundle.getString("wavefront.obj.model"), FileType.MODEL, false, false, "obj"),
+			new ExtInfo(resourceBundle.getString("png.image"), FileType.IMAGE, true, false, "png"),
+			new ExtInfo(resourceBundle.getString("jpg.image"), FileType.IMAGE, true, false, "jpg", "jpeg"),
+			new ExtInfo(resourceBundle.getString("bmp.image"), FileType.IMAGE, true, false, "bmp"),
+			new ExtInfo(resourceBundle.getString("tif.image"), FileType.IMAGE, true, false, "tif")
 	);
 
 	public ExtFilter() {
@@ -91,16 +94,16 @@ public class ExtFilter {
 		String wholeDes = "";
 
 		if (onlyWC3) {
-			wholeDes += "Warcraft III ";
+			wholeDes += resourceBundle.getString("warcraft.iii");
 		} else {
-			wholeDes += "Supported ";
+			wholeDes += resourceBundle.getString("supported");
 		}
 
 		if (fileTypes.size() == 1) {
 			wholeDes += fileTypes.get(0).getType();
 		}
 
-		wholeDes += " Files ";
+		wholeDes += resourceBundle.getString("files");
 
 		extDes.insert(0, wholeDes);
 
@@ -153,7 +156,7 @@ public class ExtFilter {
 	}
 
 	private enum FileType {
-		MODEL("Model"), IMAGE("Image"), OTHER("File");
+		MODEL(resourceBundle.getString("file.ext.model")), IMAGE(resourceBundle.getString("file.ext.image")), OTHER(resourceBundle.getString("file.ext.file"));
 		String type;
 
 		FileType(String type) {

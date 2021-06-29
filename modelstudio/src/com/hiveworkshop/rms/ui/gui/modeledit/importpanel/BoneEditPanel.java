@@ -1,5 +1,6 @@
 package com.hiveworkshop.rms.ui.gui.modeledit.importpanel;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -8,8 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class BoneEditPanel extends JPanel {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
 
 	public CardLayout boneCardLayout = new CardLayout();
 	public JPanel bonePanelCards = new JPanel(boneCardLayout);
@@ -19,6 +23,7 @@ public class BoneEditPanel extends JPanel {
 	ModelHolderThing mht;
 
 	public BoneEditPanel(ModelHolderThing mht) {
+
 		setLayout(new MigLayout("gap 0, fill", "[grow]", "[][grow]"));
 		this.mht = mht;
 
@@ -62,7 +67,7 @@ public class BoneEditPanel extends JPanel {
 		JButton uncheckAllBones = createButton(e -> mht.setImportStatusForAllBones(BoneShell.ImportType.DONTIMPORT), "Leave All");
 		topPanel.add(uncheckAllBones, "wrap");
 
-		mht.clearExistingBones = new JCheckBox("Clear pre-existing bones and helpers");
+		mht.clearExistingBones = new JCheckBox(resourceBundle.getString("clear.pre.existing.bones.and.helpers"));
 		topPanel.add(mht.clearExistingBones, "spanx 4, align center");
 		return topPanel;
 	}
@@ -119,7 +124,7 @@ public class BoneEditPanel extends JPanel {
 						k++;
 						if (k > 1000) {
 							JOptionPane.showMessageDialog(null,
-									"Unexpected error has occurred: Bone parent loop, circular logic");
+									resourceBundle.getString("error.occurred.bone.parent.loop.circular.logic"));
 							break;
 						}
 					}

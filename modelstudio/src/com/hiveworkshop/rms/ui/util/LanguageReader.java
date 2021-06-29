@@ -7,6 +7,11 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+/**
+ * Here is how do I implement a costume i18n reader.
+ * --Frostlock
+ */
+
 public class LanguageReader {
     private static final ResourceBundle rb;
     private static final String currRegion;

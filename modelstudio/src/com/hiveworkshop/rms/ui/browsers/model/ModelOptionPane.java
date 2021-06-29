@@ -1,12 +1,18 @@
 package com.hiveworkshop.rms.ui.browsers.model;
 
+import com.hiveworkshop.rms.ui.util.LanguageReader;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 public class ModelOptionPane {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	public static String show(final Component what) {
 		final ModelOptionPanel uop = new ModelOptionPanel();
-		final int x = JOptionPane.showConfirmDialog(what, uop, "Choose Model", JOptionPane.OK_CANCEL_OPTION,
+		final int x = JOptionPane.showConfirmDialog(what, uop, resourceBundle.getString("choose.model"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (x == JOptionPane.OK_OPTION) {
 			return uop.getSelection();
@@ -16,7 +22,7 @@ public class ModelOptionPane {
 
 	public static ModelElement showAndLogIcon(final Component what) {
 		final ModelOptionPanel uop = new ModelOptionPanel();
-		final int x = JOptionPane.showConfirmDialog(what, uop, "Choose Model", JOptionPane.OK_CANCEL_OPTION,
+		final int x = JOptionPane.showConfirmDialog(what, uop, resourceBundle.getString("choose.model"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (x == JOptionPane.OK_OPTION) {
 			return new ModelElement(uop.getSelection(), uop.getCachedIconPath());
@@ -27,7 +33,7 @@ public class ModelOptionPane {
 	public static String show(final Component what, final String startingFile) {
 		final ModelOptionPanel uop = new ModelOptionPanel();
 		uop.setSelection(startingFile);
-		final int x = JOptionPane.showConfirmDialog(what, uop, "Choose Model", JOptionPane.OK_CANCEL_OPTION,
+		final int x = JOptionPane.showConfirmDialog(what, uop, resourceBundle.getString("choose.model"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (x == JOptionPane.OK_OPTION) {
 			return uop.getSelection();

@@ -5,18 +5,20 @@ import com.hiveworkshop.rms.editor.model.EditableModel;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.gui.modeledit.newstuff.actions.tools.EditAnimationLengthsAction;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.ui.util.SliderBarHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.MessageFormat;import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ChangeAnimationLengthPanel extends JPanel implements ActionListener {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	List<SliderBarHandler> bars = new ArrayList<>();
 	JButton okay, cancel;
 	ModelView mdlDisp;
@@ -56,7 +58,7 @@ public class ChangeAnimationLengthPanel extends JPanel implements ActionListener
 		}
 		int i = 0;
 		for (final Integer globalSeq : mdlDisp.getModel().getGlobalSeqs()) {
-			final JLabel label = new JLabel("Global Sequence " + ++i + " (" + globalSeq / 1000.00 + " s)");
+			final JLabel label = new JLabel(MessageFormat.format(resourceBundle.getString("global.sequence.0.1.s"), ++i,globalSeq / 1000.00));
 			final int maxLength = Math.max(100000, globalSeq * 4);
 			final JSlider bar = new JSlider(0, maxLength);
 			bar.setValue(globalSeq);
@@ -76,9 +78,9 @@ public class ChangeAnimationLengthPanel extends JPanel implements ActionListener
 			add(spinner);
 		}
 
-		okay = new JButton("OK");
+		okay = new JButton(resourceBundle.getString("ok"));
 		okay.addActionListener(this);
-		cancel = new JButton("Cancel");
+		cancel = new JButton(resourceBundle.getString("cancel"));
 		cancel.addActionListener(this);
 		add(cancel);
 		add(okay);

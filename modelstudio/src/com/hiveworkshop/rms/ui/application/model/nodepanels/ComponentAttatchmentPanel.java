@@ -9,13 +9,18 @@ import com.hiveworkshop.rms.ui.application.actions.model.ParentChangeAction;
 import com.hiveworkshop.rms.ui.application.edit.ModelStructureChangeListener;
 import com.hiveworkshop.rms.ui.application.edit.mesh.activity.UndoActionListener;
 import com.hiveworkshop.rms.ui.application.model.ComponentPanel;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ResourceBundle;
 
 public class ComponentAttatchmentPanel extends JPanel implements ComponentPanel<Attachment> {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	private final ModelViewManager modelViewManager;
 	private final UndoActionListener undoActionListener;
 	private final ModelStructureChangeListener modelStructureChangeListener;
@@ -37,15 +42,15 @@ public class ComponentAttatchmentPanel extends JPanel implements ComponentPanel<
 		parentChooser = new ParentChooser(modelViewManager);
 
 		setLayout(new MigLayout("fill, gap 0", "[][][grow]", "[][][grow]"));
-		title = new JLabel("Select an Emitter");
+		title = new JLabel(resourceBundle.getString("select.an.emitter"));
 		add(title, "wrap");
 		nameField = new JTextField(24);
 		nameField.addFocusListener(changeName());
 		add(nameField, "wrap");
-		add(new JLabel("Parent: "));
-		parentName = new JLabel("Parent");
+		add(new JLabel(resourceBundle.getString("parent1")));
+		parentName = new JLabel(resourceBundle.getString("parent2"));
 		add(parentName);
-		JButton chooseParentButton = new JButton("change");
+		JButton chooseParentButton = new JButton(resourceBundle.getString("change"));
 		chooseParentButton.addActionListener(e -> chooseParent());
 		add(chooseParentButton, "wrap");
 
@@ -60,7 +65,7 @@ public class ComponentAttatchmentPanel extends JPanel implements ComponentPanel<
 		if (parent != null) {
 			this.parentName.setText(parent.getName());
 		} else {
-			parentName.setText("no parent");
+			parentName.setText(resourceBundle.getString("no.parent"));
 		}
 		revalidate();
 		repaint();

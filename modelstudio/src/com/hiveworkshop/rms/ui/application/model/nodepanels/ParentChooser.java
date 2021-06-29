@@ -6,12 +6,17 @@ import com.hiveworkshop.rms.editor.model.IdObject;
 import com.hiveworkshop.rms.editor.wrapper.v2.ModelView;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShell;
 import com.hiveworkshop.rms.ui.gui.modeledit.importpanel.BoneShellListCellRenderer;
+import com.hiveworkshop.rms.ui.util.LanguageReader;
 import com.hiveworkshop.rms.util.IterableListModel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.util.ResourceBundle;
 
 public class ParentChooser {
+
+	private static final ResourceBundle resourceBundle = LanguageReader.getRb();
+
 	IterableListModel<BoneShell> filteredBones = new IterableListModel<>();
 	IterableListModel<BoneShell> posibleParentList;
 	JList<BoneShell> bonesJList;
@@ -48,7 +53,7 @@ public class ParentChooser {
 		bonesJList.setSelectedValue(parentBoneShell, true);
 
 
-		int option = JOptionPane.showConfirmDialog(parent, boneChooserPanel, "Choose Bone", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+		int option = JOptionPane.showConfirmDialog(parent, boneChooserPanel, resourceBundle.getString("choose.bone"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 		if (option == JOptionPane.OK_OPTION) {
 			BoneShell selectedValue = bonesJList.getSelectedValue();
 			if (selectedValue != null) {
@@ -63,7 +68,7 @@ public class ParentChooser {
 
 		BoneShellListCellRenderer renderer = new BoneShellListCellRenderer(modelView, null).setShowClass(false);
 
-		JCheckBox showParents = new JCheckBox("Show Parents");
+		JCheckBox showParents = new JCheckBox(resourceBundle.getString("show.parents"));
 		showParents.addActionListener(e -> showParents(renderer, showParents, panel));
 		panel.add(showParents, "wrap");
 
